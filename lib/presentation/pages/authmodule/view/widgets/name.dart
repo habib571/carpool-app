@@ -1,19 +1,27 @@
 
-import 'package:carpooling/app/di.dart';
-import 'package:carpooling/main.dart';
-import 'package:carpooling/presentation/pages/authmodule/viewmodel/signupviewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../component/text_form_fields.dart';
 
 class NameSection extends StatelessWidget {
-  const NameSection({super.key});
-  //final  SignUpController _controller = instance<SignUpController>();
+  const NameSection({
+    super.key, 
+    required this.nameFocusNode,
+    required this.txtcontroller ,
+    required this.validator
+
+     });
+  final FocusNode  nameFocusNode ; 
+  final TextEditingController txtcontroller ;
+   final String? Function(String? s)? validator ;
+
   @override
   Widget build(BuildContext context) {
-    return TextFormFields(
+    return TextFormFields(  
+      validator: validator ,
+      textEditingController: txtcontroller,
       autoFocus: false,
-      //focusNode: _controller.nameFocusNode,
+      focusNode: nameFocusNode,
       hintText: 'Name',
       isPrefixIcon: true,
       filled: false,

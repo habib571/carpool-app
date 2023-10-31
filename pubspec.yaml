@@ -46,6 +46,15 @@ dependencies:
   http: ^1.1.0
   get_it: ^7.6.4
   lottie: ^2.6.0
+  intl_phone_number_input: ^0.7.3+1
+  pin_code_fields: ^8.0.1
+  shared_preferences: ^2.2.1
+  uni_links: ^0.5.1
+  webview_flutter: ^4.4.1
+  google_sign_in: ^6.1.5
+  persistent_bottom_nav_bar: ^5.0.2
+  flutter_rating_bar: ^4.0.1
+  syncfusion_flutter_datepicker: ^23.1.42
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +81,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/styles/styles.txt
+    - assets/json/
 
  
 

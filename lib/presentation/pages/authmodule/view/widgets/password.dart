@@ -7,27 +7,30 @@ import '../../../../utils/app_fonts.dart';
 class PasswordSection extends StatelessWidget {
    const PasswordSection({
    super.key, 
-  // required this.focusNode,
+   required this.focusNode,
    required this.isobscure,
    required this.eyeIcon, 
    required this.ontapIcon,
    required this.hintext ,
-   required this.controller
+   required this.controller,
+   required this.validator
       });
-//final FocusNode focusNode ; 
+final FocusNode focusNode ; 
 final bool isobscure ; 
 final Widget eyeIcon ; 
 final Function() ontapIcon ; 
 final String hintext ; 
 final TextEditingController controller ;
+final String? Function(String? s)? validator ;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding:const EdgeInsets.symmetric(vertical:17.0),
-      child: TextFormFields( 
+      child: TextFormFields(  
+        validator: validator,
         textEditingController: controller,
         obscureText:  isobscure/*ctx.isLPassObscure.value*/,
-      //  focusNode:  focusNode ,/* _controller.sPassFocusNode,*/
+          focusNode:  focusNode ,/* _controller.sPassFocusNode,*/
         autoFocus: false,
         textInputAction: TextInputAction.done,
         hintText: hintext,

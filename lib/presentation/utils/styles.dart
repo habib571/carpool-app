@@ -37,8 +37,17 @@ class Styles{
         fontFamily: AppFonts.poppinsSemiBold,
         fontWeight: FontWeight.w400,
     );
-  }
+  } 
 
+    TextStyle popUpTextStyle() {
+    return const TextStyle(
+        color: AppColors.cTextColor,
+        fontSize: AppDimens.subHeadingSize,
+        fontFamily: AppFonts.poppinsRegular,
+        fontWeight: FontWeight.w500,
+    );
+  }
+ 
   TextStyle mediumTextStyle(Color color) {
     return TextStyle(
         color: color,
@@ -156,12 +165,13 @@ class Styles{
       );
   }
 
-  TextStyle h1TitleStyle(){
-    return const TextStyle(
-      color: AppColors.cTextDarkColor,
+  TextStyle h1TitleStyle(Color color){
+    return  TextStyle(
+      color :color,
       fontFamily: AppFonts.poppinsRegular,
       fontSize: AppDimens.h1Size,
-      fontWeight: FontWeight.w400,
+      fontWeight: FontWeight.w500,
+      letterSpacing: AppDimens.letterSpace
     );
   }
 

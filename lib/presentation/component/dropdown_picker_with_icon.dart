@@ -23,6 +23,7 @@ class DropdownPickerWithIcon extends StatelessWidget {
     return DropdownButton<String>(
         items: menuOptions
             .map((data) => DropdownMenuItem<String>(
+                  value: data.key,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
@@ -33,7 +34,6 @@ class DropdownPickerWithIcon extends StatelessWidget {
                       ),
                     ],
                   ),
-                  value: data.key,
                 ))
             .toList(),
         value: selectedOption,

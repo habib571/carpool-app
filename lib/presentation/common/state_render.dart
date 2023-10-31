@@ -1,6 +1,5 @@
 
-import 'package:carpooling/presentation/utils/app_strings.dart';
-import 'package:carpooling/presentation/utils/styles.dart';
+import 'package:carpooling/presentation/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -22,13 +21,14 @@ class StateRenderer extends StatelessWidget {
   StateRendererType stateRendererType;
   String message;
   String title;
-  Function retryActionFunction;
+  Function() buttonFunc ;
 
   StateRenderer(
       {super.key, required this.stateRendererType,
       this.message = AppStrings.loading,
-      this.title = "",
-      required this.retryActionFunction});
+      this.title = "", 
+      required this.buttonFunc
+});
 
   @override
   Widget build(BuildContext context) {
@@ -39,30 +39,30 @@ class StateRenderer extends StatelessWidget {
     switch (stateRendererType) {
       case StateRendererType.popupLoadingState:
         return _getPopUpDialog(
-            context, [/*_getAnimatedImage(JsonAssets.loading)*/]);
+            context, [_getAnimatedImage('assets/json/error.json')]);
       case StateRendererType.popupErrorState:
         return _getPopUpDialog(context, [
-       //   _getAnimatedImage(JsonAssets.error),
+          _getAnimatedImage('assets/json/error.json'),
           _getMessage(message),
           _getRetryButton('OK', context)
         ]);
       case StateRendererType.fullScreenLoadingState:
         return _getItemsColumn(
-            [/*_getAnimatedImage(JsonAssets.loading),*/ _getMessage(message)]);
+            [_getAnimatedImage('assets/json/error.json'), _getMessage(message)]);
       case StateRendererType.fullScreenErrorState:
         return _getItemsColumn([
-        //  _getAnimatedImage(JsonAssets.error),
+         _getAnimatedImage('assets/json/error.json'),
           _getMessage(message),
           _getRetryButton('Again rettry', context)
         ]);
       case StateRendererType.fullScreenEmptyState:
         return _getItemsColumn(
-            [/*_getAnimatedImage(JsonAssets.empty)*/ _getMessage(message)]);
+            [_getAnimatedImage('assets/json/empty.json') ,_getMessage(message)]);
       case StateRendererType.contentState:
         return Container();
       case StateRendererType.popupSuccess:
         return _getPopUpDialog(context, [
-         // _getAnimatedImage(JsonAssets.success),
+         _getAnimatedImage('assets/json/success.json'),
           _getMessage(title),
           _getMessage(message),
           _getRetryButton('OK', context)
@@ -119,9 +119,7 @@ class StateRenderer extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         child: Text(
           message,
-          style:Styles().mediumTextStyle( 
-            Colors.black
-            ),
+          style:Styles().popUpTextStyle() ,
           textAlign: TextAlign.center,
         ),
       ),
@@ -131,21 +129,19 @@ class StateRenderer extends StatelessWidget {
   Widget _getRetryButton(String buttonTitle, BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(18),
+        padding: const EdgeInsets.all(25),
         child: SizedBox(
             width: double.infinity,
             child: ElevatedButton(
                 onPressed: () {
-                  if (stateRendererType ==
-                      StateRendererType.fullScreenErrorState) {
-                    // call retry function
-                    retryActionFunction.call();
-                  } else {
-                    // popup error state
-                    Navigator.of(context).pop();
-                  }
+                     buttonFunc() ;
+                  
                 },
-                child: Text(buttonTitle))),
+                child: Text(
+                  buttonTitle ,
+                  style:Styles().h3TextStyle(AppColors.cTextGreyColor) ,
+                  )
+                  )),
       ),
     );
   }

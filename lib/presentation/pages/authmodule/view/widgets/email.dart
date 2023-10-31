@@ -6,19 +6,23 @@ import '../../../../component/text_form_fields.dart';
 class EmailSection extends StatelessWidget {
    const EmailSection({
      super.key,
-    // required this.focusNode,  
-     required this.controller
+     required this.focusNode,  
+     required this.controller,
+     required this.validator
+
     }); 
-    //final FocusNode focusNode ; 
-    final TextEditingController controller;
+    final FocusNode focusNode ; 
+    final TextEditingController controller; 
+   final String? Function(String? s)? validator ;
  
   @override
   Widget build(BuildContext context) {
     return  Padding(
       padding: const EdgeInsets.only(top:17.0),
-      child: TextFormFields(  
+      child: TextFormFields(   
+        validator: validator ,
         textEditingController: controller,
-      //  focusNode: focusNode,
+         focusNode: focusNode, 
         autoFocus: false,
         textInputAction: TextInputAction.next,
         hintText:'Email',

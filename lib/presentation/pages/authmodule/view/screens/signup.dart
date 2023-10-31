@@ -1,18 +1,11 @@
-import 'package:carpooling/app/di.dart';
-import 'package:carpooling/data/datasource/remote/auth_remote_data.dart';
-import 'package:carpooling/data/network/network_info.dart';
-import 'package:carpooling/data/repository/repo_impl.dart';
-import 'package:carpooling/domain/repository/repository.dart';
-import 'package:carpooling/domain/usecases/auth_usecase.dart/register_uscase.dart';
-import 'package:carpooling/main.dart';
 import 'package:carpooling/presentation/pages/authmodule/view/screens/loginpage.dart';
+import 'package:carpooling/presentation/pages/authmodule/view/screens/phone_number.dart';
 import 'package:carpooling/presentation/pages/authmodule/view/widgets/loginbutt.dart';
 import 'package:carpooling/presentation/pages/authmodule/viewmodel/signupviewmodel.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import '../../../../utils/app_colors.dart';
 import '../../../../utils/app_dimens.dart';
 import '../../../../utils/app_fonts.dart';
@@ -26,8 +19,7 @@ import '../widgets/socialbuton.dart';
 
 class SignUpPage extends StatelessWidget {
     SignUpPage({Key? key}) : super(key: key);
- //final SignUpController _controller = instance<SignUpController>() ; 
- final SignUpController _controller = Get.put(SignUpController(RegisterUseCase(AuthRepositoryImp(NetworkInfoImpl(InternetConnectionChecker()) ,AuthRemoteDataSourceImp() )))) ;
+final SignUpController _controller = Get.find<SignUpController>() ;
   @override
   Widget build(BuildContext context) {
     final mediaQueryData = MediaQuery.of(context);
@@ -50,17 +42,29 @@ class SignUpPage extends StatelessWidget {
         children: [
           _showImage(context),
           _showTitle(),
-           NameSection(),
+           NameSection( 
+            validator: (val) {
+              return _controller.validateName(val!) ;
+            },
+            nameFocusNode: _controller.nameFocusNode,
+             txtcontroller: _controller.name
+             ,),
            EmailSection( 
-            controller: _controller.emailcoltrollerS,
-            //focusNode: _controller.emailFocusNode,
+            validator: (val) {
+            return   _controller.validateEmail(val!) ;
+            },
+            controller: _controller.emailcontrollerS,
+            focusNode: _controller.emailFocusNode,
             ),
            GetX<SignUpController>(
              builder: (ctx) {
-               return PasswordSection( 
+               return PasswordSection(  
+                validator: (val) { 
+                 return _controller.validatePassword(val!) ;
+                },
                   hintext: 'Password',
                   controller: _controller.passwordcontrollerS,
-                 // focusNode: _controller.passFocusNode ,
+                  focusNode: _controller.passFocusNode ,
                   isobscure: ctx.isSPassObscure.value,
                   eyeIcon:!ctx.isSPassObscure.value
                   ? SvgPicture.asset('assets/icons/eye.svg')
@@ -71,12 +75,11 @@ class SignUpPage extends StatelessWidget {
                   );
               }
                  ),
-
-
-
             AuthButton(
-              ontap: () {
-               _controller.register() ;
+              ontap: ()  { 
+                if(_controller.signUpFormKey.currentState!.validate()) { 
+                   Get.to(()=>PhoneNumberPage()) ;
+                }
               },
                txt: 'Sign Up'
                ),
@@ -123,9 +126,6 @@ class SignUpPage extends StatelessWidget {
       ],
     );
   }
-
-
-
 
 
   Widget _showSignInSection(){

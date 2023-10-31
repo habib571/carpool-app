@@ -59,7 +59,8 @@ enum DataSource {
 }
 
 extension DataSourceExtension on DataSource {
-  Failure getFailure() {
+  Failure 
+  getFailure() {
     switch (this) {
       case DataSource.SUCCESS:
         return Failure(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);

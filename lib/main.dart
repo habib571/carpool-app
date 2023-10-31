@@ -1,16 +1,15 @@
-import 'package:carpooling/app/di.dart';
-import 'package:carpooling/presentation/pages/splash/view/splashscreen.dart';
-import 'package:carpooling/presentation/utils/app_themes.dart';
+
+import 'package:carpooling/app/bindings.dart';
+import 'package:carpooling/presentation/pages/homemodule/view/screens/homescreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_it/get_it.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+late SharedPreferences sharedPrefs ;
 void main() async{ 
-   WidgetsFlutterBinding.ensureInitialized(); 
-  // await initAppModule() ;
-  runApp(const MyApp());
+ WidgetsFlutterBinding.ensureInitialized(); 
+ sharedPrefs = await SharedPreferences.getInstance();
+   runApp(const MyApp());
 }
- 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -19,11 +18,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp( 
           debugShowCheckedModeBanner: false, 
-          theme: AppThemes.lightTheme,
+          //theme: AppThemes.lightTheme,
+          initialBinding: AppBindings(),
          // darkTheme: AppThemes.darkTheme, 
-          home: const SplashPage(),
-
-    
+          home: const HomeScreen(),
     );
   }
 }

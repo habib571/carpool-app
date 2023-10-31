@@ -1,5 +1,4 @@
-
-import 'package:carpooling/presentation/pages/authmodule/view/screens/signup.dart';
+import 'package:carpooling/presentation/pages/authmodule/view/screens/loginpage.dart';
 import 'package:carpooling/presentation/pages/onboarding/view/widgets/firstpage.dart';
 import 'package:carpooling/presentation/pages/onboarding/view/widgets/secondpage.dart';
 import 'package:carpooling/presentation/pages/onboarding/view/widgets/thirdpages.dart';
@@ -28,7 +27,6 @@ class OnboardinScreen extends StatelessWidget {
       ),
     );
   } 
-
   Widget _showBody() { 
       return Stack(
       children: [
@@ -59,12 +57,6 @@ class OnboardinScreen extends StatelessWidget {
     );
 
   } 
-
-
-
-
-
-
   Widget _showSkipButton() {
     return Positioned(
         right: 0,
@@ -111,7 +103,6 @@ class OnboardinScreen extends StatelessWidget {
       ),
     );
   }
-
   Widget _showPageIndicator() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20.0),
@@ -129,8 +120,6 @@ class OnboardinScreen extends StatelessWidget {
       ),
     );
   }
-
-
   Widget _showLoginButton() {
     return GetX<OnboardingController>(
       builder: (_) {
@@ -150,7 +139,7 @@ class OnboardinScreen extends StatelessWidget {
                       : Styles().textSmallStyle(),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
-                     Get.to(()=>SignUpPage()) ;
+                     Get.to(()=>LoginPage()) ;
                       SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
                     }
                  )
@@ -160,9 +149,4 @@ class OnboardinScreen extends StatelessWidget {
       },
     );
   }
-
-
-
-
-
 }

@@ -22,13 +22,13 @@ class TextFormFields extends StatefulWidget {
     this.labelStyle = const TextStyle(
       fontFamily: AppFonts.robotoRegular,
       fontSize: AppDimens.smallTextSize,
-      color: AppColors.cPrimaryColor,
+      color: AppColors.greyColor,
     ),
     this.hintText = '',
     this.hintStyle = const TextStyle(
       fontFamily: AppFonts.robotoRegular,
       fontSize: AppDimens.subTextSize,
-      color: AppColors.cPrimaryColor,
+      color: AppColors.greyColor,
     ),
     this.suffixStyle = const TextStyle(
       fontFamily: AppFonts.robotoRegular,
@@ -38,7 +38,7 @@ class TextFormFields extends StatefulWidget {
     this.fieldStyle = const TextStyle(
         fontFamily: AppFonts.robotoRegular,
         fontSize: AppDimens.subTextSize,
-        color: AppColors.cPrimaryColor,
+        color: AppColors.textPrimaryColor,
         fontWeight: FontWeight.normal
     ),
     this.errorStyle = const TextStyle(
@@ -47,11 +47,11 @@ class TextFormFields extends StatefulWidget {
         height: 1,
         fontWeight: FontWeight.normal
     ),
-    this.borderColor = AppColors.cBorderColor,
+    this.borderColor = AppColors.primaryColor,
     this.errorBorderColor = AppColors.cGoogleDarkColor,
     this.focusColor = AppColors.cPrimaryColor,
-    this.cursorColor = AppColors.cPrimaryColor,
-    this.focusBorderColor = AppColors.cPrimaryColor,
+    this.cursorColor = AppColors.greyColor,
+    this.focusBorderColor = AppColors.primaryColor,
     this.focusNode,
     this.textInputType = TextInputType.text,
     this.isIcon = false,
@@ -72,7 +72,7 @@ class TextFormFields extends StatefulWidget {
     this.obscuringCharacter = '•',
     this.filled = true,
     this.isBorder = true,
-    this.fillColor = AppColors.cBackgroundColor,
+    this.fillColor = AppColors.accentColor,
     this.isPrefix = false,
     this.prefixText,
     this.suffixText = '',
@@ -175,7 +175,6 @@ final FocusNode focusPass = FocusNode();
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         TextFormField(
-        
           keyboardAppearance: AppColors.cPrimaryBrightness,
           cursorColor: widget.cursorColor,
           textAlign: widget.textAlign,

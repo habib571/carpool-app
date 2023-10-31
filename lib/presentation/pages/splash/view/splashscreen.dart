@@ -17,7 +17,7 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
   
-final SplashControllerImp _controller = Get.put(SplashControllerImp()) ;
+final SplashControllerImp _controller = Get.find<SplashControllerImp>() ;
 @override
   void initState() {
     _initAnimationController();

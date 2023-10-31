@@ -1,8 +1,14 @@
 
 
+import 'package:carpooling/data/datasource/remote/auth_remote_data.dart';
+import 'package:carpooling/data/network/network_info.dart';
+import 'package:carpooling/data/repository/repo_impl.dart';
+import 'package:carpooling/domain/usecases/auth_usecase.dart/login_usecase.dart';
+import 'package:carpooling/presentation/pages/authmodule/view/screens/forgot_screen.dart';
 import 'package:carpooling/presentation/pages/authmodule/viewmodel/loginviewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 import '../../../../utils/app_colors.dart';
 import '../../../../utils/app_dimens.dart';
@@ -11,7 +17,8 @@ import '../../../../utils/styles.dart';
 
 class ForgotPasswprdSection extends StatelessWidget {
    ForgotPasswprdSection({super.key});
-  final LoginController _controller  = Get.put(LoginController()) ;
+  final LoginController _controller = Get.put(LoginController(LoginUsecase(AuthRepositoryImp(NetworkInfoImpl(InternetConnectionChecker()),AuthRemoteDataSourceImp())))) ; 
+
   @override
   Widget build(BuildContext context) {
     return  Row(
@@ -36,7 +43,8 @@ class ForgotPasswprdSection extends StatelessWidget {
               );
             },
           ),
-          onTap: (){
+          onTap: (){ 
+            Get.to(()=>ForgotPassPage()) ;
             _controller.onTap.value = !_controller.onTap.value;
           },
         ),
