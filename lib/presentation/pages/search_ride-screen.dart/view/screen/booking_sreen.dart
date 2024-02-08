@@ -17,7 +17,7 @@ class BookingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _showBookingOverlay(context)
+      body: Container()
     ) ;
   } 
   Widget _showBookingOverlay(BuildContext ctx) {
@@ -159,7 +159,7 @@ class BookingScreen extends StatelessWidget {
       children: [
         InkWell(
           onTap :() {
-            Get.to(()=> const SelectDateScreen()) ;
+            Get.to(()=> SelectDateScreen()) ;
           },
           child: Container(
             width: 90,

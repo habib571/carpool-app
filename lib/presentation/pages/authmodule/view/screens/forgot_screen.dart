@@ -10,9 +10,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 
-class ForgotPassPage extends StatelessWidget {
+class ForgotPassPage extends StatefulWidget {
+
+   const ForgotPassPage({Key? key}) : super(key: key);
+
+  @override
+  State<ForgotPassPage> createState() => _ForgotPassPageState();
+}
+
+class _ForgotPassPageState extends State<ForgotPassPage> {
  final ForgotPasswordcontroller _controller = Get.find<ForgotPasswordcontroller>() ;
-   ForgotPassPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,11 +51,12 @@ class ForgotPassPage extends StatelessWidget {
                 validator: (val) {
                   return _controller.validateEmail(val!) ;
                 }
-                ),
+                ), 
+            const    SizedBox(height: 50,) ,
 
           AuthButton(
             ontap: () {
-         _controller.sendEmail(context) ;
+       //  _controller.sendEmail(context) ;
             },
              txt: 'Send'
              )
@@ -83,10 +91,4 @@ class ForgotPassPage extends StatelessWidget {
       ),
     );
   }
-
-
-
-
-
-
 }

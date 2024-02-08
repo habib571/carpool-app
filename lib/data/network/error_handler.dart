@@ -148,6 +148,6 @@ class ResponseMessage {
 }
 
 class ApiInternalStatus {
-  static const int SUCCESS = 0;
+  static const bool SUCCESS = true;
   static const int FAILURE = 1;
 }

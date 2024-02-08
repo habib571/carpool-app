@@ -28,9 +28,9 @@ class ForgotPasswordcontroller extends GetxController {
     super.onClose();
   }
 
-  @override
+@override
   void onInit() {
-    initUniLinks();
+    initUniLinks() ;
     super.onInit();
   }
 
@@ -54,7 +54,7 @@ class ForgotPasswordcontroller extends GetxController {
     }
   }
 
-  Future<void> sendEmail(BuildContext context) async {
+  /*Future<void> sendEmail(BuildContext context) async {
     final result = await _forgotUseCase.call(fEmailcontroller.text.trimRight());
 
     result.fold((falilure) {
@@ -65,19 +65,21 @@ class ForgotPasswordcontroller extends GetxController {
                 title: 'ERROR',
                 message: falilure.message,
                 stateRendererType: StateRendererType.popupErrorState,
-                buttonFunc: () {
+                retryActionFunction: () {
                   Navigator.of(context).pop();
                 });
           });
     }, (data) {
-      if (data.success) {
+      if (data.success!) {
         return showDialog(
             context: context,
             builder: (BuildContext context) {
               return StateRenderer(
-                  message: data.message,
+                  message: data.message!.toString(),
                   stateRendererType: StateRendererType.popupSuccess,
-                  buttonFunc: () {
+                   retryActionFunction: () async{  
+               
+                    // ignore: use_build_context_synchronously
                     Navigator.of(context).pop();
                   });
             });
@@ -87,23 +89,25 @@ class ForgotPasswordcontroller extends GetxController {
             builder: (BuildContext context) {
               return StateRenderer(
                   title: 'ERROR',
-                  message: data.message,
+                  message: data.message!.toString(),
                   stateRendererType: StateRendererType.popupErrorState,
-                  buttonFunc: () {
+                  retryActionFunction: () async{
+                
+                    // ignore: use_build_context_synchronously
                     Navigator.of(context).pop();
                   });
             });
       }
     });
-  }
+  }*/
 
   Future<void> initUniLinks() async {
     try {
       final initialLink = await getInitialLink();
-      // Handle the initial deep link here, and store it for later use.
+     print("eaifrg liiiinkkkkk $initialLink") ;
       handleDeepLink(initialLink);
     } on PlatformException {
-      // Handle exception if any
+      print('erorrrrrrrrrrrrrrrrrt') ;
     }
 
     // Listen for deep links while the app is running.
@@ -116,7 +120,6 @@ class ForgotPasswordcontroller extends GetxController {
     if (link != null) {
       Uri uri = Uri.parse(link);
       token = uri.queryParameters['token']!;
-      email = uri.queryParameters['email']!;
       Get.to(() => ResetPasswordPage());
     }
   }
@@ -128,6 +131,7 @@ class ForgotPasswordcontroller extends GetxController {
         passConfirmController.text.trimRight(),
         token));
     result.fold(
-        (failure) => print(failure.message), (data) => print(data.message));
+        (failure) => print(failure.message), (data) => print(data.message)
+        );
   }
 }

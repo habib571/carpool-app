@@ -1,11 +1,7 @@
 
-
-import 'package:carpooling/data/datasource/remote/auth_remote_data.dart';
-import 'package:carpooling/data/network/network_info.dart';
-import 'package:carpooling/data/repository/repo_impl.dart';
-import 'package:carpooling/domain/usecases/auth_usecase.dart/register_uscase.dart';
+import 'package:carpooling/navigation/routes_constant.dart';
+import 'package:carpooling/presentation/common/state_render_imp.dart';
 import 'package:carpooling/presentation/component/primary_button.dart';
-import 'package:carpooling/presentation/pages/authmodule/view/screens/verif_otp_page.dart';
 import 'package:carpooling/presentation/pages/authmodule/viewmodel/signupviewmodel.dart';
 import 'package:carpooling/presentation/utils/app_colors.dart';
 import 'package:carpooling/presentation/utils/app_dimens.dart';
@@ -15,13 +11,12 @@ import 'package:carpooling/presentation/utils/styles.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart'; 
+
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 class PhoneNumberPage extends StatelessWidget {
-final SignUpController _controller = Get.put(SignUpController(RegisterUseCase(AuthRepositoryImp(NetworkInfoImpl(InternetConnectionChecker()) ,AuthRemoteDataSourceImp() )))) ;
 
-
+final SignUpController _controller = Get.find<SignUpController>() ;
    PhoneNumberPage({Key? key}) : super(key: key);
 
   @override
@@ -31,7 +26,13 @@ final SignUpController _controller = Get.put(SignUpController(RegisterUseCase(Au
       data: mediaQueryData.copyWith(textScaleFactor: 1.0),
       child: Scaffold(
         backgroundColor: AppColors.cBackgroundColor,
-        body: _showBody(context),
+        body: StreamBuilder<FlowState>( 
+          stream:_controller.outputState,
+          builder:(context ,snapshot) {
+             return snapshot.data?.getScreenWidget(context, _showBody(context), () {_controller.start() ;} ) ?? _showBody(context); 
+             
+          }
+           )
       ),
     );
   }
@@ -149,7 +150,7 @@ Widget _showVerifyButton(BuildContext context){
         onPressed: () async{ 
           if(_controller.pohneNumberformKey.currentState!.validate()) {
         await _controller.register(context) ; 
-         Get.to(()=>OtpVerificationPage(),arguments: _controller.phonenumber.text) ;
+         Get.toNamed(Approutes.verifyOtp,arguments: _controller.phonenumber.text) ;
         }},
       ),
     );

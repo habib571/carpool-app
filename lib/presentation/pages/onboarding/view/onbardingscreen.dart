@@ -1,4 +1,4 @@
-import 'package:carpooling/presentation/pages/authmodule/view/screens/loginpage.dart';
+import 'package:carpooling/navigation/routes_constant.dart';
 import 'package:carpooling/presentation/pages/onboarding/view/widgets/firstpage.dart';
 import 'package:carpooling/presentation/pages/onboarding/view/widgets/secondpage.dart';
 import 'package:carpooling/presentation/pages/onboarding/view/widgets/thirdpages.dart';
@@ -139,7 +139,7 @@ class OnboardinScreen extends StatelessWidget {
                       : Styles().textSmallStyle(),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
-                     Get.to(()=>LoginPage()) ;
+                     Get.toNamed(Approutes.login) ;
                       SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge, overlays: []);
                     }
                  )

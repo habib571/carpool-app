@@ -1,12 +1,15 @@
 import 'package:carpooling/presentation/pages/homemodule/view/screens/coversation_screen.dart';
-import 'package:carpooling/presentation/pages/homemodule/view/screens/profil_screen.dart';
 import 'package:carpooling/presentation/pages/search_ride-screen.dart/view/screen/booking_sreen.dart';
-import 'package:carpooling/presentation/pages/sharidemodule/view/screens/share_ride_screen.dart';
+import 'package:carpooling/presentation/pages/search_ride-screen.dart/view/screen/home_screen.dart';
+import 'package:carpooling/presentation/pages/shareridemodule/view/screens/rid_from_screen.dart';
+import 'package:carpooling/presentation/pages/shareridemodule/view/screens/share_ride_screen.dart';
 import 'package:carpooling/presentation/pages/homemodule/view/widgets/nav_icon.dart';
 import 'package:carpooling/presentation/utils/app_colors.dart';
 import 'package:carpooling/presentation/utils/app_utility.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+
+import '../../../profilmodule/view/screens/myprofil_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -17,11 +20,11 @@ class HomeScreen extends StatelessWidget {
       padding: const NavBarPadding.symmetric(vertical: 20.0),
       navBarHeight: AppUtility().contentWidth(context) * .22,
       items: _navBarsItems(),
-      screens: const [
-        BookingScreen() ,
-        MessagesScreen(),
-        ShareRideScreen(),
-        ProfilScreen()
+      screens: [ 
+       const SearchRideScreen() ,
+       const MessagesScreen(),
+        RideFormScreen() ,
+       ProfilMode()
       ],
       backgroundColor: AppColors.accentColor,
       handleAndroidBackButtonPress: true,

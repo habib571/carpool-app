@@ -21,13 +21,14 @@ class StateRenderer extends StatelessWidget {
   StateRendererType stateRendererType;
   String message;
   String title;
-  Function() buttonFunc ;
+  Function retryActionFunction; 
 
   StateRenderer(
       {super.key, required this.stateRendererType,
-      this.message = AppStrings.loading,
-      this.title = "", 
-      required this.buttonFunc
+      this.message = '',
+      this.title = "",  
+      required this.retryActionFunction
+       
 });
 
   @override
@@ -39,7 +40,7 @@ class StateRenderer extends StatelessWidget {
     switch (stateRendererType) {
       case StateRendererType.popupLoadingState:
         return _getPopUpDialog(
-            context, [_getAnimatedImage('assets/json/error.json')]);
+            context, [_getAnimatedImage('assets/json/loading.json')]);
       case StateRendererType.popupErrorState:
         return _getPopUpDialog(context, [
           _getAnimatedImage('assets/json/error.json'),
@@ -48,7 +49,7 @@ class StateRenderer extends StatelessWidget {
         ]);
       case StateRendererType.fullScreenLoadingState:
         return _getItemsColumn(
-            [_getAnimatedImage('assets/json/error.json'), _getMessage(message)]);
+            [_getAnimatedImage('assets/json/loading.json'), _getMessage(message)]);
       case StateRendererType.fullScreenErrorState:
         return _getItemsColumn([
          _getAnimatedImage('assets/json/error.json'),
@@ -134,7 +135,7 @@ class StateRenderer extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
                 onPressed: () {
-                     buttonFunc() ;
+                     retryActionFunction.call() ;
                   
                 },
                 child: Text(

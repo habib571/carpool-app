@@ -1,5 +1,4 @@
-import 'package:carpooling/presentation/pages/authmodule/view/screens/loginpage.dart';
-import 'package:carpooling/presentation/pages/authmodule/view/screens/phone_number.dart';
+import 'package:carpooling/navigation/routes_constant.dart';
 import 'package:carpooling/presentation/pages/authmodule/view/widgets/loginbutt.dart';
 import 'package:carpooling/presentation/pages/authmodule/viewmodel/signupviewmodel.dart';
 import 'package:flutter/gestures.dart';
@@ -14,7 +13,6 @@ import '../../../../utils/styles.dart';
 import '../widgets/email.dart';
 import '../widgets/name.dart';
 import '../widgets/password.dart';
-import '../widgets/socialbuton.dart';
 
 
 class SignUpPage extends StatelessWidget {
@@ -22,13 +20,10 @@ class SignUpPage extends StatelessWidget {
 final SignUpController _controller = Get.find<SignUpController>() ;
   @override
   Widget build(BuildContext context) {
-    final mediaQueryData = MediaQuery.of(context);
-    return MediaQuery(
-      data: mediaQueryData.copyWith(textScaleFactor: 1.0),
-      child: Scaffold(
-        backgroundColor: AppColors.cBackgroundColor,
-        body: _showBody(context),
-      ),
+
+    return Scaffold(
+      backgroundColor: AppColors.cScaffoldColor,
+      body: _showBody(context),
     );
   }
 
@@ -46,9 +41,18 @@ final SignUpController _controller = Get.find<SignUpController>() ;
             validator: (val) {
               return _controller.validateName(val!) ;
             },
-            nameFocusNode: _controller.nameFocusNode,
-             txtcontroller: _controller.name
-             ,),
+            nameFocusNode: _controller.firstFocusNode,
+             txtcontroller: _controller.firstname ,
+             hint: 'Firstname',
+             ),
+              NameSection( 
+            validator: (val) {
+              return _controller.validateName(val!) ;
+            },
+            nameFocusNode: _controller.lastFocusNode,
+             txtcontroller: _controller.lastname ,
+             hint: 'Lastname',
+             ),
            EmailSection( 
             validator: (val) {
             return   _controller.validateEmail(val!) ;
@@ -78,19 +82,19 @@ final SignUpController _controller = Get.find<SignUpController>() ;
             AuthButton(
               ontap: ()  { 
                 if(_controller.signUpFormKey.currentState!.validate()) { 
-                   Get.to(()=>PhoneNumberPage()) ;
+                   Get.toNamed(Approutes.phonenNumber) ;
                 }
               },
                txt: 'Sign Up'
                ),
-          _showSignInSection(),
-          _showDivider(),
+         _showSignInSection(),
+         /* _showDivider(),
           SocialMediaButtons(
               fbOnPressed: (){},
               gOnPressed: (){},
               tOnPressed: (){}
           ),
-        const  SizedBox(height: 50),
+        const  SizedBox(height: 50),*/
         ],
       ),
     );
@@ -140,11 +144,11 @@ final SignUpController _controller = Get.find<SignUpController>() ;
             TextSpan(
                 text: ' Sign In',
                 style: Styles().mediumTextStyle(
-                    AppColors.cPrimaryColor
+                    AppColors.blackcolor
                 ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                     Get.off(()=>LoginPage()) ;
+                     Get.offNamed(Approutes.login) ;
                   }
             )
           ]

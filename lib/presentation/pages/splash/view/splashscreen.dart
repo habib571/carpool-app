@@ -1,5 +1,5 @@
 
-import 'package:carpooling/presentation/pages/onboarding/view/onbardingscreen.dart';
+import 'package:carpooling/navigation/routes_constant.dart';
 import 'package:carpooling/presentation/pages/splash/viewmodel/splashviewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -39,7 +39,7 @@ final SplashControllerImp _controller = Get.find<SplashControllerImp>() ;
           (value) => Future.delayed(_controller.splashTransitionDuration * 2).then(
             (value) => _controller.splashAnimationController
                 .forward()
-                .then((value) => { Get.to(()=>OnboardinScreen())}),
+                .then((value) => { Get.toNamed(Approutes.onboarding)}),
           ),
         ); 
         print(_controller.isSplashExpanded) ;

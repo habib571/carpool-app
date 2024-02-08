@@ -1,95 +1,67 @@
 import 'dart:async';
 
 import 'package:carpooling/domain/usecases/auth_usecase.dart/verify_otp.dart';
+import 'package:carpooling/navigation/routes_constant.dart';
 import 'package:carpooling/presentation/common/state_render.dart';
 import 'package:carpooling/presentation/pages/authmodule/view/screens/loginpage.dart';
+import 'package:carpooling/presentation/pages/authmodule/viewmodel/signupviewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class OtpVerificationController extends GetxController {
+import '../../../common/state_render_imp.dart';
+
+class OtpVerificationController extends GetxController { 
+  final SignUpController _controller = Get.find() ;
   final GlobalKey<FormState> otpKey = GlobalKey<FormState>();
   final otpController = TextEditingController();
   final VerifyOtpUseCase _verify;
   late Timer _timer;
   RxInt start = 60.obs;
-  RxBool isLoading = false.obs;
+  RxBool isLoading = false.obs; 
+    late Stream<FlowState> _stateStream;  
+  final stateController = StreamController<FlowState>();
+   Stream<FlowState> get outputState => _stateStream.map((flowState) => flowState);  
   OtpVerificationController(this._verify);
   @override
   void onInit() {
-    startTimer();
+    startTimer(); 
+    sTart() ;
     super.onInit();
   }
 
   @override
   void onClose() {
-    otpController.dispose();
     _timer.cancel();
     super.onClose();
+  } 
+
+    void sTart () {  
+      _stateStream = stateController.stream.asBroadcastStream(); 
+     stateController.add(ContentState()) ;
   }
 
-  verifyOtp(BuildContext context) async {
-    final result = await _verify.call(otpController.text);
-    result.fold((failure) {
-      return showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return StateRenderer(
-              message: failure.message,
-              stateRendererType: StateRendererType.popupErrorState,
-              buttonFunc: () {
-                Navigator.of(context).pop();
-              },
-            );
-          });
+  verifyOtp() async { 
+      stateController.add(LoadingState(stateRendererType: StateRendererType.fullScreenLoadingState)) ;
+   ( await _verify.call(otpController.text) ).fold((failure) {
+       stateController.add(ErrorState(
+                  StateRendererType.popupErrorState, failure.message)) ;
     }, (data) {
       //    print(otpController.text) ;
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return StateRenderer(
-              message: data.message,
-              stateRendererType: data.success
-                  ? StateRendererType.popupSuccess
-                  : StateRendererType.popupErrorState,
-              buttonFunc: () {
-                Get.to(() => LoginPage());
-              },
-            );
-          });
+        Get.toNamed(Approutes.login) ;
     });
   }
 
-  resendOtp(String number, BuildContext context) async {
-    final result = await _verify.resendCall(number);
-    result.fold((failure) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return StateRenderer(
-              message: failure.message,
-              stateRendererType: StateRendererType.popupErrorState,
-              buttonFunc: () {
-                Navigator.of(context).pop();
-              },
-            );
-          });
+  resendOtp() async { 
+      stateController.add(LoadingState(stateRendererType: StateRendererType.fullScreenLoadingState)) ;
+    final result = await _verify.resendCall(_controller.phonenumber.text);
+    result.fold((failure) { 
+       stateController.add(ErrorState(
+                  StateRendererType.popupErrorState, failure.message)) ;
+  
     }, (data) {  
-      if(data.success)  {
+      
         startTimer(); 
-      }
-      else { 
-              showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return StateRenderer(
-              message: data.message,
-              stateRendererType: StateRendererType.popupErrorState,
-              buttonFunc: () {
-                Navigator.of(context).pop();
-              },
-            );
-          });
-      }
+
     });
   }
 
@@ -116,3 +88,4 @@ class OtpVerificationController extends GetxController {
     }
   }
 }
+

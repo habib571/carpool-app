@@ -1,9 +1,17 @@
+import 'dart:async';
+
+import 'package:carpooling/app/app_prefs.dart';
 import 'package:carpooling/data/datasource/remote/auth_remote_data.dart';
 import 'package:carpooling/data/network/requests.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/register_uscase.dart';
+import 'package:carpooling/main.dart';
+import 'package:carpooling/navigation/routes_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+
+import '../../../common/state_render.dart';
+import '../../../common/state_render_imp.dart';
 
 class SignUpController extends GetxController {
   GlobalKey<FormState> signUpFormKey = GlobalKey<FormState>();
@@ -16,16 +24,34 @@ class SignUpController extends GetxController {
   FocusNode emailFocusNode = FocusNode();
   FocusNode passFocusNode = FocusNode();
   FocusNode confirmpassFocusNode = FocusNode();
-  FocusNode nameFocusNode = FocusNode();
+  FocusNode firstFocusNode = FocusNode();
+    FocusNode lastFocusNode = FocusNode();
   final emailcontrollerS = TextEditingController();
   final passwordcontrollerS = TextEditingController();
-  final name = TextEditingController();
+  final firstname = TextEditingController();
+    final lastname = TextEditingController();
   final phonenumber = TextEditingController();
   final auth = AuthRemoteDataSourceImp();
-  final RegisterUseCase _registerUseCase;
+  final RegisterUseCase _registerUseCase; 
+  late Stream<FlowState> _stateStream;  
+  final stateController = StreamController<FlowState>();
+   Stream<FlowState> get outputState => _stateStream.map((flowState) => flowState);  
   SignUpController(this._registerUseCase);
   
-
+@override
+  void onInit() { 
+   start() ;
+    super.onInit(); 
+  }  
+  @override
+  void onClose() {
+    stateController.close();
+    super.onClose();
+  }
+  void start() {  
+      _stateStream = stateController.stream.asBroadcastStream(); 
+     stateController.add(ContentState()) ;
+  }
   String? validateName(String input) {
     if (input.isEmpty) {
       return 'Cannot be Empty !';
@@ -70,77 +96,30 @@ class SignUpController extends GetxController {
 
 
 
-  Future<void> register(BuildContext context) async {
-      await _registerUseCase.call(
+  Future<void> register(BuildContext context) async { 
+      stateController.add(LoadingState(stateRendererType: StateRendererType.fullScreenLoadingState)) ;
+     final result = await _registerUseCase.call(
       RegisterRequest(
-        email: emailcontrollerS.text.trimLeft(),
-        username: name.text.trimLeft(),
+        email: emailcontrollerS.text.trimLeft(), 
+        firstname: firstname.text.trimLeft() ,
+        lastname: firstname.text.trimLeft(),
         password: passwordcontrollerS.text.trimLeft(),
         gender: gender.value,
         phoneNumber: phonenumber.text,
       ),
-    );
+    ); 
 
-  /*  result.fold((failure) {
-      StateRenderer(
-        title: failure.message,
-        stateRendererType: StateRendererType.popupErrorState,
-        buttonFunc: () {
-          Navigator.pop(context);
-        },
-      );
-    }, (data) {
-      if (data.success) {
-        return showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return StateRenderer(
-                title: data.message,
-                stateRendererType: StateRendererType.popupSuccess,
-                buttonFunc: () {
-                  Get.to(() => OtpVerificationPage() ,arguments:phonenumber.text );
-                },
-              );
-            });
-      } else if (data.message == 'Account already exists') {
-        return showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return StateRenderer(
-                title: data.message,
-                stateRendererType: StateRendererType.popupErrorState,
-                buttonFunc: () {
-                  Get.to(() => SignUpPage());
-                },
-              );
-            });
-      } else if (data.message == 'email already exists') {
-        return showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return StateRenderer(
-                title: data.message,
-                stateRendererType: StateRendererType.popupErrorState,
-                buttonFunc: () {
-                  Get.to(() => SignUpPage());
-                },
-              );
-            });
-      } 
-      else {
-        return showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return StateRenderer(
-                title: data.message,
-                stateRendererType: StateRendererType.popupErrorState,
-                buttonFunc: () {
-                  Get.to(() => SignUpPage());
-                },
-              );
-            });
         
-      }
-    });*/
+   result.fold((failure) {
+    stateController.add(ErrorState(
+                  StateRendererType.popupErrorState, failure.message)) ;
+    }, (success) {  
+         Apppreference.setBearerToken(success.data!['token']) ;
+       Get.toNamed(Approutes.verifyOtp ,  arguments:phonenumber.text ) ;
+        }
+   ) ;
+
+    } 
+  
   }
-}
+

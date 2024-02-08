@@ -1,5 +1,6 @@
 class RegisterRequest {
-  String username;
+  String firstname; 
+  String lastname ;
   String email;
   String password;
   String phoneNumber;
@@ -7,34 +8,15 @@ class RegisterRequest {
 
   RegisterRequest({
     required this.email,
-    required this.username,
+    required this.firstname,
     required this.password,
     required this.gender,
-    required this.phoneNumber
+    required this.phoneNumber ,
+    required this.lastname
   });
 
-  factory RegisterRequest.fromJson(Map<String, dynamic> json) {
-    return RegisterRequest(
-      email: json['email'],
-      username: json['username'],
-      password: json['password'],
-      gender: json['gender'],
-      phoneNumber: json['phoneNumber'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {
-      'email': email,
-      'username': username,
-      'password': password,
-      'gender': gender,
-      'phoneNumber': phoneNumber,
-    };
-    return data;
-  }
+  
 }
-
 class LoginRequest {
  String email ; 
  String password ;
@@ -52,12 +34,31 @@ class OtpRequest {
 }  
 
 
-
+class UpdateInfoRequest {
+  String firstname ; 
+  String lastname ; 
+  String gender ;  
+  UpdateInfoRequest(this.firstname , this.lastname  , this.gender) ;
+}
 
 class ResetPasswordRequest { 
   String email ; 
   String password ; 
   String passwordConfiramtion ; 
   String token ;
-  ResetPasswordRequest(this.email ,this.password ,this.passwordConfiramtion ,this.token)  ;
+  ResetPasswordRequest(this.email ,this.password ,this.passwordConfiramtion ,this.token)  ; 
 }
+  class ShareRideRequest { 
+  String arrivalDate ;
+  String arrivalTime ;
+  String from ; 
+  String to ; 
+  int seats ; 
+  String time ; 
+  String date ; 
+  double price ; 
+  double distance ; 
+
+  ShareRideRequest(this.from , this.to , this.seats , this.time , this.date ,this.price , this.distance ,  this.arrivalDate , this.arrivalTime) ;
+  
+  }

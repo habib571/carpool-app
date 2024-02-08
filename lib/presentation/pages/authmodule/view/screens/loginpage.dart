@@ -1,5 +1,5 @@
 
-import 'package:carpooling/presentation/pages/authmodule/view/screens/gender_select_page.dart';
+import 'package:carpooling/navigation/routes_constant.dart';
 import 'package:carpooling/presentation/pages/authmodule/view/widgets/email.dart';
 import 'package:carpooling/presentation/pages/authmodule/view/widgets/forgetpass.dart';
 import 'package:carpooling/presentation/pages/authmodule/view/widgets/loginbutt.dart';
@@ -10,7 +10,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-
+import '../../../../common/state_render_imp.dart';
 import '../../../../utils/app_colors.dart';
 import '../../../../utils/app_dimens.dart';
 import '../../../../utils/app_fonts.dart';
@@ -23,13 +23,17 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQueryData = MediaQuery.of(context);
-    return MediaQuery(
-      data: mediaQueryData.copyWith(textScaleFactor: 1.0),
-      child: Scaffold(
-       backgroundColor: AppColors.cBackgroundColor,
-        body: _showBody(context),
-      ),
+
+    return Scaffold(
+     backgroundColor: AppColors.cScaffoldColor,
+      body:StreamBuilder<FlowState>( 
+        stream:_controller.outputState,
+        builder:(context ,snapshot) {
+           return snapshot.data?.getScreenWidget(context, _showBody(context), () {_controller.start() ;} ) ?? 
+           _showBody(context) ;
+         
+        }
+         )
     );
   }
 
@@ -37,7 +41,7 @@ class LoginPage extends StatelessWidget {
     return Form(
       key: _controller.formKey,
       child: ListView(
-        padding: AppDimens.containerPadding,
+        padding: const EdgeInsets.symmetric(horizontal: 15) ,
         shrinkWrap: true,
         physics: const ClampingScrollPhysics(),
         children: [
@@ -55,7 +59,9 @@ class LoginPage extends StatelessWidget {
           _showSinUpSection(),
           _showDivider(),
           SocialMediaButtons(
-              fbOnPressed: () {}, gOnPressed: () {}, tOnPressed: () {}),
+              fbOnPressed: () {}, gOnPressed: () {
+                     _controller.loginGo() ;
+              }, tOnPressed: () {}),
           const SizedBox(
             height: 50,
           ),
@@ -133,14 +139,14 @@ class LoginPage extends StatelessWidget {
       textAlign: TextAlign.center,
       text: TextSpan(
           text: 'Not a Member yet? ',
-          style: Styles().mediumTextStyle(AppColors.cTextMediumColor),
+          style: Styles().mediumTextStyle(AppColors.greyColor),
           children: <TextSpan>[
             TextSpan(
                 text: 'Create Profile',
-                style: Styles().mediumTextStyle(AppColors.cPrimaryColor),
+                style: Styles().mediumTextStyle(AppColors.textPrimaryColor),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    Get.to(GenderPage());
+                    Get.toNamed(Approutes.selelectgender);
                   })
           ]),
     );

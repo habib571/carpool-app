@@ -96,6 +96,7 @@ class ApplicationBar extends StatelessWidget implements PreferredSizeWidget {
             elevation: elevation,
             flexibleSpace: flexible,
             //  bottom: bottom,
+            
           );
   }
 }

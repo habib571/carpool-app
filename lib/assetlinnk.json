@@ -1,0 +1,10 @@
+[{
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.example.carpooling",
+      "sha256_cert_fingerprints":
+      ["88:78:B0:C1:34:43:71:7A:49:3B:92:FD:43:01:BB:14:E2:0C:FE:1F:F0:70:B2:9B:24:18:6F:8D:C6:CD:1E:5C"]
+    }
+  }]
+  

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../../component/text_form_fields.dart';
+import '../../../../utils/app_colors.dart';
 
 class EmailSection extends StatelessWidget {
    const EmailSection({
@@ -23,7 +24,6 @@ class EmailSection extends StatelessWidget {
         validator: validator ,
         textEditingController: controller,
          focusNode: focusNode, 
-        autoFocus: false,
         textInputAction: TextInputAction.next,
         hintText:'Email',
         isPrefixIcon: true,
@@ -31,7 +31,8 @@ class EmailSection extends StatelessWidget {
         textInputType: TextInputType.emailAddress,
         prefixIcon: Transform.scale(
         scale: 0.32,
-        child:   SvgPicture.asset('assets/icons/mail_icon.svg')
+        // ignore: deprecated_member_use
+        child:   SvgPicture.asset('assets/icons/mail_icon.svg', color: AppColors.greyColor)
         ),
         borderRadius:const  BorderRadius.all(Radius.circular(10.0)),
       ),

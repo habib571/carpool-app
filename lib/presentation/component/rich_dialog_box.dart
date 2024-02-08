@@ -1,10 +1,18 @@
+import 'package:carpooling/presentation/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class RichDialogBox extends StatefulWidget {
+import '../utils/app_dimens.dart';
+import '../utils/app_fonts.dart';
+
+class RichDialogBox extends StatelessWidget {
   const RichDialogBox({super.key, 
     required this.title,
     this.titleStyle = const TextStyle(
-      color: Colors.black,
+        color: AppColors.primaryColor,
+        fontSize: AppDimens.h2Size,
+        fontFamily: AppFonts.robotoRegular,
+        fontWeight: FontWeight.w500,
+        letterSpacing: AppDimens.letterSpace
     ),
     this.titlePadding = const EdgeInsets.all(0),
     this.form,
@@ -22,12 +30,6 @@ class RichDialogBox extends StatefulWidget {
   final double? borderRadius;
 
   @override
-  _RichDialogBoxState createState() => _RichDialogBoxState();
-}
-
-class _RichDialogBoxState extends State<RichDialogBox> {
-
-  @override
   Widget build(BuildContext context) {
 
     final Widget dialogChild =
@@ -38,36 +40,40 @@ class _RichDialogBoxState extends State<RichDialogBox> {
         Stack(
           children: <Widget>[
             Container(
-              margin: const EdgeInsets.only(top: 25),
+              margin: const EdgeInsets.symmetric(vertical: 20),
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(widget.borderRadius!),
+                  borderRadius: BorderRadius.circular(borderRadius!),
                   color: Colors.white
               ),
-              child: Column(
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: widget.titlePadding,
-                        child: Text(
-                          widget.title,
-                          style: widget.titleStyle,
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: titlePadding,
+                          child: Text(
+                            title,
+                            
+                            style: titleStyle,
+                          ),
                         ),
-                      ),
-                      widget.form != null ? widget.form! : const SizedBox(height: 0,),
-                      widget.content != null ? widget.content! : const SizedBox(height: 0,),
-                    ],
-                  ),
-                  (widget.actions != null) ?
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children:  widget.actions!
-                  ) : const SizedBox(height: 0,),
-                ],
+                        form != null ? form! : const SizedBox(height: 0,),
+                        content != null ? content! : const SizedBox(height: 0,),
+                      ],
+                    ),
+                    (actions != null) ?
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children:  actions!
+                    ) : const SizedBox(height: 0,),
+                  ],
+                ),
               ),
             ),
-            Positioned(
+          /*  Positioned(
               top: 0,
               right: 0,
               left: 0,
@@ -76,7 +82,7 @@ class _RichDialogBoxState extends State<RichDialogBox> {
                 width: 70,
                 height: 70,
               ),
-            ),
+            ),*/
           ],
         ),
       ],

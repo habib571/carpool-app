@@ -31,7 +31,7 @@ final String? Function(String? s)? validator ;
         textEditingController: controller,
         obscureText:  isobscure/*ctx.isLPassObscure.value*/,
           focusNode:  focusNode ,/* _controller.sPassFocusNode,*/
-        autoFocus: false,
+
         textInputAction: TextInputAction.done,
         hintText: hintext,
         hintStyle: const TextStyle(
@@ -44,7 +44,7 @@ final String? Function(String? s)? validator ;
         textInputType: TextInputType.text,
         prefixIcon: Transform.scale(
          scale: 0.32,
-          child: Image.asset('assets/icons/lock_icon.png')
+          child: Image.asset('assets/icons/lock_icon.png' ,color: AppColors.greyColor,)
         ),
         isSuffixIcon: true,
         suffixIcon: Transform.scale(

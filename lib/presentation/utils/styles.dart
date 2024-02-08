@@ -72,7 +72,7 @@ class Styles{
 
   TextStyle titleHeadingStyle(){
     return const TextStyle(
-      color: AppColors.cPrimaryColor,
+      color: AppColors.primaryColor,
       fontSize: AppDimens.largeSize,
       fontFamily: AppFonts.poppinsRegular,
       fontWeight: FontWeight.w400,

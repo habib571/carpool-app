@@ -7,12 +7,13 @@ import '../utils/app_fonts.dart';
 
 
 class TextFormFields extends StatefulWidget {
-  const TextFormFields({super.key, 
+  const TextFormFields({super.key,  
+    this.readOnly = false ,
     this.textAlign = TextAlign.start,
     this.enabled = true,
     this.textEditingController,
     this.contentPadding = const EdgeInsets.all(15.0),
-    //this.initialValue = '',
+    this.initialValue ,
     this.autoFocus = true,
     this.maxLines = 1,
     this.minLines = 1,
@@ -54,9 +55,9 @@ class TextFormFields extends StatefulWidget {
     this.focusBorderColor = AppColors.primaryColor,
     this.focusNode,
     this.textInputType = TextInputType.text,
-    this.isIcon = false,
+    this.isIcon = true,
     this.isSuffixIcon = false,
-    this.isPrefixIcon = false,
+    this.isPrefixIcon = true,
     this.dense = false,
     this.icon,
     this.image,
@@ -85,13 +86,13 @@ class TextFormFields extends StatefulWidget {
         fontWeight: FontWeight.normal
     ),
   });
-
+  
   final TextAlign textAlign;
   final bool enabled;
   final TextEditingController? textEditingController;
   final EdgeInsets contentPadding;
   //
-  //final String initialValue;
+  final String? initialValue;
   final bool autoFocus;
   final int maxLines;
   final int minLines;
@@ -136,7 +137,8 @@ class TextFormFields extends StatefulWidget {
   final String? prefixText;
   final TextStyle prefixTextStyle;
   final BorderRadius borderRadius;
-
+  final bool readOnly  ; 
+  
   @override
   State<StatefulWidget> createState() {
     return _TextFormFieldsState();
@@ -174,13 +176,15 @@ final FocusNode focusPass = FocusNode();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        TextFormField(
+        TextFormField(  
+        
+          readOnly: widget.readOnly,
           keyboardAppearance: AppColors.cPrimaryBrightness,
           cursorColor: widget.cursorColor,
           textAlign: widget.textAlign,
           enabled: widget.enabled,
           controller: widget.textEditingController,
-        //  initialValue: widget.initialValue,
+          initialValue: widget.initialValue,
           maxLines: widget.maxLines,
           minLines: widget.maxLines,
           obscureText: widget.obscureText,
@@ -208,7 +212,7 @@ final FocusNode focusPass = FocusNode();
             border: OutlineInputBorder(
               borderRadius: widget.borderRadius,
               borderSide: BorderSide(
-                  width: 0.5,
+                  width:4 ,
                   color: widget.borderColor,
                   style: widget.isBorder
                       ? BorderStyle.solid
@@ -228,7 +232,7 @@ final FocusNode focusPass = FocusNode();
             focusedBorder: OutlineInputBorder(
               borderRadius: widget.borderRadius,
               borderSide: BorderSide(
-                  width: 0.9,
+                  width: 2,
                   color: widget.focusBorderColor,
                   style: widget.isBorder
                       ? BorderStyle.solid
@@ -238,7 +242,7 @@ final FocusNode focusPass = FocusNode();
             enabledBorder: OutlineInputBorder(
               borderRadius: widget.borderRadius,
               borderSide: BorderSide(
-                  width: 0.5,
+                  width: 1,
                   color: widget.borderColor,
                   style: widget.isBorder
                       ? BorderStyle.solid
@@ -248,7 +252,7 @@ final FocusNode focusPass = FocusNode();
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: widget.borderRadius,
               borderSide: BorderSide(
-                  width: 0.5,
+                  width: 1,
                   color: widget.borderColor,
                   style: widget.isBorder
                       ? BorderStyle.solid

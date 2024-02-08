@@ -1,14 +1,11 @@
 
 
-import 'package:carpooling/data/datasource/remote/auth_remote_data.dart';
-import 'package:carpooling/data/network/network_info.dart';
-import 'package:carpooling/data/repository/repo_impl.dart';
-import 'package:carpooling/domain/usecases/auth_usecase.dart/login_usecase.dart';
+import 'package:carpooling/navigation/routes_constant.dart';
 import 'package:carpooling/presentation/pages/authmodule/view/screens/forgot_screen.dart';
 import 'package:carpooling/presentation/pages/authmodule/viewmodel/loginviewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
+
 
 import '../../../../utils/app_colors.dart';
 import '../../../../utils/app_dimens.dart';
@@ -17,8 +14,7 @@ import '../../../../utils/styles.dart';
 
 class ForgotPasswprdSection extends StatelessWidget {
    ForgotPasswprdSection({super.key});
-  final LoginController _controller = Get.put(LoginController(LoginUsecase(AuthRepositoryImp(NetworkInfoImpl(InternetConnectionChecker()),AuthRemoteDataSourceImp())))) ; 
-
+final LoginController _controller = Get.find<LoginController>() ;
   @override
   Widget build(BuildContext context) {
     return  Row(
@@ -32,19 +28,19 @@ class ForgotPasswprdSection extends StatelessWidget {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: AppColors.cAccentColor,
+                    color: AppColors.textPrimaryColor,
                     width: 1.6
                   ),
                   borderRadius: BorderRadius.circular(5.0)
                 ),
                 child: _.onTap.value
-                    ? const Icon(Icons.check,size: 13,color: AppColors.cAccentColor,)
+                    ? const Icon(Icons.check,size: 13,color: AppColors.textPrimaryColor,)
                     : null,
               );
             },
           ),
           onTap: (){ 
-            Get.to(()=>ForgotPassPage()) ;
+           
             _controller.onTap.value = !_controller.onTap.value;
           },
         ),
@@ -53,7 +49,7 @@ class ForgotPasswprdSection extends StatelessWidget {
           child: Text(
             'Remember Me' ,
             style: Styles().subHeaderStyle(
-                AppColors.cAccentColor,
+                 AppColors.textPrimaryColor,
                 AppDimens.subTextSize,
                 AppFonts.robotoRegular
             ),
@@ -62,7 +58,7 @@ class ForgotPasswprdSection extends StatelessWidget {
        const Spacer(),
         TextButton(
           onPressed: (){
-       
+        Get.toNamed(Approutes.forgetpass) ;
           },
           child: Text(
             'Forgot Password',

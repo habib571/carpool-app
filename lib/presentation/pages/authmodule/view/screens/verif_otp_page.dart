@@ -11,19 +11,24 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
+import '../../../../common/state_render_imp.dart';
+
 class OtpVerificationPage extends StatelessWidget {
   final OtpVerificationController _controller = Get.find<OtpVerificationController>() ;
   OtpVerificationPage({Key? key}) : super(key: key);
   final number = Get.arguments;
   @override
   Widget build(BuildContext context) {
-    final mediaQueryData = MediaQuery.of(context);
-    return MediaQuery(
-      data: mediaQueryData.copyWith(textScaleFactor: 1.0),
-      child: Scaffold(
-        backgroundColor: AppColors.cBackgroundColor,
-        body: _showBody(context),
-      ),
+
+    return Scaffold(
+      
+      body: StreamBuilder<FlowState>( 
+        stream:_controller.outputState,
+        builder:(context ,snapshot) {
+           return snapshot.data?.getScreenWidget(context, _showBody(context), () {_controller.start() ;} ) ?? _showBody(context); 
+           
+        }
+         )
     );
   }
 
@@ -68,7 +73,7 @@ class OtpVerificationPage extends StatelessWidget {
   Widget _showTitle() {
     return Text(
       'verify code',
-      style: Styles().subHeaderStyle(AppColors.cPrimaryColor,
+      style: Styles().subHeaderStyle(AppColors.cBackgroundColor,
           AppDimens.mediumSize, AppFonts.poppinsRegular),
       textAlign: TextAlign.center,
     );
@@ -90,15 +95,15 @@ class OtpVerificationPage extends StatelessWidget {
           },
           pinTheme: PinTheme(
               shape: PinCodeFieldShape.box,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(2),
               fieldHeight: 45,
               fieldWidth: 45,
-              selectedColor: AppColors.cAccentColor,
+              selectedColor: AppColors.primaryColor,
               inactiveColor: AppColors.cBorderColor,
               activeColor: AppColors.cBorderColor,
               inactiveFillColor: AppColors.cBorderColor,
-              selectedFillColor: AppColors.cBorderColor,
-              activeFillColor: AppColors.cBorderColor,
+              selectedFillColor: AppColors.accentColor,
+              activeFillColor: AppColors.accentColor,
               borderWidth: 1.2),
           keyboardType: TextInputType.number,
           animationDuration: const Duration(milliseconds: 300),
@@ -106,9 +111,9 @@ class OtpVerificationPage extends StatelessWidget {
           // controller: _authController.otpController,
           textStyle: const TextStyle(
               fontWeight: FontWeight.normal,
-              color: AppColors.cPrimaryColor,
+              color: AppColors.cBackgroundColor,
               fontSize: 28,
-              fontFamily: AppFonts.robotoRegular),
+              fontFamily: AppFonts.poppinsMedium),
         ),
       ),
     );
@@ -123,7 +128,7 @@ class OtpVerificationPage extends StatelessWidget {
         text: 'Verify',
         onPressed: () async {
           if (_controller.otpKey.currentState!.validate()) {
-            await _controller.verifyOtp(context);
+            await _controller.verifyOtp();
           }
         },
       ),
@@ -140,10 +145,10 @@ class OtpVerificationPage extends StatelessWidget {
           children: <TextSpan>[
             TextSpan(
                 text: 'Resend Code',
-                style: Styles().mediumTextStyle(AppColors.cPrimaryColor),
+                style: Styles().mediumTextStyle(AppColors.textPrimaryColor),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    _controller.resendOtp('29923303', context);
+                    _controller.resendOtp();
                   })
           ]),
     );
@@ -155,7 +160,7 @@ class OtpVerificationPage extends StatelessWidget {
         Text(
           'Resend in',
           style:
-              Styles().mediumTextStyle(const Color.fromARGB(255, 68, 97, 155)),
+              Styles().mediumTextStyle(AppColors.textPrimaryColor),
         ),
         const SizedBox(
           width: 10,
@@ -163,7 +168,7 @@ class OtpVerificationPage extends StatelessWidget {
         Obx(() {
           return Text(
             '${_controller.start.value}',
-            style: Styles().mediumTextStyle(AppColors.cPrimaryColor),
+            style: Styles().mediumTextStyle(AppColors.textPrimaryColor),
           );
         }),
       ],

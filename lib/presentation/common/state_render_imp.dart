@@ -1,9 +1,10 @@
 
-/*
+
 import 'package:carpooling/app/contants.dart';
 import 'package:carpooling/presentation/common/state_render.dart';
 import 'package:carpooling/presentation/utils/app_strings.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 abstract class FlowState {
   StateRendererType getStateRendererType();
@@ -82,22 +83,28 @@ class SuccessState extends FlowState {
 
 extension FlowStateExtension on FlowState {
   Widget getScreenWidget(BuildContext context, Widget contentScreenWidget,
-      Function retryActionFunction) {
+      Function() retryActionFunction) {
     switch (runtimeType) {
       case LoadingState:
         {
           if (getStateRendererType() == StateRendererType.popupLoadingState) {
             // show popup loading
-            showPopup(context, getStateRendererType(), getMessage());
-            // show content ui of the screen
+
+                        showPopup(context, getStateRendererType(), getMessage());
+         /*  WidgetsBinding.instance.addPostFrameCallback((_) =>    showDialog(
+        context: context,
+        builder: (_) => const Center(child: CircularProgressIndicator())) )*/
+
             return contentScreenWidget;
           } else {
             // full screen loading state
             return StateRenderer(
                 message: getMessage(),
                 stateRendererType: getStateRendererType(),
-                retryActionFunction: retryActionFunction);
+                retryActionFunction: retryActionFunction
+                );
           }
+         
         }
       case ErrorState:
         {
@@ -112,7 +119,7 @@ extension FlowStateExtension on FlowState {
             return StateRenderer(
                 message: getMessage(),
                 stateRendererType: getStateRendererType(),
-                retryActionFunction: retryActionFunction);
+                retryActionFunction: retryActionFunction );
           }
         }
       case EmptyState:
@@ -124,7 +131,7 @@ extension FlowStateExtension on FlowState {
         }
       case ContentState:
         {
-          dismissDialog(context);
+        //  dismissDialog(context);
           return contentScreenWidget;
         }
       case SuccessState:
@@ -140,7 +147,7 @@ extension FlowStateExtension on FlowState {
         }
       default:
         {
-          dismissDialog(context);
+         // dismissDialog(context);
           return contentScreenWidget;
         }
     }
@@ -149,9 +156,11 @@ extension FlowStateExtension on FlowState {
   _isCurrentDialogShowing(BuildContext context) =>
       ModalRoute.of(context)?.isCurrent != true;
 
-  dismissDialog(BuildContext context) {
-    if (_isCurrentDialogShowing(context)) {
-      Navigator.of(context, rootNavigator: true).pop(true);
+  dismissDialog(BuildContext context) async{
+    if (_isCurrentDialogShowing(context)) { 
+      
+            Navigator.of(context, rootNavigator: true).pop(true);
+      
     }
   }
 
@@ -160,6 +169,7 @@ extension FlowStateExtension on FlowState {
       {String title = Constants.empty}) {
     WidgetsBinding.instance.addPostFrameCallback((_) => showDialog(
         context: context,
+
         builder: (BuildContext context) => StateRenderer(
             stateRendererType: stateRendererType,
             message: message,
@@ -167,4 +177,3 @@ extension FlowStateExtension on FlowState {
             retryActionFunction: () {})));
   }
 }
-*/

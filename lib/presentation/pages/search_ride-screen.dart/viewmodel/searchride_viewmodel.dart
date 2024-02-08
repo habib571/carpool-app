@@ -11,8 +11,7 @@ class SearchRideController extends GetxController {
    } 
    void decrement() {  
     if(passengerNumber >1) {
-    passengerNumber -- ;
-
+        passengerNumber -- ;
      }
 
    }

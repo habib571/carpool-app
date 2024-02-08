@@ -1,22 +1,24 @@
 
-import 'contants.dart';
 
 extension NonNullString on String? {
   String orEmpty() {
     if (this == null) {
-      return Constants.empty;
+      return '';
     } else {
       return this!;
     }
   }
 }
 
+
+
 extension NonNullInteger on int? {
   int orZero() {
     if (this == null) {
-      return Constants.zero;
+      return 0;
     } else {
       return this!;
     }
   }
-}
+} 
+
