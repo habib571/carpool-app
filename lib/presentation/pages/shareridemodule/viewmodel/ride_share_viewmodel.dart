@@ -18,7 +18,6 @@ import 'dart:convert';
 import '../../../common/state_render_imp.dart';
 
 class RideSharingController extends GetxController {
-
   final dateController = TextEditingController();
   final timeController = TextEditingController();
   final departController = TextEditingController();
@@ -29,19 +28,19 @@ class RideSharingController extends GetxController {
   FocusNode dateFocusNode = FocusNode();
   FocusNode timeFocusNode = FocusNode();
   FocusNode priceFocusNode = FocusNode();
-  final GlobalKey<FormState> locationformKey = GlobalKey<FormState>(); 
-    GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> locationformKey = GlobalKey<FormState>();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   DraggableScrollableController scrollableController =
       DraggableScrollableController();
   CameraPosition? camPos;
-RxSet<Marker> markers = <Marker>{}.obs;
+  RxSet<Marker> markers = <Marker>{}.obs;
   RxMap<PolylineId, Polyline> polylines = <PolylineId, Polyline>{}.obs;
   RxList<int> itemlist = [1, 2, 3, 4].obs;
   RxInt dropValue = 1.obs;
   RxString date = ''.obs;
   String time = '';
   final CameraPosition initialLocation =
-  const CameraPosition(target: LatLng(0.0, 0.0));
+      const CameraPosition(target: LatLng(0.0, 0.0));
   late GoogleMapController mapController;
   late Position currentPosition;
   late PolylinePoints polylinePoints;
@@ -51,17 +50,17 @@ RxSet<Marker> markers = <Marker>{}.obs;
   final uuid = const Uuid();
   RxString sessionToken = ''.obs;
   RxList placeList = [].obs;
-  List<LatLng> polylineCoordinates = []; 
-   RxDouble placeDistance = 0.0.obs ;
+  List<LatLng> polylineCoordinates = [];
+  RxDouble placeDistance = 0.0.obs;
 
   RxBool istap = true.obs;
   RxBool disablePrediction = true.obs;
 
   String? validate(String val) {
-     if (val.isEmpty) {
-       return 'cannot be empty';
-     } 
-      return null ;
+    if (val.isEmpty) {
+      return 'cannot be empty';
+    }
+    return null;
   }
 
   onStartAdressChanged() {
@@ -130,7 +129,8 @@ RxSet<Marker> markers = <Marker>{}.obs;
   calculateDistance() async {
     try {
       // Retrieving placemarks from addresses
-      List<Location>? startPlacemark = await locationFromAddress(startaddress.value);
+      List<Location>? startPlacemark =
+          await locationFromAddress(startaddress.value);
       List<Location>? destinationPlacemark =
           await locationFromAddress(destinationAddress.value);
 
@@ -218,11 +218,8 @@ RxSet<Marker> markers = <Marker>{}.obs;
         ),
       );
 
-
-
       await _createPolylines(startLatitude, startLongitude, destinationLatitude,
           destinationLongitude);
-
 
       // Calculating the total distance by adding the distance
       // between small segments
@@ -235,19 +232,15 @@ RxSet<Marker> markers = <Marker>{}.obs;
         );
       }
 
-     
-       
-        print('DISTANCE: ${placeDistance.value} km');
-      
-    update() ;
-      
-    } catch (e) {  
-        print(e) ;
+      print('DISTANCE: ${placeDistance.value} km');
+
+      update();
+    } catch (e) {
+      print(e);
     }
-   
   }
 
-   _createPolylines(
+  _createPolylines(
     double startLatitude,
     double startLongitude,
     double destinationLatitude,
@@ -275,44 +268,61 @@ RxSet<Marker> markers = <Marker>{}.obs;
       width: 3,
     );
     polylines[id] = polyline;
-  } 
-    double _coordinateDistance(lat1, lon1, lat2, lon2) {
+  }
+
+  double _coordinateDistance(lat1, lon1, lat2, lon2) {
     var p = 0.017453292519943295;
     var c = cos;
     var a = 0.5 -
         c((lat2 - lat1) * p) / 2 +
         c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
     return 12742 * asin(sqrt(a));
-  }   
-  final RideInfoController _ct = Get.find() ;
- final CreateRideUseCase _createRideUseCase ; 
- RideSharingController(this._createRideUseCase)  ;  
-   final stateController = StreamController<FlowState>();
+  }
+
+  final RideInfoController _ct = Get.find();
+  final CreateRideUseCase _createRideUseCase;
+  RideSharingController(this._createRideUseCase);
+  final stateController = StreamController<FlowState>();
   late Stream<FlowState> _stateStream;
   Stream<FlowState> get outputState =>
       _stateStream.map((flowState) => flowState);
-createRide() async {  
-  stateController.add(LoadingState(stateRendererType: StateRendererType.fullScreenLoadingState)) ;
-   (await _createRideUseCase.createRide(
-    ShareRideRequest( startaddress.value,destinationAddress.value, dropValue.value , timeController.text, dateController.text, double.parse(priceController.text), placeDistance.value, '' ,'' ))  )
-    .fold(
-      (failure)  => stateController.add(ErrorState(StateRendererType.popupErrorState, failure.message)), (r) {  _ct.getLatestRide() ; Get.toNamed(Approutes.shareride) ; }) ; 
-} 
-  void start() {  
-      _stateStream = stateController.stream.asBroadcastStream(); 
-     stateController.add(ContentState()) ;
+  createRide() async {
+    stateController.add(LoadingState(
+        stateRendererType: StateRendererType.fullScreenLoadingState));
+    (await _createRideUseCase.createRide(ShareRideRequest(
+            startaddress.value,
+            destinationAddress.value,
+            dropValue.value,
+            timeController.text,
+            dateController.text,
+            double.parse(priceController.text),
+            placeDistance.value,
+            '',
+            '')))
+        .fold(
+            (failure) => stateController.add(
+                ErrorState(StateRendererType.popupErrorState, failure.message)),
+            (r) {
+      _ct.getLatestRide();
+      Get.toNamed(Approutes.shareride);
+    });
+  }
+
+  void start() {
+    _stateStream = stateController.stream.asBroadcastStream();
+    stateController.add(ContentState());
   }
 
   @override
   void onInit() {
-    // getCurrentLocation() ; 
-    start() ;
+    // getCurrentLocation() ;
+    start();
     departController.addListener(() {
       onStartAdressChanged();
     });
     arriveController.addListener(() {
       onDestinationAdressChanged();
     });
-    super.onInit(); 
+    super.onInit();
   }
 }

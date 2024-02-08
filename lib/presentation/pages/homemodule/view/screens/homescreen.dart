@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
       screens: [ 
        const SearchRideScreen() ,
        const MessagesScreen(),
-        RideFormScreen() ,
+        ShareRideScreen() ,
        ProfilMode()
       ],
       backgroundColor: AppColors.accentColor,

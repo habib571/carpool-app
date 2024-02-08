@@ -6,6 +6,9 @@ import 'package:dartz/dartz.dart';
 
 abstract class RidesRepository {
   Future<Either<Failure,BaseResponse>> createRide(ShareRideRequest shareRideRequest) ; 
-  Future<Either<Failure,RideResponse>>  getLatestRide() ;  
+  Future<Either<Failure,RideResponse>>  getLatestRide() ;   
+  Future<Either<Failure, BaseResponse>>   deleteRide(String rideId) ;   
+
+
 
 }

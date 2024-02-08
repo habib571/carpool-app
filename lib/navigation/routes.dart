@@ -13,6 +13,7 @@ import 'package:carpooling/presentation/pages/profilmodule/view/screens/edit_mod
 import 'package:carpooling/presentation/pages/profilmodule/view/screens/myprofil_screen.dart';
 import 'package:carpooling/presentation/pages/search_ride-screen.dart/view/screen/slelect_date_screen.dart';
 import 'package:carpooling/presentation/pages/shareridemodule/view/screens/loacation_scree.dart';
+import 'package:carpooling/presentation/pages/shareridemodule/view/screens/rid_from_screen.dart';
 import 'package:carpooling/presentation/pages/shareridemodule/view/screens/share_ride_screen.dart';
 import 'package:carpooling/presentation/pages/splash/view/splashscreen.dart';
 import 'package:get/get.dart';
@@ -35,7 +36,8 @@ List<GetPage<dynamic>>? routes = [
   //GetPage(name: Approutes.googleLogin, page: ()=> GooglAuthScreen())  ,
   GetPage(name: Approutes.forgetpass, page: ()=>const ForgotPassPage()) , 
   GetPage(name: Approutes.selelectgender, page: ()=>GenderPage()) ,
-  GetPage(name: Approutes.shareride ,page:()=> ShareRideScreen() )
+  GetPage(name: Approutes.shareride ,page:()=> ShareRideScreen() )  ,
+GetPage(name: Approutes.rideform, page: ()=> RideFormScreen())
   ]; 
 
 

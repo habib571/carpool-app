@@ -131,7 +131,7 @@ extension FlowStateExtension on FlowState {
         }
       case ContentState:
         {
-        //  dismissDialog(context);
+         dismissDialog(context);
           return contentScreenWidget;
         }
       case SuccessState:
@@ -147,7 +147,7 @@ extension FlowStateExtension on FlowState {
         }
       default:
         {
-         // dismissDialog(context);
+         dismissDialog(context);
           return contentScreenWidget;
         }
     }

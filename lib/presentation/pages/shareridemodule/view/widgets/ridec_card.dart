@@ -28,9 +28,11 @@ class RideCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: AppUtility().contentHeight(context) * 0.35,
-      decoration: BoxDecoration(
-          border: Border.all(color: AppColors.greyColor, width: 2),
-          borderRadius: BorderRadius.circular(20)),
+      decoration: BoxDecoration( 
+        color:  AppColors.accentColor,
+         // border: Border.all(color: AppColors.greyColor, width: 2),
+          borderRadius: BorderRadius.circular(8)
+          ),
       child: Padding(
         padding: const EdgeInsets.all(15),
         child: Column(

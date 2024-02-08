@@ -77,7 +77,7 @@ class RideFormScreen extends StatelessWidget {
       label: 'Date',
       controller: _controller.dateController,
       focusNode: _controller.dateFocusNode,
-      hintext: '23/10/2023',
+      hintext: 'Tap here choose date ',
       ontap: () {
         Get.to(() => SelectDatePage(),
             transition: Transition.downToUp,
@@ -97,7 +97,7 @@ class RideFormScreen extends StatelessWidget {
       readOnly: true,
       controller: _controller.timeController,
       focusNode: _controller.timeFocusNode,
-      hintext: '10:50',
+      hintext: 'Tap Here to choose time',
       ontap: () {
          Get.to(() => const WheelPickerExample(),
             transition: Transition.downToUp,

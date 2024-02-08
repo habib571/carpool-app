@@ -9,7 +9,8 @@ import 'package:carpooling/data/responses/rides_responses.dart';
 import 'package:http/http.dart' as http;
 abstract class RideRemoteDatsource {
  Future<BaseResponse>  createRide(ShareRideRequest shareRideRequest) ;  
- Future<RideResponse> getLatestRide() ;
+ Future<RideResponse> getLatestRide() ; 
+ Future<BaseResponse> deleteRide( String rideId) ;
 } 
 class RideRemoteDatsourceImp implements RideRemoteDatsource { 
    @override 
@@ -61,5 +62,20 @@ class RideRemoteDatsourceImp implements RideRemoteDatsource {
     print(encoderesp);
 
     return RideResponse.fromJson(encoderesp);
+  }
+  
+  @override 
+  Future<BaseResponse> deleteRide(String rideId)  async{ 
+final token = await Apppreference.getBearerToken() ;
+     final response = await http.delete(Uri.parse('${Constants.baseUrl}/api/rides/delete-ride/$rideId') , headers: {
+          'Accept': 'application/json' ,
+          'Content-Type': 'application/json' ,
+           'Authorization':
+          'Bearer $token',
+        } ,) ;  
+      final encoderesp = jsonDecode(response.body); 
+       return BaseResponse.fromJson(encoderesp) ;
+       
+    
   }
 }

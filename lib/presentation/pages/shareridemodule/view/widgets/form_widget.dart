@@ -56,7 +56,7 @@ class FormSection extends StatelessWidget {
             hintStyle: const TextStyle(
             fontFamily: AppFonts.robotoRegular,
             fontSize: AppDimens.subTextSize,
-            color: AppColors.cTextColor,
+            color: AppColors.greyColor,
         ),
            isSuffixIcon: true ,
            suffixIcon: Transform.scale(
