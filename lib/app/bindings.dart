@@ -54,7 +54,7 @@ class AppBindings implements Bindings {
     Get.lazyPut<ProfilController>( fenix :true ,()=> ProfilController(LogoutUseCase(UserInfoRepositpryImp(UserInfoRemoteDataSourceImp(),NetworkInfoImpl(InternetConnectionChecker()))) , GetUserDataUseCase(UserInfoRepositpryImp(UserInfoRemoteDataSourceImp(),NetworkInfoImpl(InternetConnectionChecker())))) , ) ; 
     Get.put<CheckEmailController>(CheckEmailController()) ; 
     Get.lazyPut<EditProfilController>( fenix: true , ()=> EditProfilController(UpdateInfoUsecae(UserInfoRepositpryImp(UserInfoRemoteDataSourceImp() ,NetworkInfoImpl(InternetConnectionChecker()))) ) )  ; 
-  Get.lazyPut(fenix: true , ()=> RideInfoController(GetRidesUseCase(RidesRepositoryImp(NetworkInfoImpl(InternetConnectionChecker()),RideRemoteDatsourceImp()))))  ;
+  //Get.lazyPut(fenix: true , ()=> RideInfoController(GetRidesUseCase(RidesRepositoryImp(NetworkInfoImpl(InternetConnectionChecker()),RideRemoteDatsourceImp()))))  ;
     
       }
 }

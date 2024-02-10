@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:carpooling/domain/models/ride.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/get_ride_uses_case.dart';
 import 'package:carpooling/navigation/routes_constant.dart';
+import 'package:carpooling/presentation/pages/homemodule/view/screens/homescreen.dart';
 import 'package:carpooling/presentation/utils/app_constants.dart';
 import 'package:get/get.dart';
 
@@ -36,7 +37,8 @@ class RideInfoController extends GetxController {
       await _getRidesUseCase.getLatestRide()
     ).fold((failure) => stateController.add(ErrorState(StateRendererType.popupErrorState, failure.message)), 
     (data) {
-    ride = data.rideData!.ride!  ;      
+    ride = data.rideData!.ride!  ;  
+    update() ;     
     } ) ;
    } 
    deletRide() async  { 
@@ -44,8 +46,9 @@ class RideInfoController extends GetxController {
     (
       await _getRidesUseCase.deletRide(ride!.id.toString())
     ).fold((failure) => stateController.add(ErrorState(StateRendererType.popupErrorState, failure.message)), 
-    (data) { 
-      Get.offAndToNamed(Approutes.rideform) ;
+    (data) {  
+  
+      Get.offAll(()=>const HomeScreen()) ;
     } );
    }
    

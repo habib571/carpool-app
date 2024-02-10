@@ -39,7 +39,7 @@ class UserInfoRemoteDataSourceImp implements UserInfoRemoteDataSource {
 
   @override
   Future<UserResponse> getUserData() async {
-    final bearerToken = await Apppreference.getLoginoken(); 
+    final bearerToken = await Apppreference.getBearerToken() ;
      final  uid = await Apppreference.getUserId() ;
     final response = await http.get(
         Uri.parse(
@@ -58,7 +58,7 @@ class UserInfoRemoteDataSourceImp implements UserInfoRemoteDataSource {
   @override
   Future<AuthResponse> updateUserInfo(
       UpdateInfoRequest updateInfoRequest) async { 
-   final bearerToken = await Apppreference.getLoginoken(); 
+   final bearerToken = await Apppreference.getBearerToken() ;
      final  uid = await Apppreference.getUserId() ;
     final body = {
       'first_name': updateInfoRequest.firstname,
@@ -110,12 +110,15 @@ class UserInfoRemoteDataSourceImp implements UserInfoRemoteDataSource {
   }
 
   @override
-  Future<AuthResponse> upadatePicture(String imagePath) async {
-    const url = '${Constants.baseUrl}/api/user/update/info/4260ee71-cfb5-48b9-8f02-84590d3fe682';
+  Future<AuthResponse> upadatePicture(String imagePath) async { 
+    final  uid = await Apppreference.getUserId() ;
+    String url = '${Constants.baseUrl}/api/user/update/info/$uid'; 
+
+    final bearerToken = await Apppreference.getBearerToken() ;
   
   var request = http.MultipartRequest('POST', Uri.parse(url));
   request.headers['Accept'] = 'application/json';
-  request.headers['Authorization'] = 'Bearer 15|2ldRXEcJfC4LKE5JM7R2c9VqIIgTTqjccnaXD7Rif187869d';
+  request.headers['Authorization'] = bearerToken!;
   
   // Add other fields as needed
   request.fields['profile_picture'] = 'profile_pictures/$imagePath';

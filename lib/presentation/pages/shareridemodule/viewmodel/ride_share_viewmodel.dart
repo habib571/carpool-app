@@ -4,7 +4,6 @@ import 'package:carpooling/data/network/requests.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/rides_usecase.dart';
 import 'package:carpooling/navigation/routes_constant.dart';
 import 'package:carpooling/presentation/common/state_render.dart';
-import 'package:carpooling/presentation/pages/shareridemodule/viewmodel/ride_info_view_model.dart';
 import 'package:carpooling/presentation/utils/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -75,11 +74,11 @@ class RideSharingController extends GetxController {
 
   void getSuggestion(String input) async {
     String kplacesApiKey = "AIzaSyAmLpS4M-oVzBlbyo90OZp_3QR3_fJbDMQ";
-    String type = '(regions)';
+    String components = 'country:tn';
     String baseURL =
         'https://maps.googleapis.com/maps/api/place/autocomplete/json';
     String request =
-        '$baseURL?input=$input&key=$kplacesApiKey&sessiontoken=${sessionToken.value}';
+        '$baseURL?input=$input&key=$kplacesApiKey&components=$components&sessiontoken=${sessionToken.value}';
     var response = await http.get(
       Uri.parse(request),
     );
@@ -279,7 +278,8 @@ class RideSharingController extends GetxController {
     return 12742 * asin(sqrt(a));
   }
 
-  final RideInfoController _ct = Get.find();
+ 
+   //final RideInfoController _ct =  Get.put( RideInfoController(GetRidesUseCase(RidesRepositoryImp(NetworkInfoImpl(InternetConnectionChecker()),RideRemoteDatsourceImp()))))  ;
   final CreateRideUseCase _createRideUseCase;
   RideSharingController(this._createRideUseCase);
   final stateController = StreamController<FlowState>();
@@ -303,7 +303,7 @@ class RideSharingController extends GetxController {
             (failure) => stateController.add(
                 ErrorState(StateRendererType.popupErrorState, failure.message)),
             (r) {
-      _ct.getLatestRide();
+      //_ct.getLatestRide();
       Get.toNamed(Approutes.shareride);
     });
   }

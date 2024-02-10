@@ -129,7 +129,7 @@ void switchMode() {
   @override
   void onInit() {
     _stateStream = stateController.stream.asBroadcastStream();
-   // start();
+    start();
     super.onInit();
   }
 
