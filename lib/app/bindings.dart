@@ -1,12 +1,9 @@
 import 'package:carpooling/data/datasource/remote/auth_remote_data.dart';
-import 'package:carpooling/data/datasource/remote/rides_remote_datasource.dart';
 import 'package:carpooling/data/datasource/remote/userinfo_remote_datasource.dart';
 import 'package:carpooling/data/network/network_info.dart';
 import 'package:carpooling/data/repository/repo_impl.dart';
-import 'package:carpooling/data/repository/rides_repo_impl.dart';
 import 'package:carpooling/data/repository/user_info_repo_impl.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/forgot_pass_use_case.dart';
-import 'package:carpooling/domain/usecases/auth_usecase.dart/get_ride_uses_case.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/get_user_data_use_case.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/login_usecase.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/logout_use_case.dart';
@@ -21,7 +18,6 @@ import 'package:carpooling/presentation/pages/onboarding/viewmodel/onboardingvie
 import 'package:carpooling/presentation/pages/profilmodule/viewmodel/profil_viewmodel.dart';
 import 'package:carpooling/presentation/pages/profilmodule/viewmodel/verif_mail_viewmodel.dart';
 import 'package:carpooling/presentation/pages/search_ride-screen.dart/viewmodel/searchride_viewmodel.dart';
-import 'package:carpooling/presentation/pages/shareridemodule/viewmodel/ride_info_view_model.dart';
 import 'package:carpooling/presentation/pages/splash/viewmodel/splashviewmodel.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -50,11 +46,11 @@ class AppBindings implements Bindings {
             AuthRemoteDataSourceImp()))));
 
 
-    Get.put<SearchRideController>(SearchRideController()) ; 
     Get.lazyPut<ProfilController>( fenix :true ,()=> ProfilController(LogoutUseCase(UserInfoRepositpryImp(UserInfoRemoteDataSourceImp(),NetworkInfoImpl(InternetConnectionChecker()))) , GetUserDataUseCase(UserInfoRepositpryImp(UserInfoRemoteDataSourceImp(),NetworkInfoImpl(InternetConnectionChecker())))) , ) ; 
     Get.put<CheckEmailController>(CheckEmailController()) ; 
     Get.lazyPut<EditProfilController>( fenix: true , ()=> EditProfilController(UpdateInfoUsecae(UserInfoRepositpryImp(UserInfoRemoteDataSourceImp() ,NetworkInfoImpl(InternetConnectionChecker()))) ) )  ; 
-  //Get.lazyPut(fenix: true , ()=> RideInfoController(GetRidesUseCase(RidesRepositoryImp(NetworkInfoImpl(InternetConnectionChecker()),RideRemoteDatsourceImp()))))  ;
+  //Get.lazyPut(fenix: true , ()=> RideInfoController(GetRidesUseCase(RidesRepositoryImp(NetworkInfoImpl(InternetConnectionChecker()),RideRemoteDatsourceImp()))))  ; 
+    Get.lazyPut(() => SearchRideController()) ;
     
       }
 }

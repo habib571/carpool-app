@@ -1,30 +1,32 @@
-import 'package:carpooling/presentation/component/custom_calendar.dart';
 import 'package:carpooling/presentation/component/primary_button.dart';
-import 'package:carpooling/presentation/pages/shareridemodule/viewmodel/ride_share_viewmodel.dart';
+import 'package:carpooling/presentation/pages/search_ride-screen.dart/viewmodel/searchride_viewmodel.dart';
 import 'package:carpooling/presentation/utils/app_colors.dart';
 import 'package:carpooling/presentation/utils/app_dimens.dart';
 import 'package:carpooling/presentation/utils/app_fonts.dart';
 import 'package:carpooling/presentation/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../widget/custom_calend.dart';
 class SelectDateScreen extends StatelessWidget {
   SelectDateScreen({super.key});
-  final RideSharingController _ct = Get.find() ;
+  final  SearchRideController _ct = Get.find() ;
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
       body: Column(
         children: [
-         Padding(
-           padding: const EdgeInsets.only(bottom: 30 ,top: 20 ,left:10),
+        Padding(
+           padding: const EdgeInsets.only(bottom: 30 ,top: 20 ,left:20),
            child: Align( 
             alignment: Alignment.topLeft,
-            child: IconButton(
-              onPressed: () {
-                  Get.back() ;
-              }, 
-              icon: const Icon(Icons.arrow_back)
-              )
+            child: InkWell(
+              onTap: () { 
+               Get.back() ;
+              } , 
+              child: const Image( height: 35,width :35  ,image:AssetImage('assets/icons/cross.png'))
+              
+            )
             ),
          ) ,
          _showBody()
@@ -39,7 +41,7 @@ class SelectDateScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _showTitle(),
-           CustomCalendar(),
+            Calendar( ),
           _showSetDateButton(),
         ],
       ),
@@ -75,8 +77,8 @@ Widget _showTitle() {
               text: 'Set Date',
               btnTxtStyle: Styles().h2TextStyleRoboto(AppColors.cPrimaryColor),
               onPressed: (){ 
-                 _ct.dateController.text = _ct.date.value ; 
-                Get.back();
+                 print(_ct.selectedDate) ;
+                 Get.back() ;
               }
             ),
           ),

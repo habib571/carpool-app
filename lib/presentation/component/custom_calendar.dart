@@ -1,7 +1,6 @@
 import 'package:carpooling/presentation/pages/shareridemodule/viewmodel/ride_share_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../utils/app_colors.dart';

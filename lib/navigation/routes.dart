@@ -11,7 +11,7 @@ import 'package:carpooling/presentation/pages/homemodule/view/screens/homescreen
 import 'package:carpooling/presentation/pages/onboarding/view/onbardingscreen.dart';
 import 'package:carpooling/presentation/pages/profilmodule/view/screens/edit_mode_screen.dart';
 import 'package:carpooling/presentation/pages/profilmodule/view/screens/myprofil_screen.dart';
-import 'package:carpooling/presentation/pages/search_ride-screen.dart/view/screen/slelect_date_screen.dart';
+import 'package:carpooling/presentation/pages/search_ride-screen.dart/view/screen/date_screen.dart';
 import 'package:carpooling/presentation/pages/shareridemodule/view/screens/loacation_scree.dart';
 import 'package:carpooling/presentation/pages/shareridemodule/view/screens/rid_from_screen.dart';
 import 'package:carpooling/presentation/pages/shareridemodule/view/screens/share_ride_screen.dart';

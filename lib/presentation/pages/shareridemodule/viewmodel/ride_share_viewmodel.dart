@@ -278,8 +278,7 @@ class RideSharingController extends GetxController {
     return 12742 * asin(sqrt(a));
   }
 
- 
-   //final RideInfoController _ct =  Get.put( RideInfoController(GetRidesUseCase(RidesRepositoryImp(NetworkInfoImpl(InternetConnectionChecker()),RideRemoteDatsourceImp()))))  ;
+  //final RideInfoController _ct =  Get.put( RideInfoController(GetRidesUseCase(RidesRepositoryImp(NetworkInfoImpl(InternetConnectionChecker()),RideRemoteDatsourceImp()))))  ;
   final CreateRideUseCase _createRideUseCase;
   RideSharingController(this._createRideUseCase);
   final stateController = StreamController<FlowState>();

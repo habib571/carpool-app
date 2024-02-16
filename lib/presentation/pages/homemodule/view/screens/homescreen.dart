@@ -21,7 +21,7 @@ class HomeScreen extends StatelessWidget {
       navBarHeight: AppUtility().contentWidth(context) * .22,
       items: _navBarsItems(),
       screens: [ 
-       const SearchRideScreen() ,
+        SearchRideScreen() ,
        const MessagesScreen(),
         RideFormScreen() ,
        ProfilMode()

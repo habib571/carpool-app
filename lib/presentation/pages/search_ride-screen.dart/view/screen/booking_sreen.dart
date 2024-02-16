@@ -1,7 +1,7 @@
 import 'package:carpooling/presentation/component/dotted_line.dart';
 import 'package:carpooling/presentation/component/primary_button.dart';
 import 'package:carpooling/presentation/pages/search_ride-screen.dart/view/screen/passengers_screen.dart';
-import 'package:carpooling/presentation/pages/search_ride-screen.dart/view/screen/slelect_date_screen.dart';
+import 'package:carpooling/presentation/pages/search_ride-screen.dart/view/screen/date_screen.dart';
 import 'package:carpooling/presentation/utils/app_colors.dart';
 import 'package:carpooling/presentation/utils/app_dimens.dart';
 import 'package:carpooling/presentation/utils/app_fonts.dart';
