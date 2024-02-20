@@ -1,5 +1,7 @@
 import 'package:carpooling/presentation/component/components.dart';
 import 'package:carpooling/presentation/pages/search_ride-screen.dart/view/screen/date_screen.dart';
+import 'package:carpooling/presentation/pages/search_ride-screen.dart/view/screen/location_screen.dart';
+import 'package:carpooling/presentation/pages/search_ride-screen.dart/view/screen/search_result_screen.dart';
 import 'package:carpooling/presentation/pages/search_ride-screen.dart/view/widget/Info_card.dart';
 import 'package:carpooling/presentation/pages/search_ride-screen.dart/view/widget/passenger_widet.dart';
 import 'package:carpooling/presentation/utils/app_utility.dart';
@@ -83,76 +85,81 @@ class SearchRideScreen extends StatelessWidget {
   }
 
   Widget _showLocationSection(BuildContext context) {
-    return Container(
-      height: AppUtility().contentHeight(context) * 0.2,
-      decoration: BoxDecoration(
-          color: AppColors.accentColor,
-          //border: Border.all(color: AppColors.greyColor, width: 1),
-          borderRadius: BorderRadius.circular(20)),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
-        child: Row(
-          //crossAxisAlignment: CrossAxisAlignment.center,
-          //mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const DottedLine(),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  flex: 6,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'from',
-                        style: Styles().h5TextStyle(
-                          AppColors.cTextLightColor,
+    return InkWell(
+      onTap: () {
+        Get.to(()=>const LocationScreen()) ;
+      },
+      child: Container(
+        height: AppUtility().contentHeight(context) * 0.2,
+        decoration: BoxDecoration(
+            color: AppColors.accentColor,
+            //border: Border.all(color: AppColors.greyColor, width: 1),
+            borderRadius: BorderRadius.circular(20)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 25),
+          child: Row(
+            //crossAxisAlignment: CrossAxisAlignment.center,
+            //mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const DottedLine(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 6,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'from',
+                          style: Styles().h5TextStyle(
+                            AppColors.cTextLightColor,
+                          ),
                         ),
-                      ),
-                      Text(
-                        AppStrings.locationAddress,
-                        style: Styles().pTextStyle(
-                          AppColors.cBackgroundColor,
+                        Text(
+                          AppStrings.locationAddress,
+                          style: Styles().pTextStyle(
+                            AppColors.cBackgroundColor,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-
-                // _showFromAddress(),
-                const Divider(
-                  thickness: 1,
-                  color: AppColors.cBorderLineColor,
-                ),
-
-                Expanded(
-                  flex: 8,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'to',
-                        style: Styles().h5TextStyle(
-                          AppColors.cTextLightColor,
-                        ),
-                      ),
-                      Text(
-                        AppStrings.locationAddress,
-                        style: Styles().pTextStyle(
-                          AppColors.cBackgroundColor,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
+      
+                  // _showFromAddress(),
+                  const Divider(
+                    thickness: 1,
+                    color: AppColors.cBorderLineColor,
                   ),
-                ),
-
-                // _showToAddress(),
-              ],
-            ),
-          ],
+      
+                  Expanded(
+                    flex: 8,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'to',
+                          style: Styles().h5TextStyle(
+                            AppColors.cTextLightColor,
+                          ),
+                        ),
+                        Text(
+                          AppStrings.locationAddress,
+                          style: Styles().pTextStyle(
+                            AppColors.cBackgroundColor,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+      
+                  // _showToAddress(),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -186,7 +193,9 @@ class SearchRideScreen extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 35),
       child: PrimaryButton(
-        onPressed: () {},
+        onPressed: () {
+          Get.to(()=> const SearchResultScreen()) ;
+        },
         text: 'Find',
       ),
     );

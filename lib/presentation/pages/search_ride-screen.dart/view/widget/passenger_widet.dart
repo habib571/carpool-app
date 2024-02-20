@@ -35,7 +35,7 @@ class PassengerCard extends StatelessWidget {
                 children: [
                   InkWell(
                       onTap: () {
-                        _controller.decrement();
+                        _controller.decrementPassenger();
                       },
                       child: Image(
                           height: 30,
@@ -55,7 +55,7 @@ class PassengerCard extends StatelessWidget {
                   ),
                   InkWell(
                       onTap: () {
-                        _controller.increment();
+                        _controller.incrementPassneger();
                       },
                       child: Image(
                           height: 30,

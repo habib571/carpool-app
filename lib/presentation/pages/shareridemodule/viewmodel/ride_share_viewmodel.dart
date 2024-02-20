@@ -39,7 +39,7 @@ class RideSharingController extends GetxController {
   RxString date = ''.obs;
   String time = '';
   final CameraPosition initialLocation =
-      const CameraPosition(target: LatLng(0.0, 0.0));
+  const CameraPosition(target: LatLng(0.0, 0.0));
   late GoogleMapController mapController;
   late Position currentPosition;
   late PolylinePoints polylinePoints;
@@ -82,7 +82,8 @@ class RideSharingController extends GetxController {
     var response = await http.get(
       Uri.parse(request),
     );
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200) { 
+       //print( ' predictions : _____________________${response.body}') ;
       placeList.value = json.decode(response.body)['predictions'];
     } else {
       throw Exception('Failed to load predictions');
@@ -94,7 +95,7 @@ class RideSharingController extends GetxController {
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) async {
       currentPosition = position;
-      print('CURRENT POS: $currentPosition');
+      //print('CURRENT POS: $currentPosition');
       mapController.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
@@ -106,7 +107,7 @@ class RideSharingController extends GetxController {
 
       await _getAddress();
     }).catchError((e) {
-      print("errorrrr");
+     // print("errorrrr");
     });
   }
 

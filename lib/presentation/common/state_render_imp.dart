@@ -4,7 +4,6 @@ import 'package:carpooling/app/contants.dart';
 import 'package:carpooling/presentation/common/state_render.dart';
 import 'package:carpooling/presentation/utils/app_strings.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 abstract class FlowState {
   StateRendererType getStateRendererType();
