@@ -16,8 +16,7 @@ import '../../viewmodel/searchride_viewmodel.dart';
 import 'package:intl/intl.dart';
 
 class SearchRideScreen extends StatelessWidget {
-  SearchRideScreen({super.key});
-  final SearchRideController _controller = Get.find();
+  const SearchRideScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(

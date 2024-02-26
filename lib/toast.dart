@@ -94,6 +94,7 @@ class LinearProgressIndicatorClass extends StatefulWidget {
   const LinearProgressIndicatorClass({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _LinearProgressIndicatorClassState createState() => _LinearProgressIndicatorClassState();
 }
 

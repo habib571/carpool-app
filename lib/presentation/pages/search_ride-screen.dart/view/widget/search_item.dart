@@ -123,6 +123,7 @@ class _SearchListItemState extends State<SearchListItem> {
                       color: AppColors.cRatingColor,
                     ),
                     onRatingUpdate: (rating) {
+                      // ignore: avoid_print
                       print(rating);
                     },
                   ),
@@ -184,7 +185,9 @@ class _SearchListItemState extends State<SearchListItem> {
                  mainAxisAlignment: MainAxisAlignment.center,
                  children: [
                   const Spacer(),
-                   SvgPicture.asset('assets/icons/clock.svg'),
+                   SvgPicture.asset( 
+                    'assets/icons/clock.svg' , 
+                    ),
                    Padding(
                      padding: const EdgeInsets.only(left:5.0),
                      child: Text(

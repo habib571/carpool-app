@@ -1,8 +1,9 @@
+ // ignore_for_file: avoid_print
+
  import 'package:carpooling/data/datasource/remote/rides_remote_datasource.dart';
 import 'package:carpooling/data/network/error_handler.dart';
 import 'package:carpooling/data/network/failure.dart';
 import 'package:carpooling/data/network/requests.dart';
-import 'package:carpooling/data/responses/auth_response.dart';
 import 'package:carpooling/data/responses/base_response.dart';
 import 'package:carpooling/data/responses/rides_responses.dart';
 import 'package:carpooling/domain/repository/rides_repository.dart';

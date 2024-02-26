@@ -1,5 +1,8 @@
+import 'package:carpooling/presentation/component/components.dart';
+import 'package:carpooling/presentation/pages/search_ride-screen.dart/view/screen/ride_details_screen.dart';
 import 'package:carpooling/presentation/pages/search_ride-screen.dart/view/widget/search_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import '../../../../utils/app_colors.dart';
 import '../../../../utils/app_strings.dart';
@@ -21,7 +24,7 @@ class SearchResultScreen extends StatelessWidget {
   
   Widget _showBody(BuildContext ctx) {
     return Column(
-      children: [ _showTtile(ctx) ,_buildListBottomSheet(ctx)],
+      children: [ _showTtile(ctx) ,_showBookingOverlay(ctx)],
     );
   }
 
@@ -35,13 +38,7 @@ class SearchResultScreen extends StatelessWidget {
              child: Row( 
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [ 
-                     IconButton(onPressed: () {
-                 Get.back() ;
-                 }, icon: const Icon(
-                  Icons.arrow_back_ios, 
-                  color: AppColors.blackcolor,
-                  )
-                 ) ,
+                  SvgPicture.asset("assets/icons/arrow_right.svg") ,
                  Text( 
                   'Search Result' ,
                   style: Styles().h1TitleStyle(AppColors.primaryColor),
@@ -72,6 +69,7 @@ class SearchResultScreen extends StatelessWidget {
           ),
           child: _buildListBottomSheet(ctx),
         ),
+       
       ],
     );
   }
@@ -95,7 +93,7 @@ class SearchResultScreen extends StatelessWidget {
                         imageUrl: 'https://images.unsplash.com/photo-1567784177951-6fa58317e16b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80',
                         name: AppStrings.riderName,
                         onPressed: (){
-                         
+                           Get.to(()=> const RideDetailsSceen() ) ;
                         },
                         description: AppStrings.hatchBack,
                         fromLocation: AppStrings.locationAddress,

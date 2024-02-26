@@ -31,9 +31,7 @@ class MyApp extends StatelessWidget {
         initialBinding: AppBindings(),
         //darkTheme: AppThemes.darkTheme, 
           initialRoute:Approutes.splash ,
-          getPages: routes, 
-          
-       
+          getPages: routes,      
          
     );
   }

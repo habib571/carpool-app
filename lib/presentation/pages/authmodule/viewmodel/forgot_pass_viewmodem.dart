@@ -1,6 +1,7 @@
+// ignore_for_file: avoid_print
+
 import 'package:carpooling/data/network/requests.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/forgot_pass_use_case.dart';
-import 'package:carpooling/presentation/common/state_render.dart';
 import 'package:carpooling/presentation/pages/authmodule/view/screens/reset_pass_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -104,7 +105,7 @@ class ForgotPasswordcontroller extends GetxController {
   Future<void> initUniLinks() async {
     try {
       final initialLink = await getInitialLink();
-     print("eaifrg liiiinkkkkk $initialLink") ;
+    // print("eaifrg liiiinkkkkk $initialLink") ;
       handleDeepLink(initialLink);
     } on PlatformException {
       print('erorrrrrrrrrrrrrrrrrt') ;

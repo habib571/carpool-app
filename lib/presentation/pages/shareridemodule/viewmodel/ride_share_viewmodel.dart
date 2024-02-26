@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:async';
 import 'dart:math';
 import 'package:carpooling/data/network/requests.dart';
@@ -83,7 +85,7 @@ class RideSharingController extends GetxController {
       Uri.parse(request),
     );
     if (response.statusCode == 200) { 
-       //print( ' predictions : _____________________${response.body}') ;
+       print( ' predictions : _____________________${response.body}') ;
       placeList.value = json.decode(response.body)['predictions'];
     } else {
       throw Exception('Failed to load predictions');
@@ -119,20 +121,34 @@ class RideSharingController extends GetxController {
       Placemark place = p[0];
       currentAddress.value =
           "${place.name}, ${place.locality}, ${place.postalCode}, ${place.country}";
+       //    print(' ********************************************************${place.administrativeArea}') ;
       //  departController.text = currentAddress.value;
       startaddress.value = currentAddress.value;
     } catch (e) {
       print(e);
     }
   }
-
+ Future<String> getAdministrativeArea(double latitude, double longitude) async {
+  List<Placemark> placemarks =
+      await placemarkFromCoordinates(latitude, longitude);
+  if ( placemarks.isNotEmpty) {
+    Placemark placemark = placemarks[0];
+    return placemark.administrativeArea ?? '';
+  }
+  return '';
+}
   calculateDistance() async {
     try {
       // Retrieving placemarks from addresses
       List<Location>? startPlacemark =
           await locationFromAddress(startaddress.value);
       List<Location>? destinationPlacemark =
-          await locationFromAddress(destinationAddress.value);
+          await locationFromAddress(destinationAddress.value); 
+         
+    String startAdministrativeArea = await getAdministrativeArea(
+        startPlacemark[0].latitude, startPlacemark[0].longitude);
+    print('Start Administrative Area************************************: $startAdministrativeArea');
+  
 
       // Use the retrieved coordinates of the current position,
       // instead of the address if the start position is user's
@@ -151,7 +167,6 @@ class RideSharingController extends GetxController {
       String startCoordinatesString = '($startLatitude, $startLongitude)';
       String destinationCoordinatesString =
           '($destinationLatitude, $destinationLongitude)';
-
       // Start Location Marker
       Marker startMarker = Marker(
         markerId: MarkerId(startCoordinatesString),
