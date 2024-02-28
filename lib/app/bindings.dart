@@ -1,4 +1,5 @@
 import 'package:carpooling/data/datasource/remote/auth_remote_data.dart';
+import 'package:carpooling/data/datasource/remote/rides_remote_datasource.dart';
 import 'package:carpooling/data/datasource/remote/userinfo_remote_datasource.dart';
 import 'package:carpooling/data/network/network_info.dart';
 import 'package:carpooling/data/repository/repo_impl.dart';
@@ -50,7 +51,7 @@ class AppBindings implements Bindings {
     Get.put<CheckEmailController>(CheckEmailController()) ; 
     Get.lazyPut<EditProfilController>( fenix: true , ()=> EditProfilController(UpdateInfoUsecae(UserInfoRepositpryImp(UserInfoRemoteDataSourceImp() ,NetworkInfoImpl(InternetConnectionChecker()))) ) )  ; 
   //Get.lazyPut(fenix: true , ()=> RideInfoController(GetRidesUseCase(RidesRepositoryImp(NetworkInfoImpl(InternetConnectionChecker()),RideRemoteDatsourceImp()))))  ; 
-    Get.lazyPut(() => SearchRideController()) ;
+    Get.lazyPut(() => SearchRideController(RideRemoteDatsourceImp())) ;
     
       }
 }

@@ -8,6 +8,7 @@ import 'package:carpooling/presentation/utils/app_utility.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import '../../../../utils/app_colors.dart';
 import '../../../../utils/app_strings.dart';
 import '../../../../utils/styles.dart';
@@ -15,12 +16,13 @@ import '../../viewmodel/searchride_viewmodel.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
-class SearchRideScreen extends StatelessWidget {
-  const SearchRideScreen({super.key});
+class SearchRideScreen extends StatelessWidget { 
+  final SearchRideController _controller = Get.find() ;
+   SearchRideScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: AppColors.cPrimaryColor,
+      backgroundColor: AppColors.cScaffoldColor,
       //  backgroundColor: AppColors.p
       body: _showBody(context),
     );
@@ -91,7 +93,7 @@ class SearchRideScreen extends StatelessWidget {
       child: Container(
         height: AppUtility().contentHeight(context) * 0.2,
         decoration: BoxDecoration(
-            color: AppColors.accentColor,
+            color: AppColors.cPrimaryColor,
             //border: Border.all(color: AppColors.greyColor, width: 1),
             borderRadius: BorderRadius.circular(20)),
         child: Padding(
@@ -116,7 +118,7 @@ class SearchRideScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          AppStrings.locationAddress,
+                           _controller.startaddress.value ==''? 'Adresse de depart' :  _controller.startaddress.value,
                           style: Styles().pTextStyle(
                             AppColors.cBackgroundColor,
                           ),
@@ -144,7 +146,7 @@ class SearchRideScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          AppStrings.locationAddress,
+                           _controller.destinationAddress.value ==''? "Adresse d'arrivé " :  _controller.destinationAddress.value,
                           style: Styles().pTextStyle(
                             AppColors.cBackgroundColor,
                           ),
@@ -193,7 +195,8 @@ class SearchRideScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 35),
       child: PrimaryButton(
         onPressed: () {
-          Get.to(()=> const SearchResultScreen()) ;
+          //Get.to(()=> const SearchResultScreen()) ; 
+          _controller.search() ;
         },
         text: 'Find',
       ),

@@ -4,6 +4,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:carpooling/data/datasource/remote/rides_remote_datasource.dart';
+import 'package:carpooling/data/network/requests.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
@@ -17,9 +19,16 @@ import '../../../utils/app_colors.dart';
 
 class SearchRideController extends GetxController {
   @override
+  void onClose() {
+    mapController = Completer();
+    super.onClose();
+  }
+
+  @override
   void onInit() {
     start();
-      departController.addListener(() {
+    departController.addListener(() {
+      print('changerd');
       onStartAdressChanged();
     });
     arriveController.addListener(() {
@@ -30,47 +39,47 @@ class SearchRideController extends GetxController {
 
   void start() {
     _stateStream = stateController.stream.asBroadcastStream();
-    stateController.add(ContentState()); 
-  
+    stateController.add(ContentState());
   }
 
-  // google maps suggestions api variables 
-   final uuid = const Uuid();
+  // google maps suggestions api variables
+  final uuid = const Uuid();
   RxString sessionToken = ''.obs;
-  
-  // ride info variables 
+
+  // ride info variables
   RxInt passengerNumber = 1.obs;
   RxString date = ''.obs;
   String selectedDate = '';
 
- GlobalKey<FormState> locationformKey = GlobalKey<FormState>();
+  GlobalKey<FormState> locationformKey = GlobalKey<FormState>();
 
   DraggableScrollableController scrollableController =
       DraggableScrollableController();
-  // state render declaration 
+  // state render declaration
   late Stream<FlowState> _stateStream;
   final stateController = StreamController<FlowState>();
   Stream<FlowState> get outputState =>
-      _stateStream.map((flowState) => flowState); 
+      _stateStream.map((flowState) => flowState);
 
- // google maps  variable declaration 
+  // google maps  variable declaration
   CameraPosition? camPos;
   final CameraPosition initialLocation =
-      const CameraPosition(target: LatLng(0.0, 0.0));
-  late GoogleMapController mapController;
+      const CameraPosition(target: LatLng(0.0, 0.0)); 
+      late GoogleMapController mpController ;
+  Completer<GoogleMapController> mapController = Completer(); 
   RxSet<Marker> markers = <Marker>{}.obs;
   late Position currentPosition;
-   RxList placeList = [].obs;
+  RxList placeList = [].obs;
   List<LatLng> polylineCoordinates = [];
   RxDouble placeDistance = 0.0.obs;
   RxMap<PolylineId, Polyline> polylines = <PolylineId, Polyline>{}.obs;
   late PolylinePoints polylinePoints;
   RxString currentAddress = ''.obs;
   RxString startaddress = ''.obs;
-  RxString destinationAddress = ''.obs; 
+  RxString destinationAddress = ''.obs;
   final departController = TextEditingController();
   TextEditingController arriveController = TextEditingController();
-   FocusNode arriveFocusNode = FocusNode();
+  FocusNode arriveFocusNode = FocusNode();
   FocusNode startFocusNode = FocusNode();
   RxBool disablePrediction = true.obs;
 
@@ -84,14 +93,25 @@ class SearchRideController extends GetxController {
     if (passengerNumber > 1) {
       passengerNumber--;
     }
-  }
+  } 
+
+ final RideRemoteDatsource _datsource  ; 
+ SearchRideController(this._datsource) ; 
+
+ void search() async { 
+   await _datsource.seachRide(
+      SeacrhRideRequest( 'Sousse', date.value)
+      ) ;
+ }
   getCurrentLocation() async {
     await Geolocator.requestPermission();
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) async {
       currentPosition = position;
       print('CURRENT POS: $currentPosition');
-      mapController.animateCamera(
+
+      final GoogleMapController controller = await mapController.future;
+      controller.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
             target: LatLng(position.latitude, position.longitude),
@@ -119,7 +139,8 @@ class SearchRideController extends GetxController {
     } catch (e) {
       print(e);
     }
-  } 
+  }
+
   onStartAdressChanged() {
     sessionToken.value = uuid.v4();
     getSuggestion(departController.text);
@@ -140,14 +161,14 @@ class SearchRideController extends GetxController {
     var response = await http.get(
       Uri.parse(request),
     );
-    if (response.statusCode == 200) { 
-       print( ' predictions : _____________________${response.body}') ;
+    if (response.statusCode == 200) {
+      print(' predictions : _____________________${response.body}');
       placeList.value = json.decode(response.body)['predictions'];
     } else {
       throw Exception('Failed to load predictions');
     }
   }
-  
+
   calculateDistance() async {
     try {
       // Retrieving placemarks from addresses
@@ -230,7 +251,8 @@ class SearchRideController extends GetxController {
 
       // Accommodate the two locations within the
       // camera view of the map
-      mapController.animateCamera(
+      final GoogleMapController controller = await mapController.future;
+      controller.animateCamera(
         CameraUpdate.newLatLngBounds(
           LatLngBounds(
             northeast: LatLng(northEastLatitude, northEastLongitude),
@@ -300,6 +322,4 @@ class SearchRideController extends GetxController {
         c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
     return 12742 * asin(sqrt(a));
   }
-
- 
 }

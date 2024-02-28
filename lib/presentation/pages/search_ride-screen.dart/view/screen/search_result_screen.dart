@@ -24,7 +24,7 @@ class SearchResultScreen extends StatelessWidget {
   
   Widget _showBody(BuildContext ctx) {
     return Column(
-      children: [ _showTtile(ctx) ,_showBookingOverlay(ctx)],
+      children: [ _showTtile(ctx) ,_buildListBottomSheet(ctx)],
     );
   }
 
@@ -38,7 +38,19 @@ class SearchResultScreen extends StatelessWidget {
              child: Row( 
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [ 
-                  SvgPicture.asset("assets/icons/arrow_right.svg") ,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15) ,
+                    child: InkWell(
+                      onTap: () {
+                         Get.back() ; 
+                      },
+                      child: SvgPicture.asset( 
+                         "assets/icons/arrow_right.svg" ,
+                          height: 30, 
+                          width: 30,
+                        ),
+                    ),
+                  ) ,
                  Text( 
                   'Search Result' ,
                   style: Styles().h1TitleStyle(AppColors.primaryColor),

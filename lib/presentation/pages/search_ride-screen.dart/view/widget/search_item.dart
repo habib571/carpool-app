@@ -175,7 +175,7 @@ class _SearchListItemState extends State<SearchListItem> {
              child: Container(
                height: AppUtility().contentWidth(context)*.12,
                decoration:const BoxDecoration(
-                   color:  AppColors.cShadowColor,
+                   color:  AppColors.accentColor,
                    borderRadius: BorderRadius.only(
                      bottomLeft: Radius.circular(5.0),
                      bottomRight: Radius.circular(5.0),

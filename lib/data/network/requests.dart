@@ -61,4 +61,11 @@ class ResetPasswordRequest {
 
   ShareRideRequest(this.from , this.to , this.seats , this.time , this.date ,this.price , this.distance ,  this.arrivalDate , this.arrivalTime) ;
   
+  }  
+  class SeacrhRideRequest { 
+    //String departureCity ; 
+    String destinationCity ;  
+    String date ;  
+    SeacrhRideRequest( this.destinationCity , this.date) ;
+
   }

@@ -26,7 +26,7 @@ class InfoCard extends StatelessWidget {
         height: AppUtility().contentHeight(context) * 0.15,
         decoration: BoxDecoration(
             boxShadow: const [],
-            color: AppColors.accentColor,
+            color: AppColors.cPrimaryColor,
 
             //border: Border.all(color: AppColors.greyColor, width: 1),
             borderRadius: BorderRadius.circular(20)),

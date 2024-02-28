@@ -1,4 +1,7 @@
 
+import 'dart:async';
+
+import 'package:carpooling/data/datasource/remote/rides_remote_datasource.dart';
 import 'package:carpooling/presentation/component/primary_button.dart';
 import 'package:carpooling/presentation/pages/maps/loaction_form.dart';
 import 'package:carpooling/presentation/pages/maps/mapview.dart';
@@ -25,6 +28,11 @@ class _LocationScreenState extends State<LocationScreen> {
    _controller.getCurrentLocation() ;
  
     super.initState();
+  } 
+  @override
+  void dispose() {
+    _controller.mapController = Completer();
+    super.dispose();
   }
   @override
   Widget build(BuildContext context) {
@@ -49,7 +57,7 @@ class _LocationScreenState extends State<LocationScreen> {
   Widget _showLocationSection() {
     return Form(
       key: _controller.locationformKey,
-      child: GetX<RideSharingController>(builder: (_) {
+      child: GetX<SearchRideController>(builder: (_) {
         return LocationForm(
             validator: (val) {
               if (val!.isEmpty) {
@@ -90,7 +98,8 @@ class _LocationScreenState extends State<LocationScreen> {
 
                           _.disablePrediction.value = false;
 
-                          if (_controller.arriveController.text.isNotEmpty ) {  
+                          if (_controller.arriveController.text.isNotEmpty ) {   
+                             _controller.calculateDistance() ;
                               
                             _controller.scrollableController.animateTo(
                               0,
@@ -127,7 +136,9 @@ class _LocationScreenState extends State<LocationScreen> {
                 !_.disablePrediction.value && _.arriveController.text.isNotEmpty
                     ? PrimaryButton(
                         text: 'Confirmer',
-                        onPressed: () { 
+                        onPressed: () {  
+                          // _controller.calculateDistance() ;
+                         
                            Get.back() ;                          
                         })
                     : const SizedBox(),
@@ -152,11 +163,16 @@ class _LocationScreenState extends State<LocationScreen> {
 
   Widget _showMap() {
     return GetBuilder<SearchRideController>( 
-      init: SearchRideController() ,
+      init: SearchRideController(RideRemoteDatsourceImp()) ,
       builder: (_) {
         return MapView(
-            onMapcreated: (controller) {
-              _.mapController = controller;
+            onMapcreated: (controller) { 
+            
+           
+         if (!_.mapController.isCompleted) {
+        _.mapController.complete(controller);
+    }
+    
             },
             markers: _.markers,
             polylines: _.polylines,
