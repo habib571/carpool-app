@@ -17,9 +17,9 @@ class RidesData {
   List<Ride>? rides;
   RidesData({this.rides});
   factory RidesData.fromJson(Map<String, dynamic> json) {
-    final rideList = json['ride'] as List;
-    List<Ride> parsedRideList =
-        rideList.map((item) => Ride.fromJson(item)).toList();
+    final rideList = json['rides'] as List<dynamic>? ?? [];
+    print(rideList) ;
+    List<Ride> parsedRideList = rideList.map((item) => Ride.fromJson(item as Map<String, dynamic>)).toList();
     return RidesData(rides: parsedRideList);
   }
 }

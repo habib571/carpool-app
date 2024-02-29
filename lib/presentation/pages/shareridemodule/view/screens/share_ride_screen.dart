@@ -22,7 +22,7 @@ class ShareRideScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold( 
-      floatingActionButton: FloatingActionButton(onPressed: () {}),
+    
         body: StreamBuilder<FlowState>(
             stream: _controller.outputState,
             builder: (context, snapshot) {

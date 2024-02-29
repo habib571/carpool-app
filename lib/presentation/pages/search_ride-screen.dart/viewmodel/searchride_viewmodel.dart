@@ -4,8 +4,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:carpooling/data/datasource/remote/rides_remote_datasource.dart';
+
 import 'package:carpooling/data/network/requests.dart';
+import 'package:carpooling/domain/usecases/auth_usecase.dart/search_ride_use_case.dart';
+import 'package:carpooling/presentation/pages/search_ride-screen.dart/view/screen/search_result_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
@@ -14,6 +16,8 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
+import '../../../../domain/models/ride.dart';
+import '../../../common/state_render.dart';
 import '../../../common/state_render_imp.dart';
 import '../../../utils/app_colors.dart';
 
@@ -39,7 +43,8 @@ class SearchRideController extends GetxController {
 
   void start() {
     _stateStream = stateController.stream.asBroadcastStream();
-    stateController.add(ContentState());
+    stateController.add(ContentState()); 
+   _rideStream = ridesStream.stream.asBroadcastStream() ;
   }
 
   // google maps suggestions api variables
@@ -59,7 +64,12 @@ class SearchRideController extends GetxController {
   late Stream<FlowState> _stateStream;
   final stateController = StreamController<FlowState>();
   Stream<FlowState> get outputState =>
-      _stateStream.map((flowState) => flowState);
+      _stateStream.map((flowState) => flowState); 
+
+  late Stream<Ride> _rideStream ;
+  final ridesStream = StreamController<Ride>();
+  Stream<Ride> get outputRidesStream =>
+      _rideStream.map((rides) => rides); 
 
   // google maps  variable declaration
   CameraPosition? camPos;
@@ -81,7 +91,9 @@ class SearchRideController extends GetxController {
   TextEditingController arriveController = TextEditingController();
   FocusNode arriveFocusNode = FocusNode();
   FocusNode startFocusNode = FocusNode();
-  RxBool disablePrediction = true.obs;
+  RxBool disablePrediction = true.obs; 
+  List<Ride> _ridelist =[] ; 
+  List<Ride> get ridelist => _ridelist ;
 
   void incrementPassneger() {
     if (passengerNumber.value < 8) {
@@ -95,13 +107,24 @@ class SearchRideController extends GetxController {
     }
   } 
 
- final RideRemoteDatsource _datsource  ; 
- SearchRideController(this._datsource) ; 
+  final SearchRideUseCase _searchRideUseCase ;
+ SearchRideController(this._searchRideUseCase) ; 
+ 
+ void searchRide() async {  
+  // stateController.add(LoadingState(stateRendererType: StateRendererType.fullScreenLoadingState)) ; 
+   (await _searchRideUseCase.searchRide(SeacrhRideRequest('Kairouan', '2024-03-01'))).fold(
+    (failure) {
+      stateController.add(ErrorState(StateRendererType.popupErrorState, failure.message)) ;
+      
+    },
+     (data) {  
+      _ridelist = data.rideData!.rides! ;  
+    print('+++++++++++++++++++ $_ridelist') ;
+       Get.to(()=>  SearchResultScreen()) ;
 
- void search() async { 
-   await _datsource.seachRide(
-      SeacrhRideRequest( 'Sousse', date.value)
-      ) ;
+     }
+     ) ;
+   
  }
   getCurrentLocation() async {
     await Geolocator.requestPermission();

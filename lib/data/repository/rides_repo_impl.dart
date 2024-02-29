@@ -120,7 +120,7 @@ class RidesRepositoryImp implements RidesRepository {
               response.message ?? ResponseMessage.DEFAULT));
         }
       } catch (error) {  
-      // print(' hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh_____________________________  $error') ;
+      print(' hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh_____________________________  $error') ;
         
         return Left(Failure(ApiInternalStatus.FAILURE, 'Something went Wrong ' ));
       }

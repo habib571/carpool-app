@@ -13,7 +13,7 @@ import '../../viewmodel/searchride_viewmodel.dart';
 
 class PassengerCard extends StatelessWidget {
   PassengerCard({super.key});
-  final SearchRideController _controller = Get.put(SearchRideController(RideRemoteDatsourceImp()));
+  final SearchRideController _controller = Get.find() ;
   @override
   Widget build(BuildContext context) {
     return Container(

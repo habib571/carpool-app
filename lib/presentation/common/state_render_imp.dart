@@ -86,6 +86,7 @@ extension FlowStateExtension on FlowState {
     switch (runtimeType) {
       case LoadingState:
         {
+          dismissDialog(context) ;
           if (getStateRendererType() == StateRendererType.popupLoadingState) {
             // show popup loading
 
@@ -93,6 +94,7 @@ extension FlowStateExtension on FlowState {
          /*  WidgetsBinding.instance.addPostFrameCallback((_) =>    showDialog(
         context: context,
         builder: (_) => const Center(child: CircularProgressIndicator())) )*/
+        //dismissDialog(context);
 
             return contentScreenWidget;
           } else {

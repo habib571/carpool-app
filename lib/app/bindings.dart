@@ -3,12 +3,14 @@ import 'package:carpooling/data/datasource/remote/rides_remote_datasource.dart';
 import 'package:carpooling/data/datasource/remote/userinfo_remote_datasource.dart';
 import 'package:carpooling/data/network/network_info.dart';
 import 'package:carpooling/data/repository/repo_impl.dart';
+import 'package:carpooling/data/repository/rides_repo_impl.dart';
 import 'package:carpooling/data/repository/user_info_repo_impl.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/forgot_pass_use_case.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/get_user_data_use_case.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/login_usecase.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/logout_use_case.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/register_uscase.dart';
+import 'package:carpooling/domain/usecases/auth_usecase.dart/search_ride_use_case.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/update_info_usecase.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/verify_otp.dart';
 import 'package:carpooling/presentation/pages/authmodule/viewmodel/forgot_pass_viewmodem.dart';
@@ -51,7 +53,7 @@ class AppBindings implements Bindings {
     Get.put<CheckEmailController>(CheckEmailController()) ; 
     Get.lazyPut<EditProfilController>( fenix: true , ()=> EditProfilController(UpdateInfoUsecae(UserInfoRepositpryImp(UserInfoRemoteDataSourceImp() ,NetworkInfoImpl(InternetConnectionChecker()))) ) )  ; 
   //Get.lazyPut(fenix: true , ()=> RideInfoController(GetRidesUseCase(RidesRepositoryImp(NetworkInfoImpl(InternetConnectionChecker()),RideRemoteDatsourceImp()))))  ; 
-    Get.lazyPut(() => SearchRideController(RideRemoteDatsourceImp())) ;
+    Get.put( SearchRideController(SearchRideUseCase(RidesRepositoryImp(NetworkInfoImpl(InternetConnectionChecker()), RideRemoteDatsourceImp())))) ;
     
       }
 }
