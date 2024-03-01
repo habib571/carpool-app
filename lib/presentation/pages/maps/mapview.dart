@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+// ignore: must_be_immutable
 class MapView extends StatelessWidget {
    MapView({super.key,
    required this.markers, 

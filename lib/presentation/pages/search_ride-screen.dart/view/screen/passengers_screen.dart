@@ -56,7 +56,7 @@ class PassengerScreen extends StatelessWidget {
         children: [
           InkWell(
               onTap: () {
-                _controller.decrement();
+                _controller.decrementPassenger();
               },
               child: Image(
                   image: const AssetImage('assets/icons/minus.png'),
@@ -75,7 +75,7 @@ class PassengerScreen extends StatelessWidget {
            ) ,          
           InkWell(
               onTap: () {
-                _controller.increment();
+                _controller.incrementPassneger();
               },
               child: Image(
                   image: const AssetImage('assets/icons/add_blue.png'),

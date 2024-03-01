@@ -4,7 +4,6 @@ import 'package:carpooling/app/app_prefs.dart';
 import 'package:carpooling/data/datasource/remote/auth_remote_data.dart';
 import 'package:carpooling/data/network/requests.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/register_uscase.dart';
-import 'package:carpooling/main.dart';
 import 'package:carpooling/navigation/routes_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

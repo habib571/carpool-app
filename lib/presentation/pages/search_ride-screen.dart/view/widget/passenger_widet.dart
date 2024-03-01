@@ -1,3 +1,5 @@
+import 'package:carpooling/data/datasource/remote/rides_remote_datasource.dart';
+import 'package:carpooling/data/repository/rides_repo_impl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -11,13 +13,13 @@ import '../../viewmodel/searchride_viewmodel.dart';
 
 class PassengerCard extends StatelessWidget {
   PassengerCard({super.key});
-  final SearchRideController _controller = Get.put(SearchRideController());
+  final SearchRideController _controller = Get.find() ;
   @override
   Widget build(BuildContext context) {
     return Container(
       height: AppUtility().contentHeight(context) * 0.15,
       decoration: BoxDecoration(
-          color: AppColors.accentColor,
+          color: AppColors.cPrimaryColor,
 
           //      border: Border.all(color: AppColors.greyColor, width: 1),
           borderRadius: BorderRadius.circular(20)),
@@ -35,7 +37,7 @@ class PassengerCard extends StatelessWidget {
                 children: [
                   InkWell(
                       onTap: () {
-                        _controller.decrement();
+                        _controller.decrementPassenger();
                       },
                       child: Image(
                           height: 30,
@@ -55,7 +57,7 @@ class PassengerCard extends StatelessWidget {
                   ),
                   InkWell(
                       onTap: () {
-                        _controller.increment();
+                        _controller.incrementPassneger();
                       },
                       child: Image(
                           height: 30,

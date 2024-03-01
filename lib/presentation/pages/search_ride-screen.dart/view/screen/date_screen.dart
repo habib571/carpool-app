@@ -76,7 +76,8 @@ Widget _showTitle() {
             child: PrimaryButton(
               text: 'Set Date',
               btnTxtStyle: Styles().h2TextStyleRoboto(AppColors.cPrimaryColor),
-              onPressed: (){ 
+              onPressed: (){  
+                _ct.date.value  = _ct.selectedDate ;
                  print(_ct.selectedDate) ;
                  Get.back() ;
               }

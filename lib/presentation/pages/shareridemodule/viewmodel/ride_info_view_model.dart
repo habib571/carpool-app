@@ -1,15 +1,10 @@
 import 'dart:async';
-
 import 'package:carpooling/domain/models/ride.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/get_ride_uses_case.dart';
-import 'package:carpooling/navigation/routes_constant.dart';
 import 'package:carpooling/presentation/pages/homemodule/view/screens/homescreen.dart';
-import 'package:carpooling/presentation/utils/app_constants.dart';
 import 'package:get/get.dart';
-
 import '../../../common/state_render.dart';
 import '../../../common/state_render_imp.dart';
-
 class RideInfoController extends GetxController {   
     @override
   void onInit() {

@@ -1,10 +1,11 @@
+
+import 'dart:async';
+
 import 'package:carpooling/data/datasource/remote/rides_remote_datasource.dart';
-import 'package:carpooling/data/repository/rides_repo_impl.dart';
-import 'package:carpooling/domain/usecases/auth_usecase.dart/rides_usecase.dart';
 import 'package:carpooling/presentation/component/primary_button.dart';
 import 'package:carpooling/presentation/pages/maps/loaction_form.dart';
 import 'package:carpooling/presentation/pages/maps/mapview.dart';
-import 'package:carpooling/presentation/pages/shareridemodule/viewmodel/ride_share_viewmodel.dart';
+import 'package:carpooling/presentation/pages/search_ride-screen.dart/viewmodel/searchride_viewmodel.dart';
 import 'package:carpooling/presentation/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -12,23 +13,30 @@ import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 import '../../../../../data/network/network_info.dart';
+import '../../../../../data/repository/rides_repo_impl.dart';
+import '../../../../../domain/usecases/auth_usecase.dart/search_ride_use_case.dart';
 import '../../../../common/state_render_imp.dart';
 
-class LocationScren extends StatefulWidget {
-  const LocationScren({super.key});
+class LocationScreen extends StatefulWidget {
+  const LocationScreen({super.key});
 
   @override
-  State<LocationScren> createState() => _LocationScrenState();
+  State<LocationScreen> createState() => _LocationScreenState();
 }
 
-class _LocationScrenState extends State<LocationScren> {
-  final RideSharingController _controller = Get.find();
+class _LocationScreenState extends State<LocationScreen> { 
+  final SearchRideController _controller = Get.find() ;
   @override
-  void initState() {
-    _controller.getCurrentLocation();
+  void initState() { 
+   _controller.getCurrentLocation() ;
+ 
     super.initState();
+  } 
+  @override
+  void dispose() {
+    _controller.mapController = Completer();
+    super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +60,7 @@ class _LocationScrenState extends State<LocationScren> {
   Widget _showLocationSection() {
     return Form(
       key: _controller.locationformKey,
-      child: GetX<RideSharingController>(builder: (_) {
+      child: GetX<SearchRideController>(builder: (_) {
         return LocationForm(
             validator: (val) {
               if (val!.isEmpty) {
@@ -93,8 +101,8 @@ class _LocationScrenState extends State<LocationScren> {
 
                           _.disablePrediction.value = false;
 
-                          if (_controller.arriveController.text.isNotEmpty ) {  
-                            _controller.calculateDistance() ;
+                          if (_controller.arriveController.text.isNotEmpty ) {   
+                             _controller.calculateDistance() ;
                               
                             _controller.scrollableController.animateTo(
                               0,
@@ -131,9 +139,10 @@ class _LocationScrenState extends State<LocationScren> {
                 !_.disablePrediction.value && _.arriveController.text.isNotEmpty
                     ? PrimaryButton(
                         text: 'Confirmer',
-                        onPressed: () { 
-                         _controller.createRide() ;
-                          
+                        onPressed: () {  
+                          // _controller.calculateDistance() ;
+                         
+                           Get.back() ;                          
                         })
                     : const SizedBox(),
             cancelButt: _.disablePrediction.value
@@ -156,12 +165,17 @@ class _LocationScrenState extends State<LocationScren> {
   }
 
   Widget _showMap() {
-    return GetBuilder<RideSharingController>( 
-      init: RideSharingController(CreateRideUseCase(RidesRepositoryImp(NetworkInfoImpl(InternetConnectionChecker()), RideRemoteDatsourceImp()))), 
+    return GetBuilder<SearchRideController>( 
+      init: SearchRideController(SearchRideUseCase(RidesRepositoryImp(NetworkInfoImpl(InternetConnectionChecker()), RideRemoteDatsourceImp()))) ,
       builder: (_) {
         return MapView(
-            onMapcreated: (controller) {
-              _.mapController = controller;
+            onMapcreated: (controller) { 
+            
+           
+         if (!_.mapController.isCompleted) {
+        _.mapController.complete(controller);
+    }
+    
             },
             markers: _.markers,
             polylines: _.polylines,

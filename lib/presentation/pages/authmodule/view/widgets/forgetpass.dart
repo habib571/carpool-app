@@ -1,7 +1,6 @@
 
 
 import 'package:carpooling/navigation/routes_constant.dart';
-import 'package:carpooling/presentation/pages/authmodule/view/screens/forgot_screen.dart';
 import 'package:carpooling/presentation/pages/authmodule/viewmodel/loginviewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

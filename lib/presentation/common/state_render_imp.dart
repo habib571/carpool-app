@@ -4,7 +4,6 @@ import 'package:carpooling/app/contants.dart';
 import 'package:carpooling/presentation/common/state_render.dart';
 import 'package:carpooling/presentation/utils/app_strings.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 abstract class FlowState {
   StateRendererType getStateRendererType();
@@ -87,6 +86,7 @@ extension FlowStateExtension on FlowState {
     switch (runtimeType) {
       case LoadingState:
         {
+          dismissDialog(context) ;
           if (getStateRendererType() == StateRendererType.popupLoadingState) {
             // show popup loading
 
@@ -94,6 +94,7 @@ extension FlowStateExtension on FlowState {
          /*  WidgetsBinding.instance.addPostFrameCallback((_) =>    showDialog(
         context: context,
         builder: (_) => const Center(child: CircularProgressIndicator())) )*/
+        //dismissDialog(context);
 
             return contentScreenWidget;
           } else {
