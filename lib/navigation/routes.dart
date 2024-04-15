@@ -11,7 +11,8 @@ import 'package:carpooling/presentation/pages/homemodule/view/screens/homescreen
 import 'package:carpooling/presentation/pages/onboarding/view/onbardingscreen.dart';
 import 'package:carpooling/presentation/pages/profilmodule/view/screens/edit_mode_screen.dart';
 import 'package:carpooling/presentation/pages/profilmodule/view/screens/myprofil_screen.dart';
-import 'package:carpooling/presentation/pages/search_ride-screen.dart/view/screen/date_screen.dart';
+import 'package:carpooling/presentation/pages/searchRideModule/view/screen/date_screen.dart';
+import 'package:carpooling/presentation/pages/searchRideModule/view/screen/driver_profile_screen.dart';
 import 'package:carpooling/presentation/pages/shareridemodule/view/screens/loacation_scree.dart';
 import 'package:carpooling/presentation/pages/shareridemodule/view/screens/rid_from_screen.dart';
 import 'package:carpooling/presentation/pages/shareridemodule/view/screens/share_ride_screen.dart';
@@ -24,7 +25,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: Approutes.onboarding, page:  () =>  OnboardinScreen()) ,
   GetPage(name: Approutes.login, page:  () =>  LoginPage() , middlewares:[Authmiddleware()]),
   GetPage(name: Approutes.signup, page:  () => SignUpPage()) , 
-  GetPage(name: Approutes.home, page: ()=> const HomeScreen()) ,
+  GetPage(name: Approutes.home, page: ()=> const HomeScreen() ,) ,
   GetPage(name: Approutes.editprofil , page: ()=>   EditModeScreen() ) , 
   GetPage(name: Approutes.profil, page: ()=>  ProfilMode()) ,
   GetPage(name: Approutes.confirmloction, page: ()=>  const LocationScren()) , 
@@ -37,7 +38,9 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: Approutes.forgetpass, page: ()=>const ForgotPassPage()) , 
   GetPage(name: Approutes.selelectgender, page: ()=>GenderPage()) ,
   GetPage(name: Approutes.shareride ,page:()=> ShareRideScreen() )  ,
-GetPage(name: Approutes.rideform, page: ()=> RideFormScreen())
+ GetPage(name: Approutes.rideform, page: ()=> RideFormScreen())  ,
+ GetPage(name: Approutes.driverProfile, page: ()=>  DriverProfileScreen()) 
+
   ]; 
 
 

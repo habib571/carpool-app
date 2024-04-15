@@ -25,7 +25,8 @@ class _LocationScrenState extends State<LocationScren> {
   final RideSharingController _controller = Get.find();
   @override
   void initState() {
-    _controller.getCurrentLocation();
+    _controller.getCurrentLocation(); 
+    _controller.start() ;
     super.initState();
   }
 

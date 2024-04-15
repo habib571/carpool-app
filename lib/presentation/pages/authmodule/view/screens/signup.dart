@@ -82,7 +82,8 @@ final SignUpController _controller = Get.find<SignUpController>() ;
             AuthButton(
               ontap: ()  { 
                 if(_controller.signUpFormKey.currentState!.validate()) { 
-                   Get.toNamed(Approutes.phonenNumber) ;
+                   Get.offAllNamed
+                   (Approutes.phonenNumber) ;
                 }
               },
                txt: 'Sign Up'

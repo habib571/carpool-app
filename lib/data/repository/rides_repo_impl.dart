@@ -23,7 +23,7 @@ class RidesRepositoryImp implements RidesRepository {
     if (await _networkInfo.isConnected) {
       try {
         final response = await  _rideRemoteDatsourceImp.createRide(shareRideRequest ) ;
-        if (response.message != '' ) {
+        if (response.success! ) {
           // success
           // return either right
           // return data 
@@ -41,7 +41,7 @@ class RidesRepositoryImp implements RidesRepository {
           print(' hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh______________________________  $error') ;
         }
         
-        return Left(Failure(ApiInternalStatus.FAILURE, 'dvsd' ));
+        return Left(Failure(ApiInternalStatus.FAILURE, 'Something Went wrong' ));
       }
     }
     return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
@@ -126,6 +126,59 @@ class RidesRepositoryImp implements RidesRepository {
       }
     }
     return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+  }
+  
+  @override
+  Future<Either<Failure, RideResponse>> getRideById(int id)async { 
+     if (await _networkInfo.isConnected) {
+      try {
+        final response = await  _rideRemoteDatsourceImp.getRideById(id) ;
+        if (response.success!) {
+          // success
+          // return either right
+          // return data 
+          
+          return Right(response);
+        } else {
+          // failure --return business error
+          // return either left 
+         
+          return Left(Failure(ApiInternalStatus.FAILURE,
+              response.message ?? ResponseMessage.DEFAULT));
+        }
+      } catch (error) {  
+      print(' _____________________________  $error') ;
+        
+        return Left(Failure(ApiInternalStatus.FAILURE, 'Something went Wrong ' ));
+      }
+    }
+    return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+ 
+  }
+  
+  @override
+  Future<Either<Failure, BaseResponse>> bookRide(int id) async{ 
+      if (await _networkInfo.isConnected) {
+      try {
+        final response = await _rideRemoteDatsourceImp.bookRide(id) ;
+        if (response.success!) {
+          // success
+          // return either right
+          // return data
+          return Right(response);
+        } else {
+          // failure --return business error
+          // return either left
+          return Left(Failure(ApiInternalStatus.FAILURE,
+              response.message ?? ResponseMessage.DEFAULT));
+        }
+      } catch (error) {
+        print('_________________________________________________ $error');
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    }
+    return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+  
   }
     //
  

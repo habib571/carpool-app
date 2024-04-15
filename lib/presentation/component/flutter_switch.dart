@@ -1,10 +1,10 @@
+import 'package:carpooling/presentation/pages/profilmodule/viewmodel/profil_viewmodel.dart';
+import 'package:carpooling/presentation/utils/app_colors.dart';
 import 'package:flutter/material.dart';
-
-
-import '../utils/app_colors.dart';
+import 'package:get/get.dart';
 
 class FlutterSwitch extends StatelessWidget {
-  const FlutterSwitch({super.key, 
+ FlutterSwitch({super.key, 
     this.onClick,
     this.backGroundColor = AppColors.cTextGreyColor,
     this.switchColor = AppColors.cGreenColor,
@@ -17,7 +17,7 @@ class FlutterSwitch extends StatelessWidget {
   final Color switchOffColor;
   final bool onTap;
 
-  
+  final ProfilController _controller = Get.find() ;
 
   @override
   Widget build(BuildContext context) {
@@ -33,20 +33,20 @@ class FlutterSwitch extends StatelessWidget {
                 color: backGroundColor
             ),
           ),
-          Positioned(
+          _controller.onClick.value ? Positioned(
             right: 0,
             child: Icon(
               Icons.circle,
               color: switchColor,
             ),
-          ) ,
-        Positioned(
+          ) :
+          onTap ? Positioned(
             right: 0,
             child: Icon(
               Icons.circle,
               color: switchColor,
             ),
-          ) ,
+          ) :
           Positioned(
             left: 0,
             child: Icon(

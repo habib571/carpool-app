@@ -14,12 +14,15 @@ abstract class RideRemoteDatsource {
   Future<RideResponse> getLatestRide();
   Future<BaseResponse> deleteRide(String rideId);
   Future<RidesResponse> seachRide(SeacrhRideRequest seacrhRideRequest);
+  Future<RideResponse> getRideById(int id);
+  Future<BaseResponse> bookRide(int id);
 }
 
 class RideRemoteDatsourceImp implements RideRemoteDatsource {
   @override
   Future<BaseResponse> createRide(ShareRideRequest shareRideRequest) async {
     final token = await Apppreference.getBearerToken();
+
     final body = {
       'start_location': shareRideRequest.from,
       'end_location': shareRideRequest.to,
@@ -28,7 +31,9 @@ class RideRemoteDatsourceImp implements RideRemoteDatsource {
       'available_seats': shareRideRequest.seats,
       'price_per_seat': shareRideRequest.price,
       'estimated_arrival_date': shareRideRequest.arrivalDate,
-      'estimated_arrival_time': shareRideRequest.arrivalTime
+      'estimated_arrival_time': shareRideRequest.arrivalTime,
+      'start_city': shareRideRequest.startCity,
+      'end_city': shareRideRequest.endCity,
     };
     final encodedata = jsonEncode(body);
 
@@ -50,6 +55,7 @@ class RideRemoteDatsourceImp implements RideRemoteDatsource {
   @override
   Future<RideResponse> getLatestRide() async {
     final token = await Apppreference.getBearerToken();
+    print("pffffffffffffffffff $token");
     final response = await http.get(
       Uri.parse('${Constants.baseUrl}/api/rides/latest-driver-ride'),
       headers: {
@@ -67,6 +73,7 @@ class RideRemoteDatsourceImp implements RideRemoteDatsource {
   @override
   Future<BaseResponse> deleteRide(String rideId) async {
     final token = await Apppreference.getBearerToken();
+
     final response = await http.delete(
       Uri.parse('${Constants.baseUrl}/api/rides/delete-ride/$rideId'),
       headers: {
@@ -84,7 +91,8 @@ class RideRemoteDatsourceImp implements RideRemoteDatsource {
     final token = await Apppreference.getBearerToken();
     final body = {
       'departure_date': seacrhRideRequest.date,
-      'end_location': seacrhRideRequest.destinationCity
+      'start_city': 'Sousse',
+      'end_city': 'Tunis'
     };
     final encodedata = jsonEncode(body);
     final response = await http.post(
@@ -99,5 +107,45 @@ class RideRemoteDatsourceImp implements RideRemoteDatsource {
     final encoderesp = jsonDecode(response.body);
     print(encoderesp);
     return RidesResponse.fromJson(encoderesp);
+  }
+
+  @override
+  Future<RideResponse> getRideById(int id) async {
+    final tok = await Apppreference.getBearerToken();
+    print("pffffffffffffffffff $tok");
+    final response = await http.get(
+        Uri.parse('${Constants.baseUrl}/api/rides/get-ride-info/$id'),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $tok',
+        });
+    final encoderesp = jsonDecode(response.body);
+    print(encoderesp);
+    return RideResponse.fromJson(encoderesp);
+  }
+
+  @override
+  Future<BaseResponse> bookRide(int id) async { 
+    final body = {
+      'start_location': 'sousse',
+      'end_location': 'tunis',
+      'departure_date': '2024-03-20',
+      'departure_time': ' 07:20',
+    } ; 
+     final encodedata = jsonEncode(body) ;
+    final tok = await Apppreference.getBearerToken();
+    print("pffffffffffffffffff $tok"); 
+    final response = await http.post(
+        Uri.parse('${Constants.baseUrl}/api/rides/$id/send-request'), 
+        body: encodedata ,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $tok',
+        });
+    final encoderesp = jsonDecode(response.body);
+    print(encoderesp);
+    return BaseResponse.fromJson(encoderesp);
   }
 }

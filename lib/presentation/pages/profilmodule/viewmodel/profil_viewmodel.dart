@@ -4,13 +4,14 @@ import 'package:carpooling/app/app_prefs.dart';
 import 'package:carpooling/domain/models/user.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/get_user_data_use_case.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/logout_use_case.dart';
+import 'package:carpooling/navigation/routes_constant.dart';
 import 'package:carpooling/presentation/common/state_render_imp.dart';
-import 'package:carpooling/presentation/pages/authmodule/view/screens/loginpage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../common/state_render.dart';
 
-class ProfilController extends GetxController {
+class ProfilController extends GetxController { 
+
   FocusNode lnameFocusNode = FocusNode();
   FocusNode fnameFocusNode = FocusNode();
 
@@ -36,6 +37,12 @@ class ProfilController extends GetxController {
   ProfilController(this._logoutUseCase, this._dataUseCase);
   
 
+  RxBool trafficSwitch = false.obs;
+  RxBool cacheSwitch = false.obs;
+  RxBool notificationSwitch = false.obs;
+  RxBool driverSwitch = false.obs;
+  RxBool onClick = false.obs;
+
 
 
   start() {
@@ -56,14 +63,15 @@ void switchMode() {
 
 
 
-  Future<void> getData() async {
-    stateController.add(LoadingState(
+  Future<void> getData() async {  
+         final  uid = await Apppreference.getUserId() ;
+        stateController.add(LoadingState(
         stateRendererType: StateRendererType.fullScreenLoadingState));
 
-    (await _dataUseCase.call()).fold(
+    (await _dataUseCase.getUserData(uid!)).fold(
       (failure) {
         stateController.add(ErrorState(
-            StateRendererType.fullScreenErrorState, "falure"));
+            StateRendererType.fullScreenErrorState, 'Something went wrog'));
       },
       (data) {
         stateController.add(ContentState());
@@ -101,20 +109,19 @@ void switchMode() {
 
 }*/
 
-  Future<void> logout(BuildContext context) async {
+  Future<void> logout() async { 
+     stateController.add(LoadingState(
+        stateRendererType: StateRendererType.fullScreenLoadingState));
     final result = await _logoutUseCase.call();
-    result.fold((failure) {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return StateRenderer(
-              stateRendererType: StateRendererType.popupErrorState,
-              retryActionFunction: () {},
-            );
-          });
+    result.fold((failure) { 
+      stateController.add(ErrorState(
+            StateRendererType.fullScreenErrorState, 'Something went wrog'));
+     
     }, (data) async {
-      await Apppreference.removeLoginToken();
-      Get.off(() => LoginPage());
+      await Apppreference.removeBearerToken() ;
+      await Apppreference.removeUserId() ;
+
+       Get.offAllNamed(Approutes.login) ;
     });
   }
   /* uploadPicture( ImageSource source)async { 

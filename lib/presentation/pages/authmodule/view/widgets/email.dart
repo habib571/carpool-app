@@ -21,6 +21,7 @@ class EmailSection extends StatelessWidget {
     return  Padding(
       padding: const EdgeInsets.only(top:17.0),
       child: TextFormFields(   
+           autoFocus: false,
         validator: validator ,
         textEditingController: controller,
          focusNode: focusNode, 

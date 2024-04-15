@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../utils/app_colors.dart';
-import '../utils/app_dimens.dart';
+import '../utils/styles.dart';
 
 
 class ApplicationBar extends StatelessWidget implements PreferredSizeWidget {
@@ -61,12 +61,7 @@ class ApplicationBar extends StatelessWidget implements PreferredSizeWidget {
                 ? profile
                 : Text(
                     title,
-                    style: TextStyle(
-                        fontFamily: titleFamily,
-                        fontSize: titleSize,
-                        letterSpacing: AppDimens.smallSpace,
-                        color: color,
-                        fontWeight: fontWeight),
+                    style: Styles().h1TitleStyle(AppColors.primaryColor),
                   ),
             backgroundColor: backgroundColor,
             leading: isLeading ? leading : const SizedBox(),
@@ -83,12 +78,7 @@ class ApplicationBar extends StatelessWidget implements PreferredSizeWidget {
                 ? profile
                 : Text(
                     title,
-                    style: TextStyle(
-                        fontFamily: titleFamily,
-                        fontSize: titleSize,
-                        letterSpacing: AppDimens.smallSpace,
-                        color: color,
-                        fontWeight: fontWeight),
+                    style:  Styles().h1TitleStyle(AppColors.primaryColor),
                   ),
             backgroundColor: backgroundColor,
             leading: isLeading ? leading : const SizedBox(),

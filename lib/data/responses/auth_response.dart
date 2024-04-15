@@ -6,8 +6,8 @@ class AuthResponse extends BaseResponse {
   factory AuthResponse.fromJson(Map<String, dynamic> json) {
     return AuthResponse(
       data: (json['data'] as Map<String, dynamic>?) ?? {} , 
-       success: json['success'],
-      message : json['message'] 
+       success: json['success'] ?? false,
+      message : json['message']  ??''
     );
   }
 }

@@ -1,11 +1,10 @@
-
-
 import 'package:carpooling/app/contants.dart';
 import 'package:carpooling/navigation/routes_constant.dart';
 import 'package:carpooling/presentation/common/state_render_imp.dart';
 import 'package:carpooling/presentation/component/primary_button.dart';
 import 'package:carpooling/presentation/component/rich_dialog_box.dart';
 import 'package:carpooling/presentation/component/top_bar.dart';
+import 'package:carpooling/presentation/pages/profilmodule/view/screens/settings_screen.dart';
 import 'package:carpooling/presentation/pages/profilmodule/view/screens/verif_mail_screen.dart';
 import 'package:carpooling/presentation/pages/profilmodule/view/widgets/child_list_tile.dart';
 import 'package:carpooling/presentation/pages/profilmodule/view/widgets/ridesharer_button.dart';
@@ -24,11 +23,11 @@ class ProfilMode extends StatelessWidget {
   ProfilMode({super.key});
 
   final ProfilController _controller = Get.find<ProfilController>();
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColors.cPrimaryColor,
+        backgroundColor: AppColors.cScaffoldColor,
         body: StreamBuilder<FlowState>(
             stream: _controller.outputState,
             builder: (context, snapshot) {
@@ -67,17 +66,19 @@ class ProfilMode extends StatelessWidget {
             _ratingSection(),
             const SizedBox(
               height: 10,
-            ), 
-            _showName() ,
+            ),
+            _showName(),
             const SizedBox(
               height: 10,
-            ), 
-            _verifyEmailSection() , 
-            const SizedBox(height: 12,) ,
-            _showVerifNumber() , 
-            const SizedBox(height: 12,) ,
-
-            _rideSharerButton(context), 
+            ),
+            _verifyEmailSection(),
+            const SizedBox(
+              height: 12,
+            ),
+            _showVerifNumber(),
+            const SizedBox(
+              height: 12,
+            ),
             const SizedBox(
               height: 10,
             ),
@@ -93,53 +94,49 @@ class ProfilMode extends StatelessWidget {
     );
   }
 
-  Widget _showImage( BuildContext context) {
+  Widget _showImage(BuildContext context) {
     return ClipRRect(
-    
-      child:  CircleAvatar( 
-        radius: AppUtility().contentWidth(context) * .17,
-      backgroundImage: NetworkImage( 
-       '${Constants.baseUrl}/storage/${_controller.user?.picture}' , 
-       headers: {
-        'Accept' : 'application/json' , 
-         'Content-Type' : 'application/json'
-       }
-      
-      ),
-      )
+        child: CircleAvatar(
+      radius: AppUtility().contentWidth(context) * .17,
+      backgroundImage: NetworkImage(
+          '${Constants.baseUrl}/storage/${_controller.user?.picture}',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }),
+    ));
+  }
+
+  Widget _showName() {
+    return Text(
+      '${_controller.user?.lastName} ${_controller.user?.firstName} ',
+      style: const TextStyle(
+          color: AppColors.blackcolor,
+          fontSize: AppDimens.titleSize,
+          fontFamily: AppFonts.poppinsRegular,
+          height: 1.1),
+      //overflow: TextOverflow.clip,
     );
-  } 
+  }
 
-Widget _showName() { 
-  return  Text(
-            '${_controller.user?.lastName} ${_controller.user?.firstName} ',
-                style: const TextStyle(
-                    color: AppColors.blackcolor,
-                    fontSize: AppDimens.titleSize,
-                    fontFamily: AppFonts.poppinsRegular,
-                    height: 1.1),
-                //overflow: TextOverflow.clip,
-              ) ;
-} 
-
-Widget _showVerifNumber() { 
-   return Row(
-        children: [
-             SvgPicture.asset(
-              'assets/icons/verified.svg' , 
-              height: 24, 
-              width: 24,
-             ) ,
-          const SizedBox(
-            width: 10,
-          ),
-          Text(
-            '${ _controller.user?.phoneNumber}',
-            style: Styles().h2TextStyleRoboto(AppColors.greyColor),
-          )
-        ],
-      );
-}
+  Widget _showVerifNumber() {
+    return Row(
+      children: [
+        SvgPicture.asset(
+          'assets/icons/verified.svg',
+          height: 24,
+          width: 24,
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        Text(
+          '${_controller.user?.phoneNumber}',
+          style: Styles().h2TextStyleRoboto(AppColors.greyColor),
+        )
+      ],
+    );
+  }
 
   Widget _ratingSection() {
     return RatingBar.builder(
@@ -158,7 +155,7 @@ Widget _showVerifNumber() {
         // print(rating);
       },
     );
-  } 
+  }
 
   Widget _showDivider() {
     return const Divider(
@@ -174,11 +171,11 @@ Widget _showVerifNumber() {
       },
       child: Row(
         children: [
-             SvgPicture.asset(
-              'assets/icons/add.svg' , 
-              height: 24, 
-              width: 24,
-             ) ,
+          SvgPicture.asset(
+            'assets/icons/add.svg',
+            height: 24,
+            width: 24,
+          ),
           const SizedBox(
             width: 10,
           ),
@@ -191,71 +188,7 @@ Widget _showVerifNumber() {
     );
   }
 
- /* Widget _showInformation( BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // const  SizedBox(width: 10,) ,
-        Expanded(
-          flex: 3,
-          child: Column(
-            children: [
-              _showImage(context),
-              const SizedBox(height: 8),
-              _ratingSection()
-            ],
-          ),
-        ),
-        const SizedBox(
-          width: 10,
-        ),
-        Expanded(
-          flex: 5,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '${_controller.user!.lastName} ${_controller.user!.firstName} ',
-                style: const TextStyle(
-                    color: AppColors.blackcolor,
-                    fontSize: AppDimens.titleSize,
-                    fontFamily: AppFonts.poppinsRegular,
-                    height: 1.1),
-                //overflow: TextOverflow.clip,
-              ),
-              const SizedBox(
-                height: 7,
-              ),
-              _controller.user!.mailVerified!
-                  ? InfoWidget(
-                      imageUrl: 'assets/icons/mail.png',
-                      title: _controller.user!.email!)
-                  : const SizedBox(),
-              InfoWidget(
-                  imageUrl: 'assets/icons/phone.png',
-                  title: _controller.user!.phoneNumber!),
-              Row(
-                children: [
-                  InfoWidget(
-                      imageUrl: 'assets/icons/gender.png',
-                      title: _controller.user!.gender!),
-                  const SizedBox(
-                    width: 11,
-                  ),
-                  InfoWidget(
-                      imageUrl: 'assets/icons/age.png',
-                      // ignore: unnecessary_null_comparison
-                      title: _controller.user!.age! != null
-                          ? '${_controller.user!.age.toString()} Years old'
-                          : 'N/A'),
-                ],
-              )
-            ],
-          ),
-        )
-      ],
-    );
-  }*/
+  
 
   Widget _showMiniBio(BuildContext context) {
     return Column(
@@ -277,7 +210,7 @@ Widget _showVerifNumber() {
                 padding: const EdgeInsets.all(10),
                 child: InkWell(
                   onTap: () {
-                  /*  showDialog(
+                    /*  showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return _showDialogBioForm(context, 'update Bio');
@@ -310,11 +243,12 @@ Widget _showVerifNumber() {
   Widget _rideSharerButton(BuildContext context) {
     return RideSharerbutton(
       onPressed: () {
-   /*  showDialog(
+        /*  showDialog(
             context: context,
             builder: (BuildContext context) {
               return _showDialogForm(context);
-            })*/;
+            })*/
+        ;
       },
       buttonColor: Colors.white,
       text: 'Become a Ridesharer',
@@ -325,7 +259,7 @@ Widget _showVerifNumber() {
     return PrimaryButton(
       text: 'Add Mini Bio',
       onPressed: () {
-      /*  showDialog(
+        /*  showDialog(
             context: context,
             builder: (BuildContext context) {
               return _showDialogBioForm(context, 'Add Mini Bio');
@@ -352,7 +286,9 @@ Widget _showVerifNumber() {
         ChildListTile(
           title: 'Prefernces',
           icon: 'assets/icons/preferences.svg',
-          onClick: () {},
+          onClick: () {
+            // Get.to(()=>const PreferencesScreen()) ;
+          },
         ),
         ChildListTile(
           title: 'Cars',
@@ -371,12 +307,16 @@ Widget _showVerifNumber() {
         ChildListTile(
           title: 'Settings',
           icon: 'assets/icons/settings.svg',
-          onClick: () {},
+          onClick: () { 
+            Get.to(()=>const SettingsScreen()) ;
+          },
         ),
         ChildListTile(
           title: 'Logout',
           icon: 'assets/icons/logout.svg',
-          onClick: () {},
+          onClick: () {
+            _controller.logout();
+          },
         )
       ],
     );
@@ -432,56 +372,7 @@ Widget _showVerifNumber() {
     );
   }
 
- /* Widget _showDialogForm(BuildContext context) {
-    return RichDialogBox(
-      title: 'Add your car Brand',
-      form: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 30),
-        child: EditField(
-            focusNode: _controller.carBrandfocusNode,
-            txtcontroller: _controller.carBrandController,
-            validator: (va) {
-              return null;
-            },
-            hintText: 'car brand',
-            inputType: TextInputType.text),
-      ),
-      actions: [
-        Expanded(
-          child: PrimaryButton(
-              buttonColor: Colors.white,
-              borderColor: AppColors.greyColor,
-              text: 'Decline',
-              btnTxtStyle: const TextStyle(
-                  color: AppColors.greyColor,
-                  fontSize: AppDimens.h2Size,
-                  fontFamily: AppFonts.robotoRegular,
-                  fontWeight: FontWeight.w400,
-                  letterSpacing: AppDimens.letterSpace),
-              onPressed: () {}),
-        ),
-        const SizedBox(
-          width: 20,
-        ),
-        Expanded(
-          child: PrimaryButton(
-              buttonColor: AppColors.primaryColor,
-              text: 'Confirm',
-              btnTxtStyle: const TextStyle(
-                  color: Colors.white,
-                  fontSize: AppDimens.h2Size,
-                  fontFamily: AppFonts.robotoRegular,
-                  fontWeight: FontWeight.w400,
-                  letterSpacing: AppDimens.letterSpace),
-              onPressed: () {
-                Navigator.pop(context);
-              }),
-        ),
-      ],
-    );
-  }*/
-
- /* Widget _showDialogBioForm(BuildContext context, String title) {
+  /* Widget _showDialogBioForm(BuildContext context, String title) {
     return RichDialogBox(
       title: title,
       form: Padding(

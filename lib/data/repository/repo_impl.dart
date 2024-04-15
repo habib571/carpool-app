@@ -18,10 +18,11 @@ class AuthRepositoryImp implements AuthRepository {
   AuthRepositoryImp(this._networkInfo, this._authRemoteDataSource);
 
   @override
-  Future<Either<Failure, LoginResponse>> login(LoginRequest loginRequest) async {
-       if (await _networkInfo.isConnected) {
+  Future<Either<Failure, LoginResponse>> login(
+      LoginRequest loginRequest) async {
+    if (await _networkInfo.isConnected) {
       try {
-        final response = await _authRemoteDataSource.login(loginRequest) ;
+        final response = await _authRemoteDataSource.login(loginRequest);
         if (response.success!) {
           // success
           // return either right
@@ -33,8 +34,7 @@ class AuthRepositoryImp implements AuthRepository {
           return Left(Failure(ApiInternalStatus.FAILURE,
               response.message ?? ResponseMessage.DEFAULT));
         }
-      } catch (error) { 
-         
+      } catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     }
@@ -46,8 +46,8 @@ class AuthRepositoryImp implements AuthRepository {
       RegisterRequest registerRequest) async {
     if (await _networkInfo.isConnected) {
       try {
-        final response = await _authRemoteDataSource.register(registerRequest) ;
-        if (response.success!) {
+        final response = await _authRemoteDataSource.register(registerRequest);
+        if (response.success! !=false) {
           // success
           // return either right
           // return data
@@ -58,8 +58,8 @@ class AuthRepositoryImp implements AuthRepository {
           return Left(Failure(ApiInternalStatus.FAILURE,
               response.message ?? ResponseMessage.DEFAULT));
         }
-      } catch (error) { 
-           print('_________________________________________________ $error') ;
+      } catch (error) {
+        print('_________________________________________________ $error');
         return Left(ErrorHandler.handle(error).failure);
       }
     }
@@ -78,46 +78,45 @@ class AuthRepositoryImp implements AuthRepository {
     }
     return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
   }
-  
+
   @override
   Future<Either<Failure, AuthResponse>> forgotPassword(String email) async {
- if (await _networkInfo.isConnected) {
+    if (await _networkInfo.isConnected) {
       try {
-        final response = await _authRemoteDataSource.forgotPassword(email) ;
-         return Right(response) ;
+        final response = await _authRemoteDataSource.forgotPassword(email);
+        return Right(response);
       } catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     }
     return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-  
   }
-  
-  @override
-  Future<Either<Failure, AuthResponse>> resetPassword(ResetPasswordRequest resetPasswordRequest)async {
-     if (await _networkInfo.isConnected) {
-      try {
-        final response = await _authRemoteDataSource.resetpassword(resetPasswordRequest) ;
-         return Right(response) ;
-      } catch (error) {
-        return Left(ErrorHandler.handle(error).failure);
-      }
-    }
-    return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
 
+  @override
+  Future<Either<Failure, AuthResponse>> resetPassword(
+      ResetPasswordRequest resetPasswordRequest) async {
+    if (await _networkInfo.isConnected) {
+      try {
+        final response =
+            await _authRemoteDataSource.resetpassword(resetPasswordRequest);
+        return Right(response);
+      } catch (error) {
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    }
+    return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
   }
-  
+
   @override
   Future<Either<Failure, AuthResponse>> resendOtp(String phoneNumber) async {
-         if (await _networkInfo.isConnected) {
+    if (await _networkInfo.isConnected) {
       try {
         final response = await _authRemoteDataSource.resendOtp(phoneNumber);
-         return Right(response) ;
+        return Right(response);
       } catch (error) {
         return Left(ErrorHandler.handle(error).failure);
       }
     }
     return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    
   }
 }

@@ -29,8 +29,8 @@ class RideSharingController extends GetxController {
   FocusNode dateFocusNode = FocusNode();
   FocusNode timeFocusNode = FocusNode();
   FocusNode priceFocusNode = FocusNode();
-  final GlobalKey<FormState> locationformKey = GlobalKey<FormState>();
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+   GlobalKey<FormState> locationformKey = GlobalKey<FormState>();
+   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   DraggableScrollableController scrollableController =
       DraggableScrollableController();
   CameraPosition? camPos;
@@ -47,7 +47,9 @@ class RideSharingController extends GetxController {
   late PolylinePoints polylinePoints;
   RxString currentAddress = ''.obs;
   RxString startaddress = ''.obs;
-  RxString destinationAddress = ''.obs;
+  RxString destinationAddress = ''.obs; 
+   late String startAdministrativeArea ; 
+   late String  endAdministrativeArea  ;
   final uuid = const Uuid();
   RxString sessionToken = ''.obs;
   RxList placeList = [].obs;
@@ -145,9 +147,11 @@ class RideSharingController extends GetxController {
       List<Location>? destinationPlacemark =
           await locationFromAddress(destinationAddress.value); 
          
-    String startAdministrativeArea = await getAdministrativeArea(
+     startAdministrativeArea = await getAdministrativeArea(
         startPlacemark[0].latitude, startPlacemark[0].longitude);
-    print('Start Administrative Area************************************: $startAdministrativeArea');
+    print('Start Administrative Area************************************: $startAdministrativeArea'); 
+     endAdministrativeArea = await getAdministrativeArea(
+        destinationPlacemark[0].latitude, destinationPlacemark[0].longitude);
   
 
       // Use the retrieved coordinates of the current position,
@@ -313,13 +317,17 @@ class RideSharingController extends GetxController {
             double.parse(priceController.text),
             placeDistance.value,
             '',
-            '')))
+            '' ,
+            startAdministrativeArea ,
+            endAdministrativeArea
+            
+            )))
         .fold(
             (failure) => stateController.add(
                 ErrorState(StateRendererType.popupErrorState, failure.message)),
             (r) {
       //_ct.getLatestRide();
-      Get.toNamed(Approutes.shareride);
+      Get.offAndToNamed(Approutes.shareride) ;
     });
   }
 
@@ -327,7 +335,11 @@ class RideSharingController extends GetxController {
     _stateStream = stateController.stream.asBroadcastStream();
     stateController.add(ContentState());
   }
+ @override
+  void onClose() {
 
+    super.onClose();
+  }
   @override
   void onInit() {
     // getCurrentLocation() ;

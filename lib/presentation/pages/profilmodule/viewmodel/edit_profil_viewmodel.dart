@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:carpooling/app/app_prefs.dart';
 import 'package:carpooling/data/network/requests.dart';
 import 'package:carpooling/presentation/common/state_render.dart';
 import 'package:carpooling/presentation/pages/profilmodule/viewmodel/profil_viewmodel.dart';
@@ -51,10 +52,16 @@ class EditProfilController extends GetxController {
         (r) => {
               controller.getData(),
             });
+  } 
+  
+   getLogin()  async{ 
+    final id=  await Apppreference.getBearerToken() ; 
+    print(id) ;
   }
 
   @override
-  void onInit() {
+  void onInit() {  
+      getLogin() ;
     start();
 
     handleGender();

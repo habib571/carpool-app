@@ -17,10 +17,11 @@ import 'package:carpooling/presentation/pages/authmodule/viewmodel/forgot_pass_v
 import 'package:carpooling/presentation/pages/authmodule/viewmodel/loginviewmodel.dart';
 import 'package:carpooling/presentation/pages/authmodule/viewmodel/otp_viewmodel.dart';
 import 'package:carpooling/presentation/pages/authmodule/viewmodel/signupviewmodel.dart';
+import 'package:carpooling/presentation/pages/notificationmodule/viewmodel/notification_view_model.dart';
 import 'package:carpooling/presentation/pages/onboarding/viewmodel/onboardingviewmodel.dart';
 import 'package:carpooling/presentation/pages/profilmodule/viewmodel/profil_viewmodel.dart';
 import 'package:carpooling/presentation/pages/profilmodule/viewmodel/verif_mail_viewmodel.dart';
-import 'package:carpooling/presentation/pages/search_ride-screen.dart/viewmodel/searchride_viewmodel.dart';
+import 'package:carpooling/presentation/pages/searchRideModule/viewmodel/searchride_viewmodel.dart';
 import 'package:carpooling/presentation/pages/splash/viewmodel/splashviewmodel.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -30,9 +31,9 @@ import '../presentation/pages/profilmodule/viewmodel/edit_profil_viewmodel.dart'
 class AppBindings implements Bindings {
   @override
   void dependencies() {
-    Get.put<SplashControllerImp>(SplashControllerImp());
-    Get.put<OnboardingController>(OnboardingController());
-    Get.put<LoginController>(LoginController(LoginUsecase(AuthRepositoryImp(
+    Get.lazyPut<SplashControllerImp>(()=>SplashControllerImp());
+    Get.lazyPut<OnboardingController>( ()=> OnboardingController());
+    Get.lazyPut<LoginController>(   fenix: true , () =>LoginController(LoginUsecase(AuthRepositoryImp(
         NetworkInfoImpl(InternetConnectionChecker()),
         AuthRemoteDataSourceImp()))));
     Get.put<ForgotPasswordcontroller>(ForgotPasswordcontroller(
@@ -40,7 +41,7 @@ class AppBindings implements Bindings {
           NetworkInfoImpl(InternetConnectionChecker()),
           AuthRemoteDataSourceImp())),
     ));
-    Get.put<SignUpController>(SignUpController(RegisterUseCase(
+    Get.lazyPut<SignUpController>( fenix: true ,() =>SignUpController(RegisterUseCase(
         AuthRepositoryImp(NetworkInfoImpl(InternetConnectionChecker()),
             AuthRemoteDataSourceImp()))));
     Get.put<OtpVerificationController>(OtpVerificationController(
@@ -53,8 +54,8 @@ class AppBindings implements Bindings {
     Get.put<CheckEmailController>(CheckEmailController()) ; 
     Get.lazyPut<EditProfilController>( fenix: true , ()=> EditProfilController(UpdateInfoUsecae(UserInfoRepositpryImp(UserInfoRemoteDataSourceImp() ,NetworkInfoImpl(InternetConnectionChecker()))) ) )  ; 
   //Get.lazyPut(fenix: true , ()=> RideInfoController(GetRidesUseCase(RidesRepositoryImp(NetworkInfoImpl(InternetConnectionChecker()),RideRemoteDatsourceImp()))))  ; 
-    Get.put( SearchRideController(SearchRideUseCase(RidesRepositoryImp(NetworkInfoImpl(InternetConnectionChecker()), RideRemoteDatsourceImp())))) ;
-    
+    Get.lazyPut( fenix: true , ()=> SearchRideController(SearchRideUseCase(RidesRepositoryImp(NetworkInfoImpl(InternetConnectionChecker()), RideRemoteDatsourceImp())))) ;
+    Get.lazyPut( fenix: true  ,() => NotificationController() ) ;
       }
 }
 

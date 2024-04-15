@@ -32,6 +32,7 @@ class OtpVerificationController extends GetxController {
   @override
   void onClose() {
     _timer.cancel();
+    stateController.close() ;
     super.onClose();
   }
 
@@ -48,7 +49,7 @@ class OtpVerificationController extends GetxController {
           .add(ErrorState(StateRendererType.popupErrorState, failure.message));
     }, (data) {
       //    print(otpController.text) ;
-      Get.toNamed(Approutes.login);
+      Get.offAllNamed(Approutes.login);
     });
   }
 

@@ -10,7 +10,9 @@ abstract class RidesRepository {
   Future<Either<Failure,BaseResponse>> createRide(ShareRideRequest shareRideRequest) ; 
   Future<Either<Failure,RideResponse>>  getLatestRide() ;   
   Future<Either<Failure, BaseResponse>>   deleteRide(String rideId) ;    
-  Future<Either<Failure,RidesResponse>>   searchRide(SeacrhRideRequest seacrhRideRequest) ;   
+  Future<Either<Failure,RidesResponse>>   searchRide(SeacrhRideRequest seacrhRideRequest) ;    
+  Future<Either<Failure,RideResponse>> getRideById(int id) ; 
+ Future<Either<Failure,BaseResponse>> bookRide(int id) ;
 
 
 

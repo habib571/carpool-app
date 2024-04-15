@@ -5,22 +5,23 @@ class Apppreference {
     storage.write(key: 'Bearer', value: token);
   }
 
-  static Future<String?> getBearerToken() async {
+  static  getBearerToken()   {
     final token = storage.read(key: 'Bearer');
     return token;
+  }  
+
+ static Future<void> removeBearerToken() async {
+    storage.delete(key: 'Bearer');
   }
 
-  static Future<void> setLoginToken(String token) async {
-    storage.write(key: 'LogToken', value: token);
+  static  setLogin() {
+    sharedPrefs.setString('login', '1') ;
   }
 
-  static Future<String?> getLoginoken() async {
-    final token = storage.read(key: 'logToken');
-    return token;
-  }
+ 
 
-  static Future<void> removeLoginToken() async {
-    storage.delete(key: 'LogToken');
+  static  removeLogin()  {
+    sharedPrefs.remove('login') ;
   }
 
   static Future<void> setUserId(String token) async {
@@ -34,5 +35,6 @@ class Apppreference {
 
   static Future<void> removeUserId() async {
     sharedPrefs.remove('UID');
-  }
+  } 
+  
 }

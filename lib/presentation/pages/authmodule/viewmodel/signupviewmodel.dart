@@ -24,7 +24,7 @@ class SignUpController extends GetxController {
   FocusNode passFocusNode = FocusNode();
   FocusNode confirmpassFocusNode = FocusNode();
   FocusNode firstFocusNode = FocusNode();
-    FocusNode lastFocusNode = FocusNode();
+  FocusNode lastFocusNode = FocusNode();
   final emailcontrollerS = TextEditingController();
   final passwordcontrollerS = TextEditingController();
   final firstname = TextEditingController();
@@ -36,18 +36,15 @@ class SignUpController extends GetxController {
   final stateController = StreamController<FlowState>();
    Stream<FlowState> get outputState => _stateStream.map((flowState) => flowState);  
   SignUpController(this._registerUseCase);
+   
   
-@override
-  void onInit() { 
-   start() ;
-    super.onInit(); 
-  }  
   @override
-  void onClose() {
-    stateController.close();
-    super.onClose();
+  void onInit() {
+    
+    start();
+    super.onInit();
   }
-  void start() {  
+   start() {  
       _stateStream = stateController.stream.asBroadcastStream(); 
      stateController.add(ContentState()) ;
   }
@@ -109,12 +106,13 @@ class SignUpController extends GetxController {
     ); 
 
         
-   result.fold((failure) {
+   result.fold((failure) { 
     stateController.add(ErrorState(
-                  StateRendererType.popupErrorState, failure.message)) ;
+                  StateRendererType.popupErrorState, failure.message)) ; 
+      
     }, (success) {  
          Apppreference.setBearerToken(success.data!['token']) ;
-       Get.toNamed(Approutes.verifyOtp ,  arguments:phonenumber.text ) ;
+       Get.offAllNamed(Approutes.verifyOtp ,  arguments:phonenumber.text ) ;
         }
    ) ;
 

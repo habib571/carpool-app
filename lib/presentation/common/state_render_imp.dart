@@ -132,13 +132,14 @@ extension FlowStateExtension on FlowState {
         }
       case ContentState:
         {
-         dismissDialog(context);
+        // dismissDialog(context);
+  
           return contentScreenWidget;
         }
       case SuccessState:
         {
           // i should check if we are showing loading popup to remove it before showing success popup
-          dismissDialog(context);
+       dismissDialog(context);
 
           // show popup
           showPopup(context, StateRendererType.popupSuccess, getMessage(),
@@ -148,7 +149,7 @@ extension FlowStateExtension on FlowState {
         }
       default:
         {
-         dismissDialog(context);
+         //dismissDialog(context);
           return contentScreenWidget;
         }
     }
@@ -159,8 +160,11 @@ extension FlowStateExtension on FlowState {
 
   dismissDialog(BuildContext context) async{
     if (_isCurrentDialogShowing(context)) { 
-      
+       
             Navigator.of(context, rootNavigator: true).pop(true);
+
+       
+           
       
     }
   }
@@ -175,6 +179,8 @@ extension FlowStateExtension on FlowState {
             stateRendererType: stateRendererType,
             message: message,
             title: title,
-            retryActionFunction: () {})));
+            retryActionFunction: () { 
+             dismissDialog(context) ;
+            })));
   }
-}
+} 

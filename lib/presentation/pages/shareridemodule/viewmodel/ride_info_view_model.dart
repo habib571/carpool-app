@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:carpooling/domain/models/ride.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/get_ride_uses_case.dart';
+import 'package:carpooling/navigation/routes_constant.dart';
 import 'package:carpooling/presentation/pages/homemodule/view/screens/homescreen.dart';
 import 'package:get/get.dart';
 import '../../../common/state_render.dart';
@@ -11,7 +12,13 @@ class RideInfoController extends GetxController {
     start() ;
     super.onInit();
   } 
-    Ride? ride ; 
+    Ride? ride ;  
+    @override
+  void onClose() {
+      stateController.close() ;
+    super.onClose();
+  } 
+
   
       final stateController = StreamController<FlowState>();
   late Stream<FlowState> _stateStream;
@@ -43,7 +50,7 @@ class RideInfoController extends GetxController {
     ).fold((failure) => stateController.add(ErrorState(StateRendererType.popupErrorState, failure.message)), 
     (data) {  
   
-      Get.offAll(()=>const HomeScreen()) ;
+      Get.offAndToNamed(Approutes.home) ;
     } );
    }
    
