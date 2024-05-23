@@ -296,7 +296,9 @@ class EditModeScreen extends StatelessWidget {
             shrinkWrap: true,
             padding: EdgeInsets.only(
                 top: AppUtility().contentHeight(context) * .03,
-                bottom: AppUtility().contentHeight(context) * .05),
+                bottom: AppUtility().contentHeight(context) * .05 ,
+                left: AppUtility().contentHeight(context) * .05 
+                ),
             children: [
               //pick profile picture label
               const Text('Pick Profile Picture',

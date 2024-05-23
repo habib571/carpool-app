@@ -56,6 +56,7 @@ class RideDetailsController extends GetxController {
     Notifi notification = Notifi(
       fromId: uid,
       toId: ride.driverId,
+      rideId: ride.id,
       senderName: "${_ctx.user!.firstName} ${_ctx.user!.lastName} ",
       description: description,
       isRequest: true,

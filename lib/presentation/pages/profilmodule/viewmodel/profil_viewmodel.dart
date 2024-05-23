@@ -118,7 +118,7 @@ void switchMode() {
             StateRendererType.fullScreenErrorState, 'Something went wrog'));
      
     }, (data) async {
-      await Apppreference.removeBearerToken() ;
+            Apppreference.removeLogin() ;
       await Apppreference.removeUserId() ;
 
        Get.offAllNamed(Approutes.login) ;

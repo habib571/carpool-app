@@ -1,5 +1,5 @@
 class Constants {
-  static const String baseUrl = "http://192.168.1.15:8000";
+  static const String baseUrl = "http://192.168.1.12:8000";
   static const String empty = "";
   static const String token = "SEND TOKEN HERE";
   static const int zero = 0;

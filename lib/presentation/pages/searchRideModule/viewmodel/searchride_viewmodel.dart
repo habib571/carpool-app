@@ -24,6 +24,7 @@ class SearchRideController extends GetxController {
   @override
   void onClose() {
     mapController = Completer();
+    rideStream.close();
      stateController.close() ;
     super.onClose();
   }
@@ -47,7 +48,9 @@ class SearchRideController extends GetxController {
   void start() {
     _stateStream = stateController.stream.asBroadcastStream();
     stateController.add(ContentState()); 
-   _rideStream = ridesStream.stream.asBroadcastStream() ;
+  rideStream = StreamController<List<Ride>>.broadcast() ;
+
+   
   }
 
   // google maps suggestions api variables
@@ -69,10 +72,8 @@ class SearchRideController extends GetxController {
   Stream<FlowState> get outputState =>
       _stateStream.map((flowState) => flowState); 
 
-  late Stream<Ride> _rideStream ;
-  final ridesStream = StreamController<Ride>();
-  Stream<Ride> get outputRidesStream =>
-      _rideStream.map((rides) => rides); 
+  late StreamController<List<Ride>> rideStream ; 
+ 
 
   // google maps  variable declaration
   CameraPosition? camPos;
@@ -131,8 +132,10 @@ class SearchRideController extends GetxController {
       stateController.add(ErrorState(StateRendererType.popupErrorState, failure.message)) ;
       
     },
-     (data) {  
-      _ridelist = data.rideData!.rides! ;  
+     (data) {   
+      print('dateeeee ${date.value}') ;
+      _ridelist = data.rideData!.rides! ;   
+        rideStream.sink.add(_ridelist) ;
     print('+++++++++++++++++++ $_ridelist') ;
        Get.to(()=>  SearchResultScreen()) ; 
        update() ;

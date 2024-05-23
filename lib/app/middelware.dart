@@ -7,13 +7,11 @@ import 'package:get/get.dart';
 
 class Authmiddleware extends GetMiddleware {
     
-    getLogin() async {
-    await Apppreference.getBearerToken();
-  }
+
 
   @override
-  RouteSettings? redirect(String? route) {
-    if (getLogin() != null) {
+  RouteSettings? redirect(String? route) { 
+    if (Apppreference.getLogin() == "1") {
       return const RouteSettings(name: Approutes.home);
     }
     return null;

@@ -3,28 +3,26 @@ import 'package:carpooling/presentation/utils/app_colors.dart';
 import 'package:carpooling/presentation/utils/app_utility.dart';
 import 'package:flutter/material.dart';
 
-class ChatUserCard extends StatefulWidget {
+import '../../../../../domain/models/chat_user.dart';
+
+class ChatUserCard extends StatelessWidget {
   const ChatUserCard({
-    super.key,
+    super.key, required this.chatuser, required this.ontap,
   });
-
-  @override
-  State<ChatUserCard> createState() => _ChatUserCardState();
-}
-
-class _ChatUserCardState extends State<ChatUserCard> {
+ final ChatUser chatuser ; 
+ final Function() ontap;
   //last message info (if null --> no message)
-
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.symmetric(horizontal: AppUtility().contentWidth(context)  *.04, vertical: 4),
-     color: AppColors.accentColor ,
+     color: AppColors.cPrimaryColor,
       elevation: 0.5,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: InkWell(
-          onTap: () {
-            //for navigating to chat screen
+          onTap: () { 
+            ontap() ;
+           
           },
           child: ListTile( 
               //user profile picture
@@ -32,8 +30,8 @@ class _ChatUserCardState extends State<ChatUserCard> {
                 height: 60, 
                 width: 60,
                 child: CachedNetworkImage(
-                  imageUrl:
-                      'https://images.unsplash.com/photo-1567784177951-6fa58317e16b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80',
+                  imageUrl: chatuser.imageUrl! ,
+  
                   imageBuilder: (context, imageProvider) => Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
@@ -53,10 +51,10 @@ class _ChatUserCardState extends State<ChatUserCard> {
               ),
 
               //user name
-              title: const Text('Yassine lazrek'),
+              title: Text(chatuser.name!),
 
               //last message
-              subtitle: const Text('hey, habib', maxLines: 1),
+              subtitle:  Text(  chatuser.lastMessage!, maxLines: 1),
 
               //last message time
               trailing:
@@ -64,8 +62,10 @@ class _ChatUserCardState extends State<ChatUserCard> {
                   Container(
                 width: 15,
                 height: 15,
-                decoration: BoxDecoration(
-                    color: Colors.greenAccent.shade400,
+                decoration: BoxDecoration( 
+                    color: chatuser.activeStatus! ?
+                     Colors.greenAccent.shade400
+                     :   AppColors.greyColor ,
                     borderRadius: BorderRadius.circular(10)),
               )
               /*:

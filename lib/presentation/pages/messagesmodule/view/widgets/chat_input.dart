@@ -37,9 +37,7 @@ class ChatInput extends StatelessWidget {
                     controller: messageInput,
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
-                    onTap: () {
-                      //  if (_showEmoji) setState(() => _showEmoji = !_showEmoji);
-                    },
+                   
                     decoration: const InputDecoration(
                         hintText: 'Type a message...',
                         hintStyle: TextStyle(color: AppColors.greyColor),

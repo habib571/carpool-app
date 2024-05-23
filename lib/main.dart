@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: AppThemes.lightTheme,
+      theme: AppThemes.lightTheme,  
       initialBinding: AppBindings(),  
       darkTheme: AppThemes.darkTheme,
       initialRoute:  Approutes.login,

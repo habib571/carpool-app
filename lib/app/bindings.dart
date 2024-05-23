@@ -5,6 +5,7 @@ import 'package:carpooling/data/network/network_info.dart';
 import 'package:carpooling/data/repository/repo_impl.dart';
 import 'package:carpooling/data/repository/rides_repo_impl.dart';
 import 'package:carpooling/data/repository/user_info_repo_impl.dart';
+import 'package:carpooling/domain/usecases/auth_usecase.dart/accept_passenger_user_case.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/forgot_pass_use_case.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/get_user_data_use_case.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/login_usecase.dart';
@@ -31,31 +32,53 @@ import '../presentation/pages/profilmodule/viewmodel/edit_profil_viewmodel.dart'
 class AppBindings implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<SplashControllerImp>(()=>SplashControllerImp());
-    Get.lazyPut<OnboardingController>( ()=> OnboardingController());
-    Get.lazyPut<LoginController>(   fenix: true , () =>LoginController(LoginUsecase(AuthRepositoryImp(
-        NetworkInfoImpl(InternetConnectionChecker()),
-        AuthRemoteDataSourceImp()))));
+    Get.lazyPut<SplashControllerImp>(() => SplashControllerImp());
+    Get.lazyPut<OnboardingController>(() => OnboardingController());
+    Get.lazyPut<LoginController>(
+        fenix: true,
+        () => LoginController(LoginUsecase(AuthRepositoryImp(
+            NetworkInfoImpl(InternetConnectionChecker()),
+            AuthRemoteDataSourceImp()))));
     Get.put<ForgotPasswordcontroller>(ForgotPasswordcontroller(
       ForgotUseCase(AuthRepositoryImp(
           NetworkInfoImpl(InternetConnectionChecker()),
           AuthRemoteDataSourceImp())),
     ));
-    Get.lazyPut<SignUpController>( fenix: true ,() =>SignUpController(RegisterUseCase(
-        AuthRepositoryImp(NetworkInfoImpl(InternetConnectionChecker()),
+    Get.lazyPut<SignUpController>(
+        fenix: true,
+        () => SignUpController(RegisterUseCase(AuthRepositoryImp(
+            NetworkInfoImpl(InternetConnectionChecker()),
             AuthRemoteDataSourceImp()))));
     Get.put<OtpVerificationController>(OtpVerificationController(
         VerifyOtpUseCase(AuthRepositoryImp(
             NetworkInfoImpl(InternetConnectionChecker()),
             AuthRemoteDataSourceImp()))));
 
-
-    Get.lazyPut<ProfilController>( fenix :true ,()=> ProfilController(LogoutUseCase(UserInfoRepositpryImp(UserInfoRemoteDataSourceImp(),NetworkInfoImpl(InternetConnectionChecker()))) , GetUserDataUseCase(UserInfoRepositpryImp(UserInfoRemoteDataSourceImp(),NetworkInfoImpl(InternetConnectionChecker())))) , ) ; 
-    Get.put<CheckEmailController>(CheckEmailController()) ; 
-    Get.lazyPut<EditProfilController>( fenix: true , ()=> EditProfilController(UpdateInfoUsecae(UserInfoRepositpryImp(UserInfoRemoteDataSourceImp() ,NetworkInfoImpl(InternetConnectionChecker()))) ) )  ; 
-  //Get.lazyPut(fenix: true , ()=> RideInfoController(GetRidesUseCase(RidesRepositoryImp(NetworkInfoImpl(InternetConnectionChecker()),RideRemoteDatsourceImp()))))  ; 
-    Get.lazyPut( fenix: true , ()=> SearchRideController(SearchRideUseCase(RidesRepositoryImp(NetworkInfoImpl(InternetConnectionChecker()), RideRemoteDatsourceImp())))) ;
-    Get.lazyPut( fenix: true  ,() => NotificationController() ) ;
-      }
+    Get.lazyPut<ProfilController>(
+      fenix: true,
+      () => ProfilController(
+          LogoutUseCase(UserInfoRepositpryImp(UserInfoRemoteDataSourceImp(),
+              NetworkInfoImpl(InternetConnectionChecker()))),
+          GetUserDataUseCase(UserInfoRepositpryImp(
+              UserInfoRemoteDataSourceImp(),
+              NetworkInfoImpl(InternetConnectionChecker())))),
+    );
+    Get.put<CheckEmailController>(CheckEmailController());
+    Get.lazyPut<EditProfilController>(
+        fenix: true,
+        () => EditProfilController(UpdateInfoUsecae(UserInfoRepositpryImp(
+            UserInfoRemoteDataSourceImp(),
+            NetworkInfoImpl(InternetConnectionChecker())))));
+    //Get.lazyPut(fenix: true , ()=> RideInfoController(GetRidesUseCase(RidesRepositoryImp(NetworkInfoImpl(InternetConnectionChecker()),RideRemoteDatsourceImp()))))  ;
+    Get.lazyPut(
+        fenix: true,
+        () => SearchRideController(SearchRideUseCase(RidesRepositoryImp(
+            NetworkInfoImpl(InternetConnectionChecker()),
+            RideRemoteDatsourceImp()))));
+    Get.lazyPut(
+        fenix: true,
+        () => NotificationController(AcceptPassengerUserCase(RidesRepositoryImp(
+            NetworkInfoImpl(InternetConnectionChecker()),
+            RideRemoteDatsourceImp()))));
+  }
 }
-

@@ -1,5 +1,6 @@
 import 'package:carpooling/data/network/network_info.dart';
 import 'package:carpooling/domain/models/ride.dart';
+import 'package:carpooling/presentation/pages/searchRideModule/view/screen/booking_sreen.dart';
 import 'package:carpooling/presentation/pages/searchRideModule/view/screen/ride_details_screen.dart';
 import 'package:carpooling/presentation/pages/searchRideModule/view/widget/search_item.dart';
 import 'package:carpooling/presentation/pages/searchRideModule/viewmodel/searchride_viewmodel.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import '../../../../../app/contants.dart';
 import '../../../../../data/datasource/remote/rides_remote_datasource.dart';
 import '../../../../../data/repository/rides_repo_impl.dart';
 import '../../../../../domain/usecases/auth_usecase.dart/search_ride_use_case.dart';
@@ -92,13 +94,22 @@ Widget _buildListBottomSheet(BuildContext context) {
   return GetBuilder<SearchRideController>(
     init: SearchRideController(SearchRideUseCase(RidesRepositoryImp(NetworkInfoImpl(InternetConnectionChecker()), RideRemoteDatsourceImp()))),
     builder: (_) {
-      return StreamBuilder<Ride>(
-        stream: _controller.outputRidesStream,
-        builder: (context, snapshot) { 
+      return StreamBuilder<List<Ride>>(
+        stream: _controller.rideStream.stream,
+        builder: (context, snapshot) {  
+           switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+          case ConnectionState.none:
+            return const Center(
+                child: CircularProgressIndicator(
+              color: AppColors.primaryColor,
+            ));
+
+          //if some or all data is loaded then show it
+          case ConnectionState.active:
+          case ConnectionState.done: 
           
-          if (_.ridelist.isEmpty) {
-            return const Center(child: Text('No Rides Found'));
-          } else {
+         if(_.ridelist.isNotEmpty) {
             return SizedBox(
               height: AppUtility().contentHeight(context) * 0.7,
               child: ListView.builder(
@@ -110,7 +121,7 @@ Widget _buildListBottomSheet(BuildContext context) {
                   return Padding(
                     padding: const EdgeInsets.only(right: 15.0),
                     child: SearchListItem(
-                      imageUrl: _.ridelist[index].driverPicture! ,
+                      imageUrl: '${Constants.baseUrl}/storage/${_.ridelist[index].driverPicture!}' ,
                       name: _.ridelist[index].name!,
                       onPressed: () {
                         Get.to(() =>  RideDetailsSceen(), arguments: _.ridelist[index]);
@@ -127,11 +138,63 @@ Widget _buildListBottomSheet(BuildContext context) {
               ),
             );
           }
+        }  
+         return const SizedBox();
+        
         },
       );
     },
   );
 }
-        
+   /*Widget _showNotificationList() {
+    return StreamBuilder(
+      stream: _.getNotifications(),
+      builder: ((context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+          case ConnectionState.none:
+            return const Center(
+                child: CircularProgressIndicator(
+              color: AppColors.primaryColor,
+            ));
+
+          //if some or all data is loaded then show it
+          case ConnectionState.active:
+          case ConnectionState.done:
+            final data = snapshot.data?.docs;
+            _.list =
+                data?.map((e) => Notifi.fromJson(e.data())).toList() ?? [];
+            print(_.list.length);
+
+            if (_.list.isNotEmpty) {
+              return ListView.builder(
+                  itemCount: _.list.length,
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.only(top: 25.0),
+                  physics: const ClampingScrollPhysics(),
+                  itemBuilder: (BuildContext context, int index) {
+                    return GetX<NotificationController>(
+                      builder: (_) {
+                        return NotificationWidget( 
+                          isButtonLoading: _.isButtonLoading.value,
+                          acceptPassenger: () { 
+                            _.acceptPassenger(_.list[index].rideId! , _.list[index].fromId!, _.list[index].toId!) ;
+                          },
+                          rejectPassenger: () {},
+                          imageUrl: _.list[index].senderPhotoUrl!,
+                          senderName: _.list[index].senderName!,
+                          description: _.list[index].description!,
+                          isRequest: true,
+                        );
+                      }
+                    );
+                  });
+            }
+
+            return const SizedBox();
+        }
+      }),
+    );
+  }    */  
 
 }

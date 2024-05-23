@@ -4,7 +4,7 @@ import 'package:carpooling/data/repository/rides_repo_impl.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/book_ride_use_case.dart';
 import 'package:carpooling/navigation/routes_constant.dart';
 import 'package:carpooling/presentation/component/components.dart';
-import 'package:carpooling/presentation/pages/messagesmodule/view/screens/messages_screen.dart';
+import 'package:carpooling/presentation/pages/messagesmodule/view/screens/chat_screen.dart';
 import 'package:carpooling/presentation/pages/searchRideModule/view/widget/contact_icon.dart';
 import 'package:carpooling/presentation/pages/searchRideModule/view/widget/participant_widget.dart';
 import 'package:carpooling/presentation/pages/searchRideModule/viewmodel/ride_details_viewmodel.dart';
@@ -125,7 +125,7 @@ class RideDetailsSceen extends StatelessWidget {
         ),
         InkWell(
             onTap: () { 
-              Get.to(()=>ChatScreen(), arguments: _controller.ride.driverId) ;
+              Get.to(()=>ChatScreen(), arguments: _controller.ride) ;
             },
             child: const ContactIcon(icon: 'assets/icons/message.png'))
       ],
@@ -156,16 +156,16 @@ class RideDetailsSceen extends StatelessWidget {
 
   Widget _showProfilDetailButton() {
     return MaterialButton(
-      padding: EdgeInsets.zero,
+      padding: EdgeInsets.symmetric(horizontal: 12 , vertical: 5),
       elevation: 0,
       height: 35,
       color: AppColors.primaryColor,
       child: Text(
-        'Rate the driver',
+        'More info ',
         style: Styles().subHeaderStyle(
           AppColors.cPrimaryColor,
           AppDimens.h3Size,
-          AppFonts.robotoRegular,
+          AppFonts.poppinsRegular,
         ),
       ),
       onPressed: () { 

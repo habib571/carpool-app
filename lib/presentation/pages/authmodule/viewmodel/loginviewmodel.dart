@@ -73,7 +73,7 @@ class LoginController extends GetxController {
 
   Future<void> login(BuildContext context) async {
     stateController.add(
-        LoadingState(stateRendererType: StateRendererType.popupLoadingState));
+        LoadingState(stateRendererType: StateRendererType.fullScreenLoadingState));
     final result = await _loginUsecase.call(LoginRequest(
         emailcoltrollerL.text.trimRight(),
         passwordcontrollerL.text.trimRight()));
@@ -82,8 +82,10 @@ class LoginController extends GetxController {
           .add(ErrorState(StateRendererType.popupErrorState, failure.message));
     }, (data) async {
       final uid = data.loginData!.user!.uid; 
-      final token = data.loginData!.token ;
-       Apppreference.setBearerToken(token!) ;
+      final token = data.loginData!.token ;  
+      Apppreference.setBearerToken(token!) ; 
+      print(token) ;
+      Apppreference.setLogin() ;
       Apppreference.setUserId(uid!);
       Get.offAllNamed(Approutes.home);
     });

@@ -10,12 +10,16 @@ class Apppreference {
     return token;
   }  
 
- static Future<void> removeBearerToken() async {
+ static  removeBearerToken()  {
     storage.delete(key: 'Bearer');
   }
 
   static  setLogin() {
     sharedPrefs.setString('login', '1') ;
+  } 
+
+  static String? getLogin() {
+     return sharedPrefs.getString('login');
   }
 
  

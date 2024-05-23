@@ -1,6 +1,6 @@
- // ignore_for_file: avoid_print
+// ignore_for_file: avoid_print
 
- import 'package:carpooling/data/datasource/remote/rides_remote_datasource.dart';
+import 'package:carpooling/data/datasource/remote/rides_remote_datasource.dart';
 import 'package:carpooling/data/network/error_handler.dart';
 import 'package:carpooling/data/network/failure.dart';
 import 'package:carpooling/data/network/requests.dart';
@@ -13,154 +13,164 @@ import 'package:flutter/foundation.dart';
 
 import '../network/network_info.dart';
 
-class RidesRepositoryImp implements RidesRepository { 
+class RidesRepositoryImp implements RidesRepository {
   final RideRemoteDatsourceImp _rideRemoteDatsourceImp;
   final NetworkInfo _networkInfo;
-  RidesRepositoryImp(this._networkInfo , this._rideRemoteDatsourceImp) ;
+  RidesRepositoryImp(this._networkInfo, this._rideRemoteDatsourceImp);
   @override
-
-       Future<Either<Failure, BaseResponse>> createRide(ShareRideRequest shareRideRequest) async {
+  Future<Either<Failure, BaseResponse>> createRide(
+      ShareRideRequest shareRideRequest) async {
     if (await _networkInfo.isConnected) {
       try {
-        final response = await  _rideRemoteDatsourceImp.createRide(shareRideRequest ) ;
-        if (response.success! ) {
+        final response =
+            await _rideRemoteDatsourceImp.createRide(shareRideRequest);
+        if (response.success!) {
           // success
           // return either right
-          // return data 
-          
+          // return data
+
           return Right(response);
         } else {
           // failure --return business error
-          // return either left 
-         
+          // return either left
+
           return Left(Failure(ApiInternalStatus.FAILURE,
               response.message ?? ResponseMessage.DEFAULT));
         }
-      } catch (error) {  
+      } catch (error) {
         if (kDebugMode) {
-          print(' hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh______________________________  $error') ;
+          print(
+              ' hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh______________________________  $error');
         }
-        
-        return Left(Failure(ApiInternalStatus.FAILURE, 'Something Went wrong' ));
+
+        return Left(Failure(ApiInternalStatus.FAILURE, 'Something Went wrong'));
       }
     }
     return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
   }
 
   @override
-  Future<Either<Failure, RideResponse>> getLatestRide()  async{ 
-     if (await _networkInfo.isConnected) {
-      try {
-        final response = await  _rideRemoteDatsourceImp.getLatestRide() ;
-        if (response.success!) {
-          // success
-          // return either right
-          // return data 
-          
-          return Right(response);
-        } else {
-          // failure --return business error
-          // return either left 
-         
-          return Left(Failure(ApiInternalStatus.FAILURE,
-              response.message ?? ResponseMessage.DEFAULT));
-        }
-      } catch (error) {  
-        print(' hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh_____________________________  $error') ;
-        
-        return Left(Failure(ApiInternalStatus.FAILURE, 'Something went Wrong ' ));
-      }
-    }
-    return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-  }
-  
-  @override
-  Future<Either<Failure, BaseResponse>> deleteRide(String rideId) async{
+  Future<Either<Failure, RideResponse>> getLatestRide() async {
     if (await _networkInfo.isConnected) {
       try {
-        final response = await  _rideRemoteDatsourceImp.deleteRide(rideId) ;
+        final response = await _rideRemoteDatsourceImp.getLatestRide();
         if (response.success!) {
           // success
           // return either right
-          // return data 
-          
+          // return data
+
           return Right(response);
         } else {
           // failure --return business error
-          // return either left 
-         
+          // return either left
+
           return Left(Failure(ApiInternalStatus.FAILURE,
               response.message ?? ResponseMessage.DEFAULT));
         }
-      } catch (error) {  
-        print(' hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh_____________________________  $error') ;
-        
-        return Left(Failure(ApiInternalStatus.FAILURE, 'Something went Wrong ' ));
+      } catch (error) {
+        print(
+            ' hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh_____________________________  $error');
+
+        return Left(
+            Failure(ApiInternalStatus.FAILURE, 'Something went Wrong '));
       }
     }
     return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
   }
 
   @override
-  Future<Either<Failure, RidesResponse>> searchRide( SeacrhRideRequest seacrhRideRequest) async { 
-      if (await _networkInfo.isConnected) {
+  Future<Either<Failure, BaseResponse>> deleteRide(String rideId) async {
+    if (await _networkInfo.isConnected) {
       try {
-        final response = await  _rideRemoteDatsourceImp.seachRide(seacrhRideRequest);
+        final response = await _rideRemoteDatsourceImp.deleteRide(rideId);
         if (response.success!) {
           // success
           // return either right
-          // return data 
-          
+          // return data
+
           return Right(response);
         } else {
           // failure --return business error
-          // return either left 
-         
+          // return either left
+
           return Left(Failure(ApiInternalStatus.FAILURE,
               response.message ?? ResponseMessage.DEFAULT));
         }
-      } catch (error) {  
-      print(' hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh_____________________________  $error') ;
-        
-        return Left(Failure(ApiInternalStatus.FAILURE, 'Something went Wrong ' ));
+      } catch (error) {
+        print(
+            ' hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh_____________________________  $error');
+
+        return Left(
+            Failure(ApiInternalStatus.FAILURE, 'Something went Wrong '));
       }
     }
     return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
   }
-  
+
   @override
-  Future<Either<Failure, RideResponse>> getRideById(int id)async { 
-     if (await _networkInfo.isConnected) {
+  Future<Either<Failure, RidesResponse>> searchRide(
+      SeacrhRideRequest seacrhRideRequest) async {
+    if (await _networkInfo.isConnected) {
       try {
-        final response = await  _rideRemoteDatsourceImp.getRideById(id) ;
+        final response =
+            await _rideRemoteDatsourceImp.seachRide(seacrhRideRequest);
         if (response.success!) {
           // success
           // return either right
-          // return data 
-          
+          // return data
+
           return Right(response);
         } else {
           // failure --return business error
-          // return either left 
-         
+          // return either left
+
           return Left(Failure(ApiInternalStatus.FAILURE,
               response.message ?? ResponseMessage.DEFAULT));
         }
-      } catch (error) {  
-      print(' _____________________________  $error') ;
-        
-        return Left(Failure(ApiInternalStatus.FAILURE, 'Something went Wrong ' ));
+      } catch (error) {
+        print(
+            ' hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh_____________________________  $error');
+
+        return Left(
+            Failure(ApiInternalStatus.FAILURE, 'Something went Wrong '));
       }
     }
     return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
- 
   }
-  
+
   @override
-  Future<Either<Failure, BaseResponse>> bookRide(int id) async{ 
-      if (await _networkInfo.isConnected) {
+  Future<Either<Failure, RideResponse>> getRideById(int id) async {
+    if (await _networkInfo.isConnected) {
       try {
-        final response = await _rideRemoteDatsourceImp.bookRide(id) ;
+        final response = await _rideRemoteDatsourceImp.getRideById(id);
+        if (response.success!) {
+          // success
+          // return either right
+          // return data
+
+          return Right(response);
+        } else {
+          // failure --return business error
+          // return either left
+
+          return Left(Failure(ApiInternalStatus.FAILURE,
+              response.message ?? ResponseMessage.DEFAULT));
+        }
+      } catch (error) {
+        print(' _____________________________  $error');
+
+        return Left(
+            Failure(ApiInternalStatus.FAILURE, 'Something went Wrong '));
+      }
+    }
+    return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+  }
+
+  @override
+  Future<Either<Failure, BaseResponse>> bookRide(int id) async {
+    if (await _networkInfo.isConnected) {
+      try {
+        final response = await _rideRemoteDatsourceImp.bookRide(id);
         if (response.success!) {
           // success
           // return either right
@@ -178,10 +188,31 @@ class RidesRepositoryImp implements RidesRepository {
       }
     }
     return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-  
   }
-    //
- 
+
+  @override
+  Future<Either<Failure, BaseResponse>> acceptPassenger(
+      int rideId, String passengerId) async {
+    if (await _networkInfo.isConnected) {
+      try {
+        final response =
+            await _rideRemoteDatsourceImp.acceptPassenger(rideId, passengerId);
+        if (response.success!) {
+          // success
+          // return either right
+          // return data
+          return Right(response);
+        } else {
+          // failure --return business error
+          // return either left
+          return Left(Failure(ApiInternalStatus.FAILURE,
+              response.message ?? ResponseMessage.DEFAULT));
+        }
+      } catch (error) {
+        print('_________________________________________________ $error');
+        return Left(ErrorHandler.handle(error).failure);
+      }
+    }
+    return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
   }
-  
-  
+}

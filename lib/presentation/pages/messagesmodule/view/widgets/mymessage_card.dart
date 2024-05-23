@@ -1,5 +1,6 @@
 import 'package:carpooling/domain/models/message.dart';
 import 'package:carpooling/presentation/utils/app_colors.dart';
+import 'package:carpooling/presentation/utils/app_utility.dart';
 import 'package:carpooling/presentation/utils/styles.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,7 @@ class MyMessageCard extends StatelessWidget {
       Row(
         children: [
           //for adding some space
-          const SizedBox(width: 100),
+           SizedBox(width: AppUtility().contentWidth(context) *0.12),
 
           //double tick blue icon for message read
           if (message.isRead!)
@@ -36,22 +37,23 @@ class MyMessageCard extends StatelessWidget {
       //message content
       Flexible(
         child: Container(
-          padding: const EdgeInsets.all(15),
-          margin: const EdgeInsets.symmetric(horizontal: 30,),
-          decoration: const BoxDecoration(
-              color: AppColors.primaryColor,
-              //border: Border.all(color: themecolor),
-              //making borders curved
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(15),
-                  bottomLeft: Radius.circular(15))),
-          child:
+            padding: const EdgeInsets.all(8),
+            margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+            decoration: const BoxDecoration(
+                color: AppColors.primaryColor,
+                //border: Border.all(color: themecolor),
+                //making borders curved
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8),
+                  topRight: Radius.circular(8),
+                  bottomLeft: Radius.circular(8),
+                  bottomRight: Radius.circular(8),
+                )),
+            child:
 
-              //show text
-              Text(message.msg!,
-                  style: Styles().chatTextStyle(AppColors.textPrimaryColor)),
-        ),
+                //show text
+                Text(message.msg!,
+                    style: Styles().h3TextStyle(AppColors.blackcolor))),
       ),
     ]);
   }

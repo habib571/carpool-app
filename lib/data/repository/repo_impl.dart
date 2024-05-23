@@ -34,7 +34,8 @@ class AuthRepositoryImp implements AuthRepository {
           return Left(Failure(ApiInternalStatus.FAILURE,
               response.message ?? ResponseMessage.DEFAULT));
         }
-      } catch (error) {
+      } catch (error) { 
+        print('eroooooooooooooorrr $error') ;
         return Left(ErrorHandler.handle(error).failure);
       }
     }

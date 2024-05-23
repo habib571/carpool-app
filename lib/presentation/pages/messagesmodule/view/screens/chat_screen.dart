@@ -1,7 +1,8 @@
 import 'package:carpooling/presentation/pages/messagesmodule/view/widgets/chat_input.dart';
 import 'package:carpooling/presentation/pages/messagesmodule/view/widgets/mymessage_card.dart';
 import 'package:carpooling/presentation/pages/messagesmodule/view/widgets/user_message_card.dart';
-import 'package:carpooling/presentation/pages/messagesmodule/viewmodel/messages_view_model.dart';
+import 'package:carpooling/presentation/pages/messagesmodule/viewmodel/chat_view_model.dart';
+import 'package:carpooling/presentation/utils/app_utility.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +15,6 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mq = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 234, 248, 255),
@@ -29,7 +29,7 @@ class ChatScreen extends StatelessWidget {
                   init: MessagesController(),
                   builder: (ctrl) {
                     return StreamBuilder(
-                      stream: ctrl.gelMessages(),
+                      stream: ctrl.getMessages(),
                       builder: (context, snapshot) {
                         switch (snapshot.connectionState) {
                           //if data is loading
@@ -49,7 +49,7 @@ class ChatScreen extends StatelessWidget {
                             return ListView.builder(
                                 reverse: true,
                                 itemCount: ctrl.list.length,
-                                padding: EdgeInsets.only(top: mq.height * .01),
+                                padding: EdgeInsets.only(top: AppUtility().contentHeight(context) * .01),
                                 physics: const BouncingScrollPhysics(),
                                 itemBuilder: (context, index) {
                                   return ctrl.list[index].fromId ==
@@ -66,7 +66,9 @@ class ChatScreen extends StatelessWidget {
             ChatInput(
               messageInput: _controller.messageInput,
               sendMessage: () {
-                _controller.sendMessage() ;
+                 _controller.list.isEmpty 
+                 ? _controller.sendFirstMessage() 
+                  : _controller.sendMessage() ;
               } 
             ),
 
