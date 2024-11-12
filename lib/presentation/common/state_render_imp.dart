@@ -1,5 +1,3 @@
-
-
 import 'package:carpooling/app/contants.dart';
 import 'package:carpooling/presentation/common/state_render.dart';
 import 'package:carpooling/presentation/utils/app_strings.dart';
@@ -86,15 +84,15 @@ extension FlowStateExtension on FlowState {
     switch (runtimeType) {
       case LoadingState:
         {
-          dismissDialog(context) ;
+          dismissDialog(context);
           if (getStateRendererType() == StateRendererType.popupLoadingState) {
             // show popup loading
 
-                        showPopup(context, getStateRendererType(), getMessage());
-         /*  WidgetsBinding.instance.addPostFrameCallback((_) =>    showDialog(
+            showPopup(context, getStateRendererType(), getMessage());
+            /*  WidgetsBinding.instance.addPostFrameCallback((_) =>    showDialog(
         context: context,
         builder: (_) => const Center(child: CircularProgressIndicator())) )*/
-        //dismissDialog(context);
+            //dismissDialog(context);
 
             return contentScreenWidget;
           } else {
@@ -102,10 +100,8 @@ extension FlowStateExtension on FlowState {
             return StateRenderer(
                 message: getMessage(),
                 stateRendererType: getStateRendererType(),
-                retryActionFunction: retryActionFunction
-                );
+                retryActionFunction: retryActionFunction);
           }
-         
         }
       case ErrorState:
         {
@@ -120,7 +116,7 @@ extension FlowStateExtension on FlowState {
             return StateRenderer(
                 message: getMessage(),
                 stateRendererType: getStateRendererType(),
-                retryActionFunction: retryActionFunction );
+                retryActionFunction: retryActionFunction);
           }
         }
       case EmptyState:
@@ -132,14 +128,14 @@ extension FlowStateExtension on FlowState {
         }
       case ContentState:
         {
-        // dismissDialog(context);
-  
+          // dismissDialog(context);
+
           return contentScreenWidget;
         }
       case SuccessState:
         {
           // i should check if we are showing loading popup to remove it before showing success popup
-       dismissDialog(context);
+          dismissDialog(context);
 
           // show popup
           showPopup(context, StateRendererType.popupSuccess, getMessage(),
@@ -149,7 +145,7 @@ extension FlowStateExtension on FlowState {
         }
       default:
         {
-         //dismissDialog(context);
+          //dismissDialog(context);
           return contentScreenWidget;
         }
     }
@@ -158,14 +154,9 @@ extension FlowStateExtension on FlowState {
   _isCurrentDialogShowing(BuildContext context) =>
       ModalRoute.of(context)?.isCurrent != true;
 
-  dismissDialog(BuildContext context) async{
-    if (_isCurrentDialogShowing(context)) { 
-       
-            Navigator.of(context, rootNavigator: true).pop(true);
-
-       
-           
-      
+  dismissDialog(BuildContext context) async {
+    if (_isCurrentDialogShowing(context)) {
+      Navigator.of(context, rootNavigator: true).pop(true);
     }
   }
 
@@ -174,13 +165,12 @@ extension FlowStateExtension on FlowState {
       {String title = Constants.empty}) {
     WidgetsBinding.instance.addPostFrameCallback((_) => showDialog(
         context: context,
-
         builder: (BuildContext context) => StateRenderer(
             stateRendererType: stateRendererType,
             message: message,
             title: title,
-            retryActionFunction: () { 
-             dismissDialog(context) ;
+            retryActionFunction: () {
+              dismissDialog(context);
             })));
   }
-} 
+}

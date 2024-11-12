@@ -13,5 +13,4 @@ abstract class AuthRepository {
   Future<Either<Failure, AuthResponse>> resetPassword(ResetPasswordRequest resetPasswordRequest);
   Future<Either<Failure, AuthResponse>> resendOtp(String phoneNumber);  
 
-  
 }

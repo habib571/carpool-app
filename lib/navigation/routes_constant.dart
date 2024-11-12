@@ -21,18 +21,6 @@ class Approutes {
   static const String   driverProfile = '/driverprofile' ;
 
 
-  
-
-
-  
-
-
-  
-
-
-
-
-  
 
 
 

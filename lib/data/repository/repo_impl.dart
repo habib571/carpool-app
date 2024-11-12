@@ -24,18 +24,15 @@ class AuthRepositoryImp implements AuthRepository {
       try {
         final response = await _authRemoteDataSource.login(loginRequest);
         if (response.success!) {
-          // success
-          // return either right
-          // return data
+
           return Right(response);
         } else {
-          // failure --return business error
-          // return either left
+
           return Left(Failure(ApiInternalStatus.FAILURE,
               response.message ?? ResponseMessage.DEFAULT));
         }
       } catch (error) { 
-        print('eroooooooooooooorrr $error') ;
+
         return Left(ErrorHandler.handle(error).failure);
       }
     }

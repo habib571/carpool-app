@@ -1,7 +1,6 @@
 import 'package:carpooling/domain/models/message.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../app/date_time_helper.dart';
 
 class UserMessageCard extends StatelessWidget {
   const UserMessageCard({super.key, required this.message});
@@ -34,7 +33,7 @@ class UserMessageCard extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(right: 20),
           child: Text(
-            MyDate.getFormattedTime(context: context, time: message.sentTime!),
+               message.sentTime! ,
             style: const TextStyle(fontSize: 13, color: Colors.black54),
           ),
         ),

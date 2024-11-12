@@ -149,7 +149,7 @@ final SignUpController _controller = Get.find<SignUpController>() ;
                 ),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                     Get.offNamed(Approutes.login) ;
+                     Get.offAllNamed(Approutes.login ) ;
                   }
             )
           ]

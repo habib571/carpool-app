@@ -16,7 +16,7 @@ class LoginResponse extends BaseResponse {
 } 
 class LoginData {  
   User? user ; 
-  String? message ;   
+  String? message ;
   String? token ; 
   LoginData({
     this.message ,
@@ -26,7 +26,7 @@ class LoginData {
     factory LoginData.fromJson(Map<String, dynamic> json) {
     return LoginData(
      message: json['message'] ?? '',  
-      user: User.fromJson(json['user']), 
+      user: User.fromJson(json['user']),
       token : json['token'] ?? ''
 
     );

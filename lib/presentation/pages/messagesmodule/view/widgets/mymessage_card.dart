@@ -4,7 +4,6 @@ import 'package:carpooling/presentation/utils/app_utility.dart';
 import 'package:carpooling/presentation/utils/styles.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../app/date_time_helper.dart';
 
 class MyMessageCard extends StatelessWidget {
   const MyMessageCard({super.key, required this.message});
@@ -28,7 +27,7 @@ class MyMessageCard extends StatelessWidget {
 
           //sent time
           Text(
-            MyDate.getFormattedTime(context: context, time: message.sentTime!),
+             message.sentTime! ,
             style: const TextStyle(fontSize: 13, color: Colors.black54),
           ),
         ],
