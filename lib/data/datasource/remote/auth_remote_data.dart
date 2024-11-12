@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:carpooling/app/app_prefs.dart';
 import 'package:carpooling/app/contants.dart';
+import 'package:carpooling/data/network/cruds_methods.dart';
 import 'package:carpooling/data/network/requests.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -21,11 +22,18 @@ abstract class AuthRemoteDataSource {
 class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
   @override
   Future<LoginResponse> login(LoginRequest loginRequest) async {
+
     final body = {
       'email': loginRequest.email,
       'password': loginRequest.password
     };
-    final encodedata = jsonEncode(body);
+    return await executePostRequest<LoginResponse>(
+        apiUrl: '/api/auth/login',
+        body: body,
+        onRequestSuccess: (jsonResponse) {
+          return LoginResponse.fromJson(jsonResponse) ;
+        } ) ;
+  /* final encodedata = jsonEncode(body);
     final response = await http.post(
         Uri.parse('${Constants.baseUrl}/api/auth/login'),
         body: encodedata,
@@ -40,7 +48,7 @@ class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
     if (kDebugMode) {
       print(encoderesp);
     }
-    return LoginResponse.fromJson(encoderesp);
+    return LoginResponse.fromJson(encoderesp);*/
   }
 
   @override
