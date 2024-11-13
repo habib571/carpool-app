@@ -24,6 +24,18 @@ class LoadingState extends FlowState {
   StateRendererType getStateRendererType() => stateRendererType;
 }
 
+class SnackbarState extends FlowState {
+  String message;
+
+  SnackbarState(this.message);
+
+  @override
+  String getMessage() => message;
+
+  @override
+  StateRendererType getStateRendererType() => StateRendererType.snackbarState;
+}
+
 // error state (POPUP,FULL SCREEN)
 class ErrorState extends FlowState {
   StateRendererType stateRendererType;
@@ -90,8 +102,8 @@ extension FlowStateExtension on FlowState {
 
             showPopup(context, getStateRendererType(), getMessage());
             /*  WidgetsBinding.instance.addPostFrameCallback((_) =>    showDialog(
-        context: context,
-        builder: (_) => const Center(child: CircularProgressIndicator())) )*/
+          context: context,
+          builder: (_) => const Center(child: CircularProgressIndicator())) )*/
             //dismissDialog(context);
 
             return contentScreenWidget;
@@ -110,6 +122,52 @@ extension FlowStateExtension on FlowState {
             // show popup error
             showPopup(context, getStateRendererType(), getMessage());
             // show content ui of the screen
+            return contentScreenWidget;
+          } else if (getStateRendererType() ==
+              StateRendererType.snackbarState) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: Colors.transparent, // Set transparent to customize
+                  elevation: 0,
+                  content: Container(
+                    height: 100,
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.red, // Background color
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Error', // Title text
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          getMessage(), // Error message text
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  action: SnackBarAction(
+                    label: 'Retry',
+                    textColor: Colors.white,
+                    onPressed: retryActionFunction,
+                  ),
+                ),
+              );
+            });
             return contentScreenWidget;
           } else {
             // full screen error state
@@ -136,7 +194,6 @@ extension FlowStateExtension on FlowState {
         {
           // i should check if we are showing loading popup to remove it before showing success popup
           dismissDialog(context);
-
           // show popup
           showPopup(context, StateRendererType.popupSuccess, getMessage(),
               title: 'Success');

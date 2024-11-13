@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:carpooling/data/network/failure.dart';
 
 import 'package:carpooling/data/network/requests.dart';
@@ -24,14 +26,15 @@ class AuthRepositoryImp implements AuthRepository {
       try {
         final response = await _authRemoteDataSource.login(loginRequest);
         if (response.success!) {
-
+          log(response.toString()) ;
           return Right(response);
         } else {
 
           return Left(Failure(ApiInternalStatus.FAILURE,
               response.message ?? ResponseMessage.DEFAULT));
         }
-      } catch (error) { 
+      } catch (error) {
+         log(error.toString()) ;
 
         return Left(ErrorHandler.handle(error).failure);
       }

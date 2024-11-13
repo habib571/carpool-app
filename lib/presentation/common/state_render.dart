@@ -1,19 +1,23 @@
 
-import 'package:carpooling/presentation/utils/utils.dart';
+
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+
+import '../utils/app_colors.dart';
+import '../utils/styles.dart';
 
 enum StateRendererType {
   // POPUP STATES (DIALOG)
   popupLoadingState,
   popupErrorState,
   popupSuccess,
-  // FULL SCREEN STATED (FULL SCREEN)
+  // FULL SCREEN STATES (FULL SCREEN)
   fullScreenLoadingState,
   fullScreenErrorState,
   fullScreenEmptyState,
   // general
-  contentState
+  contentState,
+  snackbarState  // NEW STATE FOR SNACKBAR
 }
 
 // ignore: must_be_immutable
@@ -21,15 +25,15 @@ class StateRenderer extends StatelessWidget {
   StateRendererType stateRendererType;
   String message;
   String title;
-  Function retryActionFunction; 
+  Function retryActionFunction;
 
-  StateRenderer(
-      {super.key, required this.stateRendererType,
-      this.message = '',
-      this.title = "",  
-      required this.retryActionFunction
-       
-});
+  StateRenderer({
+    super.key,
+    required this.stateRendererType,
+    this.message = '',
+    this.title = "",
+    required this.retryActionFunction
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,27 +53,44 @@ class StateRenderer extends StatelessWidget {
         ]);
       case StateRendererType.fullScreenLoadingState:
         return _getItemsColumn(
-            [_getAnimatedImage('assets/json/loading.json'), _getMessage(message)]);
+            [
+              _getAnimatedImage('assets/json/loading.json'),
+              _getMessage(message)
+            ]);
       case StateRendererType.fullScreenErrorState:
         return _getItemsColumn([
-         _getAnimatedImage('assets/json/error.json'),
+          _getAnimatedImage('assets/json/error.json'),
           _getMessage(message),
-          _getRetryButton('Again rettry', context)
+          _getRetryButton('Try Again', context)
         ]);
       case StateRendererType.fullScreenEmptyState:
         return _getItemsColumn(
-            [_getAnimatedImage('assets/json/empty.json') ,_getMessage(message)]);
+            [
+              _getAnimatedImage('assets/json/empty.json'),
+              _getMessage(message)
+            ]);
       case StateRendererType.contentState:
-        return Container();
+        return const SizedBox();
       case StateRendererType.popupSuccess:
         return _getPopUpDialog(context, [
-         _getAnimatedImage('assets/json/success.json'),
+          _getAnimatedImage('assets/json/success.json'),
           _getMessage(title),
           _getMessage(message),
           _getRetryButton('OK', context)
         ]);
+      case StateRendererType.snackbarState: // HANDLE SNACKBAR STATE
+        Future.delayed(Duration.zero, () {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(message),
+            action: SnackBarAction(
+              label: 'OK',
+              onPressed: () => retryActionFunction.call(),
+            ),
+          ));
+        });
+        return const SizedBox(); // Return empty widget as Snackbar is displayed separately
       default:
-        return Container();
+        return const SizedBox();
     }
   }
 
@@ -120,7 +141,7 @@ class StateRenderer extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         child: Text(
           message,
-          style:Styles().popUpTextStyle() ,
+          style: Styles().popUpTextStyle(),
           textAlign: TextAlign.center,
         ),
       ),
@@ -135,14 +156,14 @@ class StateRenderer extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
                 onPressed: () {
-                     retryActionFunction.call() ;
-                  
+                  retryActionFunction.call();
                 },
                 child: Text(
-                  buttonTitle ,
-                  style:Styles().h3TextStyle(AppColors.cTextGreyColor) ,
-                  )
-                  )),
+                  buttonTitle,
+                  style: Styles().h3TextStyle(AppColors.cTextGreyColor),
+                )
+            )
+        ),
       ),
     );
   }

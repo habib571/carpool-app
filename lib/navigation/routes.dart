@@ -39,8 +39,7 @@ List<GetPage<dynamic>>? routes = [
   GetPage(name: Approutes.selelectgender, page: ()=>GenderPage()) ,
   GetPage(name: Approutes.shareride ,page:()=> ShareRideScreen() )  ,
  GetPage(name: Approutes.rideform, page: ()=> RideFormScreen())  ,
- GetPage(name: Approutes.driverProfile, page: ()=>  DriverProfileScreen()) 
-
+ GetPage(name: Approutes.driverProfile, page: ()=>  DriverProfileScreen())
   ]; 
 
 

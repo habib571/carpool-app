@@ -7,10 +7,10 @@ class LoginResponse extends BaseResponse {
  LoginResponse({this.loginData ,this.mess ,super.message ,super.success}) ;
      factory LoginResponse.fromJson(Map<String, dynamic> json) {
     return LoginResponse(   
-      success: json['success'],
-      message : json['message'] ,
-      mess: json['message'],
-    loginData: LoginData.fromJson(json['data']) 
+      success: json['success'] ?? '',
+      message : json['message'] ??'',
+      mess: json['message'] ??'',
+      loginData: json['data'] != null ? LoginData.fromJson(json['data']) : null,
     );
   }
 } 
@@ -25,8 +25,8 @@ class LoginData {
   }) ;
     factory LoginData.fromJson(Map<String, dynamic> json) {
     return LoginData(
-     message: json['message'] ?? '',  
-      user: User.fromJson(json['user']),
+     message: json['message'] ?? '',
+        user: json['user'] != null ? User.fromJson(json['user']) : null,
       token : json['token'] ?? ''
 
     );

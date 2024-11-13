@@ -79,7 +79,7 @@ class LoginController extends GetxController {
         passwordcontrollerL.text.trimRight()));
     result.fold((failure) {
       stateController
-          .add(ErrorState(StateRendererType.popupErrorState, failure.message));
+          .add(ErrorState(StateRendererType.snackbarState, failure.message));
     }, (data) async {
       final uid = data.loginData!.user!.uid; 
       final token = data.loginData!.token ;  
