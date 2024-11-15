@@ -103,7 +103,7 @@ class SignUpController extends GetxController {
 
     result.fold((failure) {
       stateController
-          .add(ErrorState(StateRendererType.popupErrorState, failure.message));
+          .add(ErrorState(StateRendererType.snackbarState, failure.message));
     }, (success) {
       Apppreference.setBearerToken(success.data!['token']);
       Get.offAllNamed(Approutes.verifyOtp, arguments: phonenumber.text);

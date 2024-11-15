@@ -93,7 +93,7 @@ class RideDetailsSceen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                _controller.ride.name!,
+                _controller.searchController.ride.name!,
                 style: Styles().h1TitleStyle(AppColors.blackcolor),
               ),
               _showContactIcons(),
@@ -124,8 +124,8 @@ class RideDetailsSceen extends StatelessWidget {
           width: 15,
         ),
         InkWell(
-            onTap: () { 
-              Get.to(()=>ChatScreen(), arguments: _controller.ride) ;
+            onTap: () {
+              Get.to(() => ChatScreen());
             },
             child: const ContactIcon(icon: 'assets/icons/message.png'))
       ],
@@ -156,7 +156,7 @@ class RideDetailsSceen extends StatelessWidget {
 
   Widget _showProfilDetailButton() {
     return MaterialButton(
-      padding: EdgeInsets.symmetric(horizontal: 12 , vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
       elevation: 0,
       height: 35,
       color: AppColors.primaryColor,
@@ -168,8 +168,8 @@ class RideDetailsSceen extends StatelessWidget {
           AppFonts.poppinsRegular,
         ),
       ),
-      onPressed: () { 
-        Get.toNamed(Approutes.driverProfile) ;
+      onPressed: () {
+        Get.toNamed(Approutes.driverProfile);
       },
     );
   }
@@ -197,7 +197,7 @@ class RideDetailsSceen extends StatelessWidget {
                         'assets/icons/clock.svg',
                         color: AppColors.cPrimaryColor,
                       ),
-                      Text(_controller.ride.time!,
+                      Text(_controller.searchController.ride.time!,
                           style: Styles()
                               .h2TextStyleRoboto(AppColors.cPrimaryColor))
                     ],
@@ -225,7 +225,7 @@ class RideDetailsSceen extends StatelessWidget {
             SvgPicture.asset(
               'assets/icons/wallet_yellow.svg',
             ),
-            Text(_controller.ride.price!, style: Styles().priceStyle())
+            Text(_controller.searchController.ride.price!, style: Styles().priceStyle())
           ],
         ),
       ),
@@ -265,7 +265,7 @@ class RideDetailsSceen extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [Text(_controller.ride.from!), Text(_controller.ride.to!)],
+          children: [Text(_controller.searchController.ride.from!), Text(_controller.searchController.ride.to!)],
         )
       ],
     );

@@ -124,7 +124,8 @@ Widget _buildListBottomSheet(BuildContext context) {
                       imageUrl: '${Constants.baseUrl}/storage/${_.ridelist[index].driverPicture!}' ,
                       name: _.ridelist[index].name!,
                       onPressed: () {
-                        Get.to(() =>  RideDetailsSceen(), arguments: _.ridelist[index]);
+                        _.setRide(_.ridelist[index]) ;
+                        Get.to(() => RideDetailsSceen());
                       },
                       description: AppStrings.hatchBack,
                       fromLocation: _.ridelist[index].from!,

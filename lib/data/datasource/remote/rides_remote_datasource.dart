@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:carpooling/app/app_prefs.dart';
 import 'package:carpooling/app/contants.dart';
+import 'package:carpooling/data/network/cruds_methods.dart';
 import 'package:carpooling/data/network/requests.dart';
 import 'package:carpooling/data/responses/auth_response.dart';
 import 'package:carpooling/data/responses/base_response.dart';
@@ -15,16 +16,14 @@ abstract class RideRemoteDatsource {
   Future<BaseResponse> deleteRide(String rideId);
   Future<RidesResponse> seachRide(SeacrhRideRequest seacrhRideRequest);
   Future<RideResponse> getRideById(int id);
-  Future<BaseResponse> bookRide(int id); 
-  Future<BaseResponse> acceptPassenger(int rideId , String passengerId) ; 
-  
+  Future<BaseResponse> bookRide(int id);
+  Future<BaseResponse> acceptPassenger(int rideId, String passengerId);
 }
 
 class RideRemoteDatsourceImp implements RideRemoteDatsource {
   @override
   Future<BaseResponse> createRide(ShareRideRequest shareRideRequest) async {
     final token = await Apppreference.getBearerToken();
-
     final body = {
       'start_location': shareRideRequest.from,
       'end_location': shareRideRequest.to,
@@ -37,27 +36,18 @@ class RideRemoteDatsourceImp implements RideRemoteDatsource {
       'start_city': shareRideRequest.startCity,
       'end_city': shareRideRequest.endCity,
     };
-    final encodedata = jsonEncode(body);
-
-    final response = await http.post(
-      Uri.parse('${Constants.baseUrl}/api/rides/create-ride'),
-      body: encodedata,
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json'
-      },
-    );
-    final encoderesp = jsonDecode(response.body);
-    print('response $encoderesp token : $token');
-
-    return AuthResponse.fromJson(encoderesp);
+    return executePostRequest(
+        bearerToken: token,
+        body: body,
+        apiUrl: '/api/rides/create-ride',
+        onRequestResponse: (jsonResult) {
+          return BaseResponse.fromJson(jsonResult);
+        });
   }
 
   @override
   Future<RideResponse> getLatestRide() async {
     final token = await Apppreference.getBearerToken();
-    print("pffffffffffffffffff $token");
     final response = await http.get(
       Uri.parse('${Constants.baseUrl}/api/rides/latest-driver-ride'),
       headers: {
@@ -93,11 +83,11 @@ class RideRemoteDatsourceImp implements RideRemoteDatsource {
     final token = await Apppreference.getBearerToken();
     final body = {
       'departure_date': seacrhRideRequest.date,
-      'start_city':  seacrhRideRequest.startCity, 
-      'end_city':   seacrhRideRequest.endCity
-    }; 
+      'start_city': seacrhRideRequest.startCity,
+      'end_city': seacrhRideRequest.endCity
+    };
     final encodedata = jsonEncode(body);
-    print(encodedata) ;
+    print(encodedata);
     final response = await http.post(
       Uri.parse('${Constants.baseUrl}/api/rides/search-rides'),
       body: encodedata,
@@ -129,19 +119,13 @@ class RideRemoteDatsourceImp implements RideRemoteDatsource {
   }
 
   @override
-  Future<BaseResponse> bookRide(int id) async { 
-    final body = {
-      'start_location': 'sousse',
-      'end_location': 'tunis',
-      'departure_date': '2024-03-20',
-      'departure_time': ' 07:20',
-    } ; 
-     final encodedata = jsonEncode(body) ;
+  Future<BaseResponse> bookRide(int id) async {
+
+
     final tok = await Apppreference.getBearerToken();
-    print("pffffffffffffffffff $tok"); 
+    print("pffffffffffffffffff $tok");
     final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/api/rides/$id/send-request'), 
-        body: encodedata ,
+        Uri.parse('${Constants.baseUrl}/api/rides/$id/send-request'),
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
@@ -151,22 +135,19 @@ class RideRemoteDatsourceImp implements RideRemoteDatsource {
     print(encoderesp);
     return BaseResponse.fromJson(encoderesp);
   }
-  
+
   @override
-  Future<BaseResponse> acceptPassenger(int rideId, String passengerId) async {     
-    final tok = await Apppreference.getBearerToken(); 
-     final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/api/rides/$rideId/accept/$passengerId'), 
+  Future<BaseResponse> acceptPassenger(int rideId, String passengerId) async {
+    final tok = await Apppreference.getBearerToken();
+    final response = await http.post(
+        Uri.parse('${Constants.baseUrl}/api/rides/$rideId/accept/$passengerId'),
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $tok',
-        }); 
-         final encoderesp = jsonDecode(response.body);
+        });
+    final encoderesp = jsonDecode(response.body);
     print(encoderesp);
     return BaseResponse.fromJson(encoderesp);
-     
-     
-
   }
 }

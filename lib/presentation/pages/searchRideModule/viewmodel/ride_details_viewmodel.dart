@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:carpooling/domain/usecases/auth_usecase.dart/book_ride_use_case.dart';
+import 'package:carpooling/presentation/pages/searchRideModule/viewmodel/searchride_viewmodel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -25,11 +27,11 @@ class RideDetailsController extends GetxController {
   }
 
   final ProfilController _ctx = Get.find();
-  Ride ride = Get.arguments;
+  final SearchRideController searchController = Get.find() ;
+
 
   final BookRideUseCase _bookRideUseCase;
   RideDetailsController(this._bookRideUseCase);
-
   late Stream<FlowState> _stateStream;
   final stateController = StreamController<FlowState>();
   Stream<FlowState> get outputState =>
@@ -40,7 +42,7 @@ class RideDetailsController extends GetxController {
   void bookRide() async {
     stateController.add(LoadingState(
         stateRendererType: StateRendererType.fullScreenLoadingState));
-    (await _bookRideUseCase.bookRide(ride.id!)).fold((failure) {
+    (await _bookRideUseCase.bookRide(searchController.ride.id!)).fold((failure) {
       stateController
           .add(ErrorState(StateRendererType.popupErrorState, failure.message));
     }, (data) {
@@ -55,8 +57,8 @@ class RideDetailsController extends GetxController {
 
     Notifi notification = Notifi(
       fromId: uid,
-      toId: ride.driverId,
-      rideId: ride.id,
+      toId: searchController.ride.driverId,
+      rideId: searchController.ride.id,
       senderName: "${_ctx.user!.firstName} ${_ctx.user!.lastName} ",
       description: description,
       isRequest: true,

@@ -3,14 +3,14 @@ import 'package:carpooling/presentation/pages/notificationmodule/view/widgets/no
 import 'package:carpooling/presentation/pages/notificationmodule/viewmodel/notification_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../../../component/application_bar.dart';
 import '../../../../utils/app_colors.dart';
 import '../../../../utils/app_dimens.dart';
 
 class NotificationsScreen extends StatelessWidget {
-  NotificationsScreen({super.key});
-  final NotificationController _ = Get.find();
+  const NotificationsScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,55 +52,33 @@ class NotificationsScreen extends StatelessWidget {
       ),
     );
   }
-
   Widget _showNotificationList() {
-    return StreamBuilder(
-      stream: _.getNotifications(),
-      builder: ((context, snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.waiting:
-          case ConnectionState.none:
-            return const Center(
-                child: CircularProgressIndicator(
-              color: AppColors.primaryColor,
-            ));
+    return GetX<NotificationController>(builder: (_) {
+      if (_.notificationsList.isNotEmpty) {
+        return ListView.builder(
+            itemCount: _.notificationsList.length,
+            shrinkWrap: true,
+            padding: const EdgeInsets.only(top: 25.0),
+            physics: const ClampingScrollPhysics(),
+            itemBuilder: (BuildContext context, int index) {
+              return NotificationWidget(
+                isButtonLoading: _.isButtonLoading.value,
+                acceptPassenger: () {
+                  _.acceptPassenger(
+                      _.notificationsList[index].rideId!,
+                      _.notificationsList[index].fromId!,
+                      _.notificationsList[index].toId!);
+                },
+                rejectPassenger: () {},
+                imageUrl: _.notificationsList[index].senderPhotoUrl!,
+                senderName: _.notificationsList[index].senderName!,
+                description: _.notificationsList[index].description!,
+                isRequest: true,
+              );
+            });
+      }
 
-          //if some or all data is loaded then show it
-          case ConnectionState.active:
-          case ConnectionState.done:
-            final data = snapshot.data?.docs;
-            _.list =
-                data?.map((e) => Notifi.fromJson(e.data())).toList() ?? [];
-            print(_.list.length);
-
-            if (_.list.isNotEmpty) {
-              return ListView.builder(
-                  itemCount: _.list.length,
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.only(top: 25.0),
-                  physics: const ClampingScrollPhysics(),
-                  itemBuilder: (BuildContext context, int index) {
-                    return GetX<NotificationController>(
-                      builder: (_) {
-                        return NotificationWidget( 
-                          isButtonLoading: _.isButtonLoading.value,
-                          acceptPassenger: () { 
-                            _.acceptPassenger(_.list[index].rideId! , _.list[index].fromId!, _.list[index].toId!) ;
-                          },
-                          rejectPassenger: () {},
-                          imageUrl: _.list[index].senderPhotoUrl!,
-                          senderName: _.list[index].senderName!,
-                          description: _.list[index].description!,
-                          isRequest: true,
-                        );
-                      }
-                    );
-                  });
-            }
-
-            return const SizedBox();
-        }
-      }),
-    );
+      return const SizedBox();
+    });
   }
 }

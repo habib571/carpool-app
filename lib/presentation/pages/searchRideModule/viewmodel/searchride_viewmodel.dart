@@ -25,14 +25,16 @@ class SearchRideController extends GetxController {
   void onClose() {
     mapController = Completer();
     rideStream.close();
-     stateController.close() ;
+    stateController.close();
     super.onClose();
   }
-   @override
+
+  @override
   void dispose() {
-    stateController.close() ;
+    stateController.close();
     super.dispose();
   }
+
   @override
   void onInit() {
     start();
@@ -47,10 +49,8 @@ class SearchRideController extends GetxController {
 
   void start() {
     _stateStream = stateController.stream.asBroadcastStream();
-    stateController.add(ContentState()); 
-  rideStream = StreamController<List<Ride>>.broadcast() ;
-
-   
+    stateController.add(ContentState());
+    rideStream = StreamController<List<Ride>>.broadcast();
   }
 
   // google maps suggestions api variables
@@ -61,6 +61,11 @@ class SearchRideController extends GetxController {
   RxInt passengerNumber = 1.obs;
   RxString date = ''.obs;
   String selectedDate = '';
+  Ride? _ride;
+  Ride get ride => _ride!;
+  void setRide(Ride ride)  {
+     _ride = ride ;
+  }
 
   GlobalKey<FormState> locationformKey = GlobalKey<FormState>();
 
@@ -70,17 +75,16 @@ class SearchRideController extends GetxController {
   late Stream<FlowState> _stateStream;
   final stateController = StreamController<FlowState>();
   Stream<FlowState> get outputState =>
-      _stateStream.map((flowState) => flowState); 
+      _stateStream.map((flowState) => flowState);
 
-  late StreamController<List<Ride>> rideStream ; 
- 
+  late StreamController<List<Ride>> rideStream;
 
   // google maps  variable declaration
   CameraPosition? camPos;
   final CameraPosition initialLocation =
-      const CameraPosition(target: LatLng(0.0, 0.0)); 
-      late GoogleMapController mpController ;
-  Completer<GoogleMapController> mapController = Completer(); 
+      const CameraPosition(target: LatLng(0.0, 0.0));
+  late GoogleMapController mpController;
+  Completer<GoogleMapController> mapController = Completer();
   RxSet<Marker> markers = <Marker>{}.obs;
   late Position currentPosition;
   RxList placeList = [].obs;
@@ -90,16 +94,16 @@ class SearchRideController extends GetxController {
   late PolylinePoints polylinePoints;
   RxString currentAddress = ''.obs;
   RxString startaddress = ''.obs;
-  RxString destinationAddress = ''.obs; 
-  late String  startAdministrativeArea  ;
-  late String endAdministrativeArea ;
+  RxString destinationAddress = ''.obs;
+  late String startAdministrativeArea;
+  late String endAdministrativeArea;
   final departController = TextEditingController();
   TextEditingController arriveController = TextEditingController();
   FocusNode arriveFocusNode = FocusNode();
   FocusNode startFocusNode = FocusNode();
-  RxBool disablePrediction = true.obs; 
-  List<Ride> _ridelist =[] ; 
-  List<Ride> get ridelist => _ridelist ;
+  RxBool disablePrediction = true.obs;
+  List<Ride> _ridelist = [];
+  List<Ride> get ridelist => _ridelist;
 
   void incrementPassneger() {
     if (passengerNumber.value < 8) {
@@ -111,39 +115,32 @@ class SearchRideController extends GetxController {
     if (passengerNumber > 1) {
       passengerNumber--;
     }
-  } 
+  }
 
-  final SearchRideUseCase _searchRideUseCase ;
- SearchRideController(this._searchRideUseCase) ; 
- 
- void searchRide() async {  
-  // stateController.add(LoadingState(stateRendererType: StateRendererType.fullScreenLoadingState)) ; 
-   (await _searchRideUseCase.searchRide(
-    SeacrhRideRequest( 
-      destinationAddress.value , 
-      startaddress.value ,
-      date.value ,
-      startAdministrativeArea,
-      endAdministrativeArea 
-      
-      ) ))
-    .fold(
-    (failure) {
-      stateController.add(ErrorState(StateRendererType.popupErrorState, failure.message)) ;
-      
-    },
-     (data) {   
-      print('dateeeee ${date.value}') ;
-      _ridelist = data.rideData!.rides! ;   
-        rideStream.sink.add(_ridelist) ;
-    print('+++++++++++++++++++ $_ridelist') ;
-       Get.to(()=>  SearchResultScreen()) ; 
-       update() ;
+  final SearchRideUseCase _searchRideUseCase;
+  SearchRideController(this._searchRideUseCase);
 
-     }
-     ) ;
-   
- }
+  void searchRide() async {
+    // stateController.add(LoadingState(stateRendererType: StateRendererType.fullScreenLoadingState)) ;
+    (await _searchRideUseCase.searchRide(SeacrhRideRequest(
+            destinationAddress.value,
+            startaddress.value,
+            date.value,
+            startAdministrativeArea,
+            endAdministrativeArea)))
+        .fold((failure) {
+      stateController
+          .add(ErrorState(StateRendererType.snackbarState, failure.message));
+    }, (data) {
+      print('dateeeee ${date.value}');
+      _ridelist = data.rideData!.rides!;
+      rideStream.sink.add(_ridelist);
+      print('+++++++++++++++++++ $_ridelist');
+      Get.to(() => SearchResultScreen());
+      update();
+    });
+  }
+
   getCurrentLocation() async {
     await Geolocator.requestPermission();
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
@@ -208,16 +205,18 @@ class SearchRideController extends GetxController {
     } else {
       throw Exception('Failed to load predictions');
     }
-  } 
-   Future<String> getAdministrativeArea(double latitude, double longitude) async {
-  List<Placemark> placemarks =
-      await placemarkFromCoordinates(latitude, longitude);
-  if ( placemarks.isNotEmpty) {
-    Placemark placemark = placemarks[0];
-    return placemark.administrativeArea ?? '';
   }
-  return '';
-}
+
+  Future<String> getAdministrativeArea(
+      double latitude, double longitude) async {
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(latitude, longitude);
+    if (placemarks.isNotEmpty) {
+      Placemark placemark = placemarks[0];
+      return placemark.administrativeArea ?? '';
+    }
+    return '';
+  }
 
   calculateDistance() async {
     try {
@@ -225,13 +224,14 @@ class SearchRideController extends GetxController {
       List<Location>? startPlacemark =
           await locationFromAddress(startaddress.value);
       List<Location>? destinationPlacemark =
-          await locationFromAddress(destinationAddress.value); 
+          await locationFromAddress(destinationAddress.value);
 
-           startAdministrativeArea = await getAdministrativeArea(
-        startPlacemark[0].latitude, startPlacemark[0].longitude);
-    print('Start Administrative Area************************************: $startAdministrativeArea'); 
-     endAdministrativeArea = await getAdministrativeArea(
-        destinationPlacemark[0].latitude, destinationPlacemark[0].longitude);
+      startAdministrativeArea = await getAdministrativeArea(
+          startPlacemark[0].latitude, startPlacemark[0].longitude);
+      print(
+          'Start Administrative Area************************************: $startAdministrativeArea');
+      endAdministrativeArea = await getAdministrativeArea(
+          destinationPlacemark[0].latitude, destinationPlacemark[0].longitude);
 
       // Use the retrieved coordinates of the current position,
       // instead of the address if the start position is user's

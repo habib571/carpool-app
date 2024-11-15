@@ -41,9 +41,10 @@ class MyconversationsScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 25.0),
                 physics: const ClampingScrollPhysics(),
                 itemBuilder: (BuildContext context, int index) {
-                  return ChatUserCard( 
+                  return ChatUserCard(
                     ontap: () {
-                        Get.to(()=> ChatScreen() , arguments: _controller.list[index] ) ;
+                      _controller.setChatUser(_controller.list[index]);
+                      Get.to(() => ChatScreen());
                     },
                     chatuser: _controller.list[index],
                   );
@@ -51,8 +52,5 @@ class MyconversationsScreen extends StatelessWidget {
         }
       },
     );
-    
   }
 }
-
-

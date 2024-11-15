@@ -8,30 +8,31 @@ import '../../../../domain/models/notification.dart';
 class NotificationController extends GetxController {
   @override
   void onInit() {
-    getNotifications();
+    getNotifications() ;
     super.onInit();
   }
-
   final AcceptPassengerUserCase _acceptPassengerUserCase;
   NotificationController(this._acceptPassengerUserCase);
-  List<Notifi> list = [];
+  RxList<Notifi> notificationsList = RxList<Notifi>();
   RxBool isButtonLoading = false.obs;
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-
   String userId = '';
   _getUserId() async {
     userId = (await Apppreference.getUserId())!;
     print('uuuuuuuuuuuuuuuuuuu $userId');
   }
+  Future<void> getNotifications() async {
+    await _getUserId();
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getNotifications() {
-    _getUserId();
-    return firestore
+    final data = firestore
         .collection('notifications')
-        .where('toId', isEqualTo: "382eec41-c90e-47c3-86ae-909914b4ebe2")
+        .where('toId', isEqualTo: userId)
         .snapshots();
-
+    data.listen((query) {
+      notificationsList.value =
+          query.docs.map((e) => Notifi.fromJson(e.data())).toList();
+    });
   }
 
   acceptPassenger(int rideId, String passengerId, String driverId) async {

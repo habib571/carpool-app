@@ -4,15 +4,21 @@ import 'package:get/get.dart';
 
 import '../../../../app/app_prefs.dart';
 
-class ConversationsController extends GetxController { 
+class ConversationsController extends GetxController {
   @override
   void onInit() {
-     getUsersConversations() ;
+    getUsersConversations();
     super.onInit();
   }
+
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  String currentUserId = ''; 
-  List<ChatUser> list = [] ;
+  String currentUserId = '';
+  List<ChatUser> list = [];
+  ChatUser? _chatUser;
+  ChatUser? get chatUser => _chatUser;
+  void setChatUser(ChatUser chatUser) {
+    _chatUser = _chatUser;
+  }
 
   _getCurrentUserId() async {
     currentUserId = (await Apppreference.getUserId())!;
@@ -22,7 +28,7 @@ class ConversationsController extends GetxController {
     _getCurrentUserId();
     return firestore
         .collection('chatUsers')
-        .where('fromId', isEqualTo:  currentUserId )
+        .where('fromId', isEqualTo: currentUserId)
         .snapshots();
   }
 }

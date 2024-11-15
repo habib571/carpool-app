@@ -59,7 +59,7 @@ class OtpVerificationController extends GetxController {
     final result = await _verify.resendCall(_controller.phonenumber.text);
     result.fold((failure) {
       stateController
-          .add(ErrorState(StateRendererType.popupErrorState, failure.message));
+          .add(ErrorState(StateRendererType.snackbarState, failure.message));
     }, (data) {
       startTimer();
     });

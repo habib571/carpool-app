@@ -12,10 +12,7 @@ Future<T> executeGetRequest<T>({
   void Function(int statusCode, String responseBody)? onError,
 }) async {
   final response = await http.get(
-    Uri.https(
-      Constants.baseUrl,
-      apiUrl,
-    ),
+    Uri.parse(Constants.baseUrl+apiUrl) ,
     headers: <String, String>{
       'Content-type': 'application/json',
       'Accept': 'application/json',
@@ -34,7 +31,7 @@ Future<T> executePostRequest<T>({
   Map<String, dynamic>? body,
   String? bearerToken,
 
-  required T Function(dynamic result) onRequestSuccess,
+  required T Function(dynamic result) onRequestResponse,
 }) async {
   final requestBody = body != null ? jsonEncode(body) : null;
   final response = await http.post(
@@ -50,5 +47,5 @@ Future<T> executePostRequest<T>({
   final jsonResult =
      jsonDecode(response.body)  ;
 
-  return onRequestSuccess(jsonResult);
+  return onRequestResponse(jsonResult);
 }

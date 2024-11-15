@@ -1,12 +1,7 @@
-import 'dart:convert';
 
-import 'package:carpooling/app/app_prefs.dart';
-import 'package:carpooling/app/contants.dart';
 import 'package:carpooling/data/network/cruds_methods.dart';
 import 'package:carpooling/data/network/requests.dart';
-import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
-
+import '../../../app/app_prefs.dart';
 import '../../responses/auth_response.dart';
 import '../../responses/login_response.dart';
 
@@ -29,7 +24,7 @@ class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
     return await executePostRequest<LoginResponse>(
         apiUrl: '/api/auth/login',
         body: body,
-        onRequestSuccess: (jsonResponse) {
+        onRequestResponse: (jsonResponse) {
           return LoginResponse.fromJson(jsonResponse);
         });
   }
@@ -45,20 +40,22 @@ class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
       'gender': registerRequest.gender
     };
     return await executePostRequest<AuthResponse>(
-        apiUrl: '/api/auth/login',
+        apiUrl: '/api/auth/register',
         body: body,
-        onRequestSuccess: (jsonResponse) {
+        onRequestResponse: (jsonResponse) {
           return AuthResponse.fromJson(jsonResponse);
         });
   }
 
   @override
   Future<AuthResponse> verifyOtp(String otpcode) async {
+    final token = await Apppreference.getBearerToken();
     final body = {'sms_code': otpcode};
     return await executePostRequest<AuthResponse>(
+        bearerToken: token,
         apiUrl: '/api/sms/verify',
         body: body,
-        onRequestSuccess: (jsonResponse) {
+        onRequestResponse: (jsonResponse) {
           return AuthResponse.fromJson(jsonResponse);
         });
   }
@@ -71,7 +68,7 @@ class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
     return await executePostRequest<AuthResponse>(
         apiUrl: '/api/forgot/password',
         body: body,
-        onRequestSuccess: (jsonResponse) {
+        onRequestResponse: (jsonResponse) {
           return AuthResponse.fromJson(jsonResponse);
         });
   }
@@ -88,7 +85,7 @@ class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
     return await executePostRequest<AuthResponse>(
         apiUrl: '/api/password/reset',
         body: body,
-        onRequestSuccess: (jsonResponse) {
+        onRequestResponse: (jsonResponse) {
           return AuthResponse.fromJson(jsonResponse);
         });
   }
@@ -101,7 +98,7 @@ class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
     return await executePostRequest<AuthResponse>(
         apiUrl: '/api/auth/sms/resend',
         body: body,
-        onRequestSuccess: (jsonResponse) {
+        onRequestResponse: (jsonResponse) {
           return AuthResponse.fromJson(jsonResponse);
         });
   }
