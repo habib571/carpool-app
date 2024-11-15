@@ -1,5 +1,7 @@
+import 'package:carpooling/presentation/pages/notificationmodule/view/screens/notification_screen.dart';
 import 'package:carpooling/presentation/utils/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class NotifIcon extends StatelessWidget {
   const NotifIcon({super.key});
@@ -7,7 +9,11 @@ class NotifIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () { },
+      onTap: () { 
+        Get.to(()=> NotificationsScreen() , 
+              transition: Transition.leftToRightWithFade,
+                duration: const Duration(milliseconds: 1000) ) ;
+       },
       child: Container(
       
         decoration : BoxDecoration( 

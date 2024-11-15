@@ -26,7 +26,8 @@ final String? Function(String? s)? validator ;
   Widget build(BuildContext context) {
     return Padding(
       padding:const EdgeInsets.symmetric(vertical:17.0),
-      child: TextFormFields(  
+      child: TextFormFields(   
+        autoFocus: false,
         validator: validator,
         textEditingController: controller,
         obscureText:  isobscure/*ctx.isLPassObscure.value*/,

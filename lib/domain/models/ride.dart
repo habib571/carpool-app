@@ -1,6 +1,8 @@
 class Ride { 
    int? id ; 
-  String? driverId ;  
+  String? driverId ;    
+  String? name ; 
+  String? driverPicture ; 
   String? from ; 
   String? to ;
   String? date ; 
@@ -17,7 +19,9 @@ Ride({
     this.time,
     this.seats,
     this.price, 
-    this.distance
+    this.distance ,
+    this.driverPicture ,
+    this.name 
   });
  factory Ride.fromJson(Map<String, dynamic> json) {
     return Ride(
@@ -29,7 +33,9 @@ Ride({
       time: json['departure_time'] ?? '',
       seats: json['available_seats'] ?? '',
       price: json['price_per_seat'] ?? '', 
-      distance: json['disatnce']?? ''
+      distance: json['disatnce']?? '' ,
+      driverPicture : json['profile_picture'] ?? '', 
+      name: json['full_name'] ?? ''
     );
   }
 }

@@ -146,7 +146,7 @@ class LoginPage extends StatelessWidget {
                 style: Styles().mediumTextStyle(AppColors.textPrimaryColor),
                 recognizer: TapGestureRecognizer()
                   ..onTap = () {
-                    Get.toNamed(Approutes.selelectgender);
+                    Get.offAllNamed(Approutes.selelectgender);
                   })
           ]),
     );

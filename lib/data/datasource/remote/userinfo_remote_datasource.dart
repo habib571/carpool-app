@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 
 import 'package:carpooling/data/network/requests.dart';
@@ -12,7 +14,7 @@ import '../../../app/contants.dart';
 
 abstract class UserInfoRemoteDataSource {
   Future<AuthResponse> logout();
-  Future<UserResponse> getUserData();
+  Future<UserResponse> getUserData( String uid);
   Future<AuthResponse> updateUserInfo(UpdateInfoRequest updateInfoRequest);
   Future<AuthResponse> addminiBio(String bio);
   Future<AuthResponse> addCarBand(String brand);
@@ -24,7 +26,7 @@ class UserInfoRemoteDataSourceImp implements UserInfoRemoteDataSource {
   //final LoginController _controller = Get.find<LoginController>();
   @override
   Future<AuthResponse> logout() async {
-    final bearerToken = await Apppreference.getLoginoken(); 
+    final bearerToken = await Apppreference.getBearerToken() ;
    
     final response = await http
         .post(Uri.parse('${Constants.baseUrl}/api/auth/logout'), headers: {
@@ -38,7 +40,7 @@ class UserInfoRemoteDataSourceImp implements UserInfoRemoteDataSource {
   }
 
   @override
-  Future<UserResponse> getUserData() async {
+  Future<UserResponse> getUserData(String uid) async {
     final bearerToken = await Apppreference.getBearerToken() ;
      final  uid = await Apppreference.getUserId() ;
     final response = await http.get(
@@ -91,7 +93,7 @@ class UserInfoRemoteDataSourceImp implements UserInfoRemoteDataSource {
 
   @override
   Future<AuthResponse> addminiBio(String bio) async { 
-    final bearerToken = await Apppreference.getLoginoken(); 
+    final bearerToken = await Apppreference.getBearerToken() ;
      final  uid = await Apppreference.getUserId() ;
     final body = {'mini_bio': bio};
     final encodedata = jsonEncode(body);
@@ -113,12 +115,11 @@ class UserInfoRemoteDataSourceImp implements UserInfoRemoteDataSource {
   Future<AuthResponse> upadatePicture(String imagePath) async { 
     final  uid = await Apppreference.getUserId() ;
     String url = '${Constants.baseUrl}/api/user/update/info/$uid'; 
-
     final bearerToken = await Apppreference.getBearerToken() ;
   
   var request = http.MultipartRequest('POST', Uri.parse(url));
-  request.headers['Accept'] = 'application/json';
-  request.headers['Authorization'] = bearerToken!;
+  request.headers['Accept'] = 'application/json'; 
+  request.headers['Authorization']=  'Bearer $bearerToken';
   
   // Add other fields as needed
   request.fields['profile_picture'] = 'profile_pictures/$imagePath';

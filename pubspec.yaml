@@ -70,6 +70,17 @@ dependencies:
   wheel_picker: ^0.0.4
   fluttertoast: ^8.2.4
   linear_timer: ^2.0.0
+  flutter_phone_direct_caller: ^2.1.1
+  textfield_tags: ^3.0.1
+  super_tag_editor: ^0.2.0
+  web_socket_channel: ^2.4.0
+  socket_io_client: ^2.0.3+1
+  pusher_channels: ^0.5.3
+  pusher_channels_flutter: ^2.2.1
+  dart_pusher_channels: ^1.2.2+1
+  cloud_firestore: ^4.15.8
+  firebase_core: ^2.27.0
+ 
 
 dev_dependencies:
   flutter_test:
@@ -88,6 +99,7 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
 
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -98,7 +110,17 @@ flutter:
     - assets/styles/styles.txt
     - assets/json/
 
- 
+icons_launcher:
+  image_path: "assets/icons/logo.svg"
+  platforms:
+     android:
+      enable: true
+     ios:
+       enable: true
+
+
+
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:

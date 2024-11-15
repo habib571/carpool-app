@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:async';
 import 'dart:math';
 import 'package:carpooling/data/network/requests.dart';
@@ -27,8 +29,8 @@ class RideSharingController extends GetxController {
   FocusNode dateFocusNode = FocusNode();
   FocusNode timeFocusNode = FocusNode();
   FocusNode priceFocusNode = FocusNode();
-  final GlobalKey<FormState> locationformKey = GlobalKey<FormState>();
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+   GlobalKey<FormState> locationformKey = GlobalKey<FormState>();
+   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   DraggableScrollableController scrollableController =
       DraggableScrollableController();
   CameraPosition? camPos;
@@ -39,13 +41,15 @@ class RideSharingController extends GetxController {
   RxString date = ''.obs;
   String time = '';
   final CameraPosition initialLocation =
-      const CameraPosition(target: LatLng(0.0, 0.0));
+  const CameraPosition(target: LatLng(0.0, 0.0));
   late GoogleMapController mapController;
   late Position currentPosition;
   late PolylinePoints polylinePoints;
   RxString currentAddress = ''.obs;
   RxString startaddress = ''.obs;
-  RxString destinationAddress = ''.obs;
+  RxString destinationAddress = ''.obs; 
+   late String startAdministrativeArea ; 
+   late String  endAdministrativeArea  ;
   final uuid = const Uuid();
   RxString sessionToken = ''.obs;
   RxList placeList = [].obs;
@@ -82,7 +86,8 @@ class RideSharingController extends GetxController {
     var response = await http.get(
       Uri.parse(request),
     );
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200) { 
+       print( ' predictions : _____________________${response.body}') ;
       placeList.value = json.decode(response.body)['predictions'];
     } else {
       throw Exception('Failed to load predictions');
@@ -94,7 +99,7 @@ class RideSharingController extends GetxController {
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
         .then((Position position) async {
       currentPosition = position;
-      print('CURRENT POS: $currentPosition');
+      //print('CURRENT POS: $currentPosition');
       mapController.animateCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(
@@ -106,7 +111,7 @@ class RideSharingController extends GetxController {
 
       await _getAddress();
     }).catchError((e) {
-      print("errorrrr");
+     // print("errorrrr");
     });
   }
 
@@ -118,20 +123,36 @@ class RideSharingController extends GetxController {
       Placemark place = p[0];
       currentAddress.value =
           "${place.name}, ${place.locality}, ${place.postalCode}, ${place.country}";
+       //    print(' ********************************************************${place.administrativeArea}') ;
       //  departController.text = currentAddress.value;
       startaddress.value = currentAddress.value;
     } catch (e) {
       print(e);
     }
   }
-
+ Future<String> getAdministrativeArea(double latitude, double longitude) async {
+  List<Placemark> placemarks =
+      await placemarkFromCoordinates(latitude, longitude);
+  if ( placemarks.isNotEmpty) {
+    Placemark placemark = placemarks[0];
+    return placemark.administrativeArea ?? '';
+  }
+  return '';
+}
   calculateDistance() async {
     try {
       // Retrieving placemarks from addresses
       List<Location>? startPlacemark =
           await locationFromAddress(startaddress.value);
       List<Location>? destinationPlacemark =
-          await locationFromAddress(destinationAddress.value);
+          await locationFromAddress(destinationAddress.value); 
+         
+     startAdministrativeArea = await getAdministrativeArea(
+        startPlacemark[0].latitude, startPlacemark[0].longitude);
+    print('Start Administrative Area************************************: $startAdministrativeArea'); 
+     endAdministrativeArea = await getAdministrativeArea(
+        destinationPlacemark[0].latitude, destinationPlacemark[0].longitude);
+  
 
       // Use the retrieved coordinates of the current position,
       // instead of the address if the start position is user's
@@ -150,7 +171,6 @@ class RideSharingController extends GetxController {
       String startCoordinatesString = '($startLatitude, $startLongitude)';
       String destinationCoordinatesString =
           '($destinationLatitude, $destinationLongitude)';
-
       // Start Location Marker
       Marker startMarker = Marker(
         markerId: MarkerId(startCoordinatesString),
@@ -297,13 +317,17 @@ class RideSharingController extends GetxController {
             double.parse(priceController.text),
             placeDistance.value,
             '',
-            '')))
+            '' ,
+            startAdministrativeArea ,
+            endAdministrativeArea
+            
+            )))
         .fold(
             (failure) => stateController.add(
                 ErrorState(StateRendererType.popupErrorState, failure.message)),
             (r) {
       //_ct.getLatestRide();
-      Get.toNamed(Approutes.shareride);
+      Get.offAndToNamed(Approutes.shareride) ;
     });
   }
 
@@ -311,7 +335,11 @@ class RideSharingController extends GetxController {
     _stateStream = stateController.stream.asBroadcastStream();
     stateController.add(ContentState());
   }
+ @override
+  void onClose() {
 
+    super.onClose();
+  }
   @override
   void onInit() {
     // getCurrentLocation() ;

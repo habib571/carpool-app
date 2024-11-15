@@ -42,11 +42,11 @@ class UserInfoRepositpryImp implements UserInfoRepositpry {
   }
 
   @override
-  Future<Either<String, UserResponse>> getUserData() async { 
+  Future<Either<String, UserResponse>> getUserData( String uid) async { 
            
     if (await _networkInfo.isConnected) {
       try {
-        final response = await _infoRemoteDataSource.getUserData();
+        final response = await _infoRemoteDataSource.getUserData(uid);
      
         if (response.success!) {
     

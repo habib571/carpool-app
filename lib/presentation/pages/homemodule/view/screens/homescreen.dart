@@ -1,28 +1,26 @@
-import 'package:carpooling/presentation/pages/homemodule/view/screens/coversation_screen.dart';
-import 'package:carpooling/presentation/pages/search_ride-screen.dart/view/screen/booking_sreen.dart';
-import 'package:carpooling/presentation/pages/search_ride-screen.dart/view/screen/home_screen.dart';
+import 'package:carpooling/presentation/pages/searchRideModule/view/screen/home_screen.dart';
 import 'package:carpooling/presentation/pages/shareridemodule/view/screens/rid_from_screen.dart';
-import 'package:carpooling/presentation/pages/shareridemodule/view/screens/share_ride_screen.dart';
 import 'package:carpooling/presentation/pages/homemodule/view/widgets/nav_icon.dart';
 import 'package:carpooling/presentation/utils/app_colors.dart';
 import 'package:carpooling/presentation/utils/app_utility.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
+import '../../../messagesmodule/view/screens/myconversations_screen.dart';
 import '../../../profilmodule/view/screens/myprofil_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    return PersistentTabView(
+    return PersistentTabView( 
       context,
       padding: const NavBarPadding.symmetric(vertical: 20.0),
       navBarHeight: AppUtility().contentWidth(context) * .22,
       items: _navBarsItems(),
       screens: [ 
         SearchRideScreen() ,
-       const MessagesScreen(),
+        MyconversationsScreen(),
         RideFormScreen() ,
        ProfilMode()
       ],
@@ -38,7 +36,8 @@ class HomeScreen extends StatelessWidget {
         ),
         colorBehindNavBar: AppColors.cBackgroundColor,
       ),
-      popAllScreensOnTapOfSelectedTab: true,
+       popAllScreensOnTapOfSelectedTab: false,
+       popAllScreensOnTapAnyTabs: false ,
       popActionScreens: PopActionScreensType.all,
       itemAnimationProperties: const ItemAnimationProperties(
         duration: Duration(milliseconds: 200),

@@ -53,12 +53,23 @@ class ResetPasswordRequest {
   String arrivalTime ;
   String from ; 
   String to ; 
+  String startCity ; 
+  String endCity ;
   int seats ; 
   String time ; 
   String date ; 
   double price ; 
   double distance ; 
 
-  ShareRideRequest(this.from , this.to , this.seats , this.time , this.date ,this.price , this.distance ,  this.arrivalDate , this.arrivalTime) ;
+  ShareRideRequest(this.from , this.to , this.seats , this.time , this.date ,this.price , this.distance ,  this.arrivalDate , this.arrivalTime , this.startCity , this.endCity) ;
   
+  }  
+  class SeacrhRideRequest {  
+    String startCity ; 
+    String endCity ;
+    String departureCity ; 
+    String destinationCity ;  
+    String date ;  
+    SeacrhRideRequest( this.destinationCity ,this.departureCity , this.date ,this.startCity , this.endCity) ;
+
   }

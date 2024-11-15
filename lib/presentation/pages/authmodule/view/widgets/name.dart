@@ -22,7 +22,8 @@ class NameSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top:17.0),
-      child: TextFormFields(  
+      child: TextFormFields(   
+        autoFocus: false,
         validator: validator ,
         textEditingController: txtcontroller,
         focusNode: nameFocusNode,
@@ -35,7 +36,7 @@ class NameSection extends StatelessWidget {
             // ignore: deprecated_member_use
             child: SvgPicture.asset('assets/icons/user.svg',color: AppColors.greyColor)
         ),
-        textInputAction: TextInputAction.newline,
+        textInputAction: TextInputAction.done,
         borderRadius:const BorderRadius.all(Radius.circular(10.0)),
       ),
     );

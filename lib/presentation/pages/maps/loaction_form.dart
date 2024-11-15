@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 
 
 
+// ignore: must_be_immutable
 class LocationForm extends StatelessWidget {
   LocationForm(
       {super.key,

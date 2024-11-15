@@ -90,7 +90,7 @@ TextEditingController controller2 = TextEditingController();
 
             // default 600 ms ,
           ), 
-          SizedBox(height: 20,)  ,
+          const SizedBox(height: 20,)  ,
           GooglePlaceAutoCompleteTextField( 
             
             textEditingController: controller2,

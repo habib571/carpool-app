@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:carpooling/app/app_prefs.dart';
 import 'package:carpooling/data/network/requests.dart';
 import 'package:carpooling/presentation/common/state_render.dart';
 import 'package:carpooling/presentation/pages/profilmodule/viewmodel/profil_viewmodel.dart';
@@ -39,7 +40,7 @@ class EditProfilController extends GetxController {
             UpdateInfoRequest(fname.value, lname.value, gender.value)))
         .fold((failure) {
       stateController
-          .add(ErrorState(StateRendererType.popupErrorState, failure.message));
+          .add(ErrorState(StateRendererType.snackbarState, failure.message));
     }, (data) {
       controller.getData();
     });
@@ -53,8 +54,14 @@ class EditProfilController extends GetxController {
             });
   }
 
+  getLogin() async {
+    final id = await Apppreference.getBearerToken();
+    print(id);
+  }
+
   @override
   void onInit() {
+    getLogin();
     start();
 
     handleGender();

@@ -9,8 +9,8 @@ import '../../repository/user_info_repo.dart';
 class GetUserDataUseCase  { 
  final UserInfoRepositpry _infoRepositpry;  
    GetUserDataUseCase(this._infoRepositpry) ; 
-   Future<Either<String, UserResponse>> call() async{
-      return await _infoRepositpry.getUserData() ;
+   Future<Either<String, UserResponse>> getUserData(String uid) async{
+      return await _infoRepositpry.getUserData(uid) ;
     }  
   
   Future<Either<Failure, AuthResponse>> updateCall(String bio) async {  

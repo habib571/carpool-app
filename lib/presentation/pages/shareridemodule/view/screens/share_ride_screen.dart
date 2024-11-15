@@ -4,6 +4,7 @@ import 'package:carpooling/data/network/network_info.dart';
 import 'package:carpooling/data/repository/rides_repo_impl.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/get_ride_uses_case.dart';
 import 'package:carpooling/presentation/component/components.dart';
+import 'package:carpooling/presentation/pages/homemodule/view/screens/homescreen.dart';
 import 'package:carpooling/presentation/pages/shareridemodule/viewmodel/ride_info_view_model.dart';
 import 'package:carpooling/presentation/utils/app_utility.dart';
 import 'package:carpooling/presentation/utils/styles.dart';
@@ -22,7 +23,20 @@ class ShareRideScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold( 
-      floatingActionButton: FloatingActionButton(onPressed: () {}),
+        appBar:  ApplicationBar(  
+        
+        isProfile: false,
+        title: 'Publication',
+        backgroundColor: AppColors.cPrimaryColor,
+        isLeading: true,
+        leading: IconButton(
+            onPressed: (){
+              Get.to(()=>const HomeScreen()) ;
+            },
+            icon:const Icon(Icons.arrow_back)
+        ),
+      ),
+    
         body: StreamBuilder<FlowState>(
             stream: _controller.outputState,
             builder: (context, snapshot) {
@@ -37,15 +51,7 @@ class ShareRideScreen extends StatelessWidget {
   Widget _showBody(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 35),
-          child: Center(
-            child: Text(
-              'Publications',
-              style: Styles().h1TitleStyle(AppColors.primaryColor),
-            ),
-          ),
-        ),
+        SizedBox(height: 40,),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: Column(
