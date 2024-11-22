@@ -1,3 +1,4 @@
+import 'package:carpooling/app/date.dart';
 import 'package:carpooling/domain/models/message.dart';
 import 'package:carpooling/presentation/utils/app_colors.dart';
 import 'package:carpooling/presentation/utils/app_utility.dart';
@@ -27,7 +28,7 @@ class MyMessageCard extends StatelessWidget {
 
           //sent time
           Text(
-             message.sentTime! ,
+             MyDate.getFormattedTime(context: context, time: message.sentTime!) ,
             style: const TextStyle(fontSize: 13, color: Colors.black54),
           ),
         ],

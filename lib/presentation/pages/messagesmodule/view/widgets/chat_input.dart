@@ -96,7 +96,6 @@ class ChatInput extends StatelessWidget {
             onPressed: () {
               if (messageInput.text.isNotEmpty) {
                 sendMessage();
-                messageInput.text = '';
               }
             },
             minWidth: 0,

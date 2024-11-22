@@ -10,71 +10,67 @@ import '../../../../../domain/models/message.dart';
 
 class ChatScreen extends StatelessWidget {
   ChatScreen({super.key});
-
   final MessagesController _controller = Get.put(MessagesController());
-
+  List<Message> _list = [];
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 234, 248, 255),
-        /*appBar:AppBar(
-            backgroundColor: themecolor,
-            automaticallyImplyLeading: false,
-            flexibleSpace: ChatAppBar(room: room)),*/
-        body: Column(
-          children: [
-            Expanded(
-              child: GetBuilder<MessagesController>(
-                  init: MessagesController(),
-                  builder: (ctrl) {
-                    return StreamBuilder(
-                      stream: ctrl.getMessages(),
-                      builder: (context, snapshot) {
-                        switch (snapshot.connectionState) {
-                          //if data is loading
-                          case ConnectionState.waiting:
-                          case ConnectionState.none:
-                            return const SizedBox();
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 234, 248, 255),
+      /*appBar:AppBar(
+          backgroundColor: themecolor,
+          automaticallyImplyLeading: false,
+          flexibleSpace: ChatAppBar(room: room)),*/
+      body: Column(
+        children: [
+          Expanded(
+            child: GetBuilder<MessagesController>(
+                init: MessagesController(),
+                builder: (ctrl) {
+                  return StreamBuilder(
+                    stream: ctrl.getMessages(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      if (!snapshot.hasData || snapshot.data?.docs.isEmpty == true) {
+                        return const Center(child: Text('No messages yet.'));
+                      }
 
-                          //if some or all data is loaded then show it
-                          case ConnectionState.active:
-                          case ConnectionState.done:
-                            final data = snapshot.data?.docs;
-                            ctrl.list = data
-                                    ?.map((e) => Message.fromJson(e.data()))
-                                    .toList() ??
-                                [];
+                      final data = snapshot.data?.docs;
+                          _list = data
+                                  ?.map((e) => Message.fromJson(e.data()))
+                                  .toList() ??
+                              [];
 
-                            return ListView.builder(
-                                reverse: true,
-                                itemCount: ctrl.list.length,
-                                padding: EdgeInsets.only(top: AppUtility().contentHeight(context) * .01),
-                                physics: const BouncingScrollPhysics(),
-                                itemBuilder: (context, index) {
-                                  return ctrl.list[index].fromId ==
-                                          ctrl.currentUserId
-                                      ? MyMessageCard(message: ctrl.list[index])
-                                      : UserMessageCard(
-                                          message: ctrl.list[index]);
-                                });
-                        }
-                      },
-                    );
-                  }),
-            ),
-            ChatInput(
+                          return ListView.builder(
+                              reverse: true,
+                              itemCount: _list.length,
+                              padding: EdgeInsets.only(
+                                  top: AppUtility().contentHeight(context) *
+                                      .01),
+                              physics: const BouncingScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return _list[index].fromId ==
+                                        ctrl.currentUserId
+                                    ? MyMessageCard(message: _list[index])
+                                    : UserMessageCard(
+                                        message: _list[index]);
+                              });
+                      }
+
+                  );
+                }),
+          ),
+          ChatInput(
               messageInput: _controller.messageInput,
               sendMessage: () {
-                 _controller.list.isEmpty 
-                 ? _controller.sendFirstMessage() 
-                  : _controller.sendMessage() ;
-              } 
-            ),
+                _list.isEmpty
+                    ? _controller.sendFirstMessage()
+                    : _controller.sendMessage();
+              }),
 
-            //show emojis on keyboard emoji button click & vice versa
-          ],
-        ),
+          //show emojis on keyboard emoji button click & vice versa
+        ],
       ),
     );
   }
