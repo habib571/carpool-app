@@ -18,7 +18,7 @@ void initState() {
     super.initState();
     fToast = FToast();
     // if you want to use context from globally instead of content we need to pass navigatorKey.currentContext!
-    fToast.init(context);
+    fToast.init( context);
 }
 
 _showToast() {
@@ -67,7 +67,7 @@ _showToast() {
     );*/
     
     // Custom Toast Position
-    fToast.showToast(
+  /*  fToast.showToast(
         child: toast,
         toastDuration: const Duration(seconds: 2),
         positionedToastBuilder: (context, child) {
@@ -76,7 +76,7 @@ _showToast() {
               left: 40, 
               right: 40,
             child: child) ;
-        });
+        });*/
 }
   @override
   Widget build(BuildContext context) {
@@ -94,6 +94,7 @@ class LinearProgressIndicatorClass extends StatefulWidget {
   const LinearProgressIndicatorClass({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _LinearProgressIndicatorClassState createState() => _LinearProgressIndicatorClassState();
 }
 

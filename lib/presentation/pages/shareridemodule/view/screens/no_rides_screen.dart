@@ -43,7 +43,7 @@ class NoRidesScreen extends StatelessWidget {
                     flex: 2,
                     child: PrimaryButton(
                     onPressed: () { 
-                        Get.to(RideFormScreen()) ; 
+                        Get.off(RideFormScreen()) ; 
                       } , 
                       text: 'Add Ride',   
                       )

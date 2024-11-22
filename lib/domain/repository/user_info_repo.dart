@@ -7,7 +7,7 @@ import '../../data/responses/auth_response.dart';
 
 abstract class UserInfoRepositpry  { 
    Future<Either<Failure, AuthResponse>> logout() ; 
-   Future<Either<String, UserResponse>> getUserData() ;  
+   Future<Either<String, UserResponse>> getUserData(String uid) ;  
    Future<Either<Failure , AuthResponse>> addMiniBio( String bio) ;  
    Future<Either<Failure , AuthResponse>> updateInfo(UpdateInfoRequest updateInfoRequest ) ; 
    Future<Either<Failure , AuthResponse>> updatePicture(String imagePath) ;

@@ -1,11 +1,9 @@
 import 'package:carpooling/data/datasource/remote/rides_remote_datasource.dart';
 import 'package:carpooling/data/repository/rides_repo_impl.dart';
 import 'package:carpooling/domain/usecases/auth_usecase.dart/rides_usecase.dart';
-import 'package:carpooling/navigation/routes_constant.dart';
 import 'package:carpooling/presentation/component/primary_button.dart';
 import 'package:carpooling/presentation/pages/maps/loaction_form.dart';
 import 'package:carpooling/presentation/pages/maps/mapview.dart';
-import 'package:carpooling/presentation/pages/shareridemodule/view/screens/share_ride_screen.dart';
 import 'package:carpooling/presentation/pages/shareridemodule/viewmodel/ride_share_viewmodel.dart';
 import 'package:carpooling/presentation/utils/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +25,8 @@ class _LocationScrenState extends State<LocationScren> {
   final RideSharingController _controller = Get.find();
   @override
   void initState() {
-    _controller.getCurrentLocation();
+    _controller.getCurrentLocation(); 
+    _controller.start() ;
     super.initState();
   }
 

@@ -1,7 +1,6 @@
 import 'package:carpooling/presentation/component/components.dart';
 import 'package:carpooling/presentation/pages/shareridemodule/viewmodel/ride_share_viewmodel.dart';
 import 'package:carpooling/presentation/utils/app_colors.dart';
-import 'package:carpooling/presentation/utils/app_utility.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wheel_picker/wheel_picker.dart';

@@ -128,7 +128,7 @@ class RideFormScreen extends StatelessWidget {
       child: PrimaryButton(
         onPressed: () {
           if (_controller.formKey.currentState!.validate()) {
-            Get.to(() => const LocationScren());
+            Get.off(() => const LocationScren());
           }
         },  
         text: 'Confirmer',

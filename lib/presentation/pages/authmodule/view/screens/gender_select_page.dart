@@ -9,6 +9,8 @@ import 'package:carpooling/presentation/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../profilmodule/view/widgets/gende_card.dart';
+
 class GenderPage extends StatelessWidget {
   GenderPage({super.key});
   final SignUpController _controller = Get.find<SignUpController>();
@@ -30,7 +32,8 @@ class GenderPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _showTitle(),
-          _showDiscription(),
+          SizedBox(height: 50),
+          // _showDiscription(),
           _showImageSection(context),
           _showButton(),
         ],
@@ -63,77 +66,41 @@ class GenderPage extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        InkWell(
-          onTap: () {
-            _controller.gender('male');
-            //print(_controller.isMale.value);
-          },
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 12.0),
-                child: GetX<SignUpController>(
-                  builder: (_) {
-                    return _.gender.value == 'male'
-                        ? Image.asset(
-                            'assets/icons/male.png',
-                            height: AppUtility().contentWidth(context) * .35,
-                            width: AppUtility().contentWidth(context) * .4,
-                          )
-                        : Image.asset(
-                            'assets/icons/male_bw.png',
-                            height: AppUtility().contentWidth(context) * .35,
-                            width: AppUtility().contentWidth(context) * .4,
-                          );
-                  },
-                ),
-              ),
-              Text(
-                'Male',
-                style: Styles().subHeaderStyle(AppColors.textSecondaryColor,
-                    AppDimens.mediumTextSize, AppFonts.robotoRegular),
-              ),
-            ],
-          ),
-        ),
-        const Spacer(),
-        Theme(
-          data: Theme.of(context).copyWith(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            hoverColor: Colors.transparent,
-          ),
-          child: InkWell(
-            onTap: () {
-              _controller.gender('female');
-              //  print(_controller.isMale.value);
-            },
-            child: Column(
-              children: [
-                GetX<SignUpController>(
-                  builder: (_) {
-                    return _.gender.value == 'male'
-                        ? Image.asset(
-                            'assets/icons/female_bw.png',
-                            height: AppUtility().contentWidth(context) * .35,
-                            width: AppUtility().contentWidth(context) * .4,
-                          )
-                        : Image.asset(
-                            'assets/icons/female.png',
-                            height: AppUtility().contentWidth(context) * .35,
-                            width: AppUtility().contentWidth(context) * .4,
-                          );
-                  },
-                ),
-                Text(
-                   'Female',
-                  style: Styles().subHeaderStyle(AppColors.cTextLightColor,
-                      AppDimens.mediumTextSize, AppFonts.robotoRegular),
-                ),
-              ],
-            ),
-          ),
-        ),
+        GetX<SignUpController>(builder: (_) {
+          return GenderCard(
+              txtColor: _.gender.value == 'male'
+                  ? AppColors.primaryColor
+                  : AppColors.greyColor,
+              iconColor: _.gender.value == 'male'
+                  ? AppColors.primaryColor
+                  : AppColors.greyColor,
+              bordercolor: _.gender.value == 'male'
+                  ? AppColors.primaryColor
+                  : AppColors.greyColor,
+              iconPath: 'assets/icons/male.png',
+              gender: 'Male',
+              ontap: () {
+                _controller.gender('male');
+              });
+        }),
+        const Spacer() ,
+        GetX<SignUpController>(builder: (_) {
+          return GenderCard(
+              txtColor: _.gender.value == 'female'
+                  ? AppColors.secondaryColor
+                  : AppColors.greyColor,
+              iconColor: _.gender.value == 'female'
+                  ? AppColors.secondaryColor
+                  : AppColors.greyColor,
+              bordercolor: _.gender.value == 'female'
+                  ? AppColors.secondaryColor
+                  : AppColors.greyColor,
+              iconPath: 'assets/icons/female.png',
+              gender: 'Female',
+              ontap: () {
+                _controller.gender('female');
+              });
+        }),
       ],
     );
   }

@@ -16,24 +16,29 @@ import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
 class PhoneNumberPage extends StatelessWidget {
 
+
+PhoneNumberPage({Key? key}) : super(key: key);
+
 final SignUpController _controller = Get.find<SignUpController>() ;
-   PhoneNumberPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final mediaQueryData = MediaQuery.of(context);
-    return MediaQuery(
-      data: mediaQueryData.copyWith(textScaleFactor: 1.0),
-      child: Scaffold(
-        backgroundColor: AppColors.cBackgroundColor,
-        body: StreamBuilder<FlowState>( 
+    return Scaffold(
+      backgroundColor: AppColors.cScaffoldColor,
+      body: PopScope(  
+           onPopInvoked: (didPop) {
+               Get.offAllNamed(Approutes.signup);
+           }, 
+           canPop: false,
+        // canPop: false,
+        child: StreamBuilder<FlowState>( 
           stream:_controller.outputState,
           builder:(context ,snapshot) {
              return snapshot.data?.getScreenWidget(context, _showBody(context), () {_controller.start() ;} ) ?? _showBody(context); 
              
           }
-           )
-      ),
+           ),
+      )
     );
   }
 
@@ -49,7 +54,7 @@ Widget _showBody(BuildContext context){
           children: [
             _showImage(context),
             _showTitle(),
-            _showDescription(),
+           // _showDescription(),
             _showPhoneField(context),
             _showVerifyButton(context),
             _showResendSection(),
@@ -72,7 +77,7 @@ Widget _showBody(BuildContext context){
     return Text(
      'Phone Number',
       style: Styles().subHeaderStyle(
-          AppColors.cPrimaryColor,
+          AppColors.primaryColor,
           AppDimens.mediumSize,
           AppFonts.poppinsRegular
       ),
@@ -94,7 +99,7 @@ Widget _showBody(BuildContext context){
   Widget _showPhoneField(BuildContext context){
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.cLightNavyBlueColor,
+        color: AppColors.primaryColor,
         borderRadius: BorderRadius.circular(6.0)
       ),
       padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 3.0),
@@ -141,7 +146,6 @@ Widget _showBody(BuildContext context){
     );
   }
 
-
 Widget _showVerifyButton(BuildContext context){
     return Padding(
       padding:const EdgeInsets.only(top:0.0,left: 10.0,bottom: 0.0,right: 10.0),
@@ -150,7 +154,7 @@ Widget _showVerifyButton(BuildContext context){
         onPressed: () async{ 
           if(_controller.pohneNumberformKey.currentState!.validate()) {
         await _controller.register(context) ; 
-         Get.toNamed(Approutes.verifyOtp,arguments: _controller.phonenumber.text) ;
+       
         }},
       ),
     );
@@ -166,9 +170,9 @@ Widget _showVerifyButton(BuildContext context){
         ),
         children: <TextSpan>[
           TextSpan(
-            text: 'Resend.'.tr,
+            text: 'Resend',
             style: Styles().mediumTextStyle(
-                AppColors.cPrimaryColor
+                AppColors.blackcolor
             ),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
@@ -179,5 +183,4 @@ Widget _showVerifyButton(BuildContext context){
       ),
     );
   }
-
 }

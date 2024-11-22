@@ -128,9 +128,9 @@ class ResponseMessage {
   static const String SUCCESS = 'success'; // success with data
   static const String NO_CONTENT ='NO_CONTENT ' ;
   // success with no data (no content)
-  static const String BAD_REQUEST = 'BAD_REQUEST' ;
+  static const String BAD_REQUEST = 'BAD REQUEST' ;
  // failure, API rejected request
-  static const String UNAUTORISED = 'UNAUTORISED' ;
+  static const String UNAUTORISED = 'Unauthorised' ;
     // failure, user is not authorised
   static const String FORBIDDEN = 'FORBIDDEN' ;
    //  failure, API rejected request
@@ -145,8 +145,8 @@ class ResponseMessage {
   static const String RECIEVE_TIMEOUT =  'RECIEVE_TIMEOUT';
   static const String SEND_TIMEOUT =  'SEND_TIMEOUT ';
   static const String CACHE_ERROR =  'ACHE_ERROR';
-  static const String NO_INTERNET_CONNECTION = 'NO_INTERNET_CONNECTION ';
-  static const String DEFAULT = 'DEFAULT';
+  static const String NO_INTERNET_CONNECTION = 'please check your internet connexion';
+  static const String DEFAULT = 'Something went wrong';
 }
 
 class ApiInternalStatus {

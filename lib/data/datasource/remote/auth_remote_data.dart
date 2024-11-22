@@ -1,11 +1,7 @@
-import 'dart:convert';
 
-import 'package:carpooling/app/app_prefs.dart';
-import 'package:carpooling/app/contants.dart';
+import 'package:carpooling/data/network/cruds_methods.dart';
 import 'package:carpooling/data/network/requests.dart';
-import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
-
+import '../../../app/app_prefs.dart';
 import '../../responses/auth_response.dart';
 import '../../responses/login_response.dart';
 
@@ -25,78 +21,43 @@ class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
       'email': loginRequest.email,
       'password': loginRequest.password
     };
-    final encodedata = jsonEncode(body);
-    final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/api/auth/login'),
-        body: encodedata,
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+    return await executePostRequest<LoginResponse>(
+        apiUrl: '/api/auth/login',
+        body: body,
+        onRequestResponse: (jsonResponse) {
+          return LoginResponse.fromJson(jsonResponse);
         });
-
-    final encoderesp = jsonDecode(response.body);
-
-   
-    if (kDebugMode) {
-      print(encoderesp);
-    }
-    return LoginResponse.fromJson(encoderesp);
   }
 
   @override
   Future<AuthResponse> register(RegisterRequest registerRequest) async {
     final body = {
-      'email': registerRequest.email, 
+      'email': registerRequest.email,
       'password': registerRequest.password,
       'first_name': registerRequest.firstname,
-      'last_name' : registerRequest.lastname ,
+      'last_name': registerRequest.lastname,
       'phone_number': registerRequest.phoneNumber,
-      'gender': registerRequest.gender 
+      'gender': registerRequest.gender
     };
-
-    final encodedata = jsonEncode(body);
-    if (kDebugMode) {
-      print(encodedata);
-    }
-
-    final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/api/auth/register'),
-        body: encodedata,
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+    return await executePostRequest<AuthResponse>(
+        apiUrl: '/api/auth/register',
+        body: body,
+        onRequestResponse: (jsonResponse) {
+          return AuthResponse.fromJson(jsonResponse);
         });
-
-    final encoderesp = jsonDecode(response.body);
-  
-
-    if (kDebugMode) {
-      print(response.body);
-    }
-    return AuthResponse.fromJson(encoderesp);
   }
 
   @override
   Future<AuthResponse> verifyOtp(String otpcode) async {
+    final token = await Apppreference.getBearerToken();
     final body = {'sms_code': otpcode};
-    print('otp is $otpcode ');
-    final endodeData = jsonEncode(body);
-    final bearerToken = await Apppreference.getBearerToken();
-    final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/api/sms/verify'),
-        body: endodeData,
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer $bearerToken',
-          'Content-Type': 'application/json'
+    return await executePostRequest<AuthResponse>(
+        bearerToken: token,
+        apiUrl: '/api/sms/verify',
+        body: body,
+        onRequestResponse: (jsonResponse) {
+          return AuthResponse.fromJson(jsonResponse);
         });
-
-    if (kDebugMode) {
-      print(response.body);
-    }
-    final encoderesp = jsonDecode(response.body);
-
-    return AuthResponse.fromJson(encoderesp);
   }
 
   @override
@@ -104,20 +65,12 @@ class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
     final body = {
       'email': email,
     };
-    final endcodeData = jsonEncode(body);
-    final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/api/password/forgot'),
-        body: endcodeData,
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+    return await executePostRequest<AuthResponse>(
+        apiUrl: '/api/forgot/password',
+        body: body,
+        onRequestResponse: (jsonResponse) {
+          return AuthResponse.fromJson(jsonResponse);
         });
-    if (kDebugMode) {
-      print(response.body);
-    }
-    final encoderesp = jsonDecode(response.body);
-
-    return AuthResponse.fromJson(encoderesp);
   }
 
   @override
@@ -129,20 +82,12 @@ class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
       'password_confirmation': resetPasswordRequest.passwordConfiramtion,
       'token': resetPasswordRequest.token
     };
-    final endodeData = jsonEncode(body);
-    final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/api/auth/password/reset'),
-        body: endodeData,
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+    return await executePostRequest<AuthResponse>(
+        apiUrl: '/api/password/reset',
+        body: body,
+        onRequestResponse: (jsonResponse) {
+          return AuthResponse.fromJson(jsonResponse);
         });
-    if (kDebugMode) {
-      print(response.body);
-    }
-    final encoderesp = jsonDecode(response.body);
-
-    return AuthResponse.fromJson(encoderesp);
   }
 
   @override
@@ -150,19 +95,11 @@ class AuthRemoteDataSourceImp implements AuthRemoteDataSource {
     final body = {
       'phone_number': phoneNumber,
     };
-    final endcodeData = jsonEncode(body);
-    final response = await http.post(
-        Uri.parse('${Constants.baseUrl}/api/auth/sms/resend'),
-        body: endcodeData,
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
+    return await executePostRequest<AuthResponse>(
+        apiUrl: '/api/auth/sms/resend',
+        body: body,
+        onRequestResponse: (jsonResponse) {
+          return AuthResponse.fromJson(jsonResponse);
         });
-    if (kDebugMode) {
-      print(response.body);
-    }
-    final encoderesp = jsonDecode(response.body);
-
-    return AuthResponse.fromJson(encoderesp);
   }
 }
